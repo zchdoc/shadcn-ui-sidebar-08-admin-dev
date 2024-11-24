@@ -1,0 +1,7 @@
+当前工作区中有三个项目,第一个  shadcn-ui-sidebar-dev-241122 项目中,有一个sidebar组件
+位于 /src/components/app-sidebar.tsx,这个组件里还有一个 nav-main.tsx组件
+位于 /src/components/nav-main.tsx,这个组件里有一个 <ChevronRight/>组件
+点击这个组件,左侧的sidebar的功能组会展开和折叠,
+但是现在只能通过点击 <ChevronRight/>组件 去折叠,我希望实现点击 功能组文字也能折叠,
+比如点击  Playground 文字也能折叠,并不需要选中 <ChevronRight/>点击,
+参考工作区中的 demo2 项目代码,实现点击功能组文字也能折叠的效果
