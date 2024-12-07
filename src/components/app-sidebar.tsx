@@ -79,11 +79,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   const data = {
     user: {
-      name: 'shadcn',
-      email: 'm@example.com',
+      name: 'Zch',
+      email: 'zghnzch@163.com',
       avatar: '/avatars/shadcn.jpg',
     },
     teams: [
+      // Acme Inc
       {
         name: 'Acme Inc',
         logo: GalleryVerticalEnd,
@@ -101,12 +102,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       },
     ],
     navMain: [
+      // Dashboard
       {
         title: 'Dashboard',
         url: '/dashboard',
         icon: LucideLayoutDashboard,
         isActive: true,
       },
+      // Playground
       {
         title: 'Playground',
         url: '#',
@@ -127,6 +130,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           },
         ],
       },
+      // Models
       {
         title: 'Models',
         // /dashboard/models
@@ -147,6 +151,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           },
         ],
       },
+      // Documentation
       {
         title: 'Documentation',
         // url: "/dashboard/docs",
@@ -171,6 +176,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           },
         ],
       },
+      // Settings
       {
         title: 'Settings',
         // url: "/dashboard/settings",
