@@ -1,7 +1,18 @@
-import { BookmarkTable } from '@/components/bookmark/bookmark-table'
+'use client'
+
+import { useState } from 'react'
+import { BookmarkSidebar } from '@/components/bookmark/bookmark-sidebar'
+import { BookmarkContent } from '@/components/bookmark/bookmark-content'
+
+interface BookmarkData {
+  [key: string]: {
+    title: string
+    links: { title: string; url: string }[]
+  }
+}
 
 export default function BookmarkPage() {
-  const bookmarkData = {
+  const bookmarkData: BookmarkData = {
     xbClientLogin: {
       title: 'XB Client Login',
       links: [
@@ -167,16 +178,21 @@ export default function BookmarkPage() {
     },
   }
 
+  const [selectedGroup, setSelectedGroup] = useState<string>(
+    Object.keys(bookmarkData)[0]
+  )
+
   return (
-    <div className="container mx-auto p-6">
-      {/* <h1 className="text-3xl font-bold mb-6">My Bookmarks</h1> */}
-      {Object.entries(bookmarkData).map(([key, category]) => (
-        <BookmarkTable
-          key={key}
-          title={category.title}
-          links={category.links}
-        />
-      ))}
+    <div className="flex h-full gap-6 p-6">
+      <BookmarkSidebar
+        bookmarkData={bookmarkData}
+        selectedGroup={selectedGroup}
+        onGroupChange={setSelectedGroup}
+      />
+      <BookmarkContent
+        bookmarks={bookmarkData[selectedGroup].links}
+        groupTitle={bookmarkData[selectedGroup].title}
+      />
     </div>
   )
 }
