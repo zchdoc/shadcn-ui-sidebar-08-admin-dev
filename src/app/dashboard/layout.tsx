@@ -1,11 +1,11 @@
-"use client";
+'use client'
 
-import { AppSidebar } from "@/components/app-sidebar";
+import { AppSidebar } from '@/components/app-sidebar'
 import {
   SidebarProvider,
   SidebarTrigger,
   SidebarInset,
-} from "@/components/ui/sidebar";
+} from '@/components/ui/sidebar'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -13,26 +13,26 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { Separator } from "@/components/ui/separator";
-import { usePathname } from "next/navigation";
+} from '@/components/ui/breadcrumb'
+import { Separator } from '@/components/ui/separator'
+import { usePathname } from 'next/navigation'
 
 export default function DashboardLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
-  const pathname = usePathname();
+  const pathname = usePathname()
 
   // 获取当前页面的标题
   const getPageTitle = () => {
-    const path = pathname.split("/").filter(Boolean);
-    if (path.length === 1) return "Dashboard";
+    const path = pathname.split('/').filter(Boolean)
+    if (path.length === 1) return 'Dashboard'
     return (
       path[path.length - 1].charAt(0).toUpperCase() +
       path[path.length - 1].slice(1)
-    );
-  };
+    )
+  }
 
   return (
     <SidebarProvider>
@@ -47,7 +47,7 @@ export default function DashboardLayout({
                 <BreadcrumbItem className="hidden md:block">
                   <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
                 </BreadcrumbItem>
-                {pathname !== "/dashboard" && (
+                {pathname !== '/dashboard' && (
                   <>
                     <BreadcrumbSeparator className="hidden md:block" />
                     <BreadcrumbItem>
@@ -63,5 +63,5 @@ export default function DashboardLayout({
         <div>{children}</div>
       </SidebarInset>
     </SidebarProvider>
-  );
+  )
 }

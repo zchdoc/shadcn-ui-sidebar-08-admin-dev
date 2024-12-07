@@ -1,10 +1,10 @@
-import { Skeleton } from "@/components/ui/skeleton"
+import { Skeleton } from '@/components/ui/skeleton'
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
-} from "@/components/ui/sidebar"
+} from '@/components/ui/sidebar'
 
 export function SidebarSkeletonStyle1() {
   return (

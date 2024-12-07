@@ -1,5 +1,5 @@
-import * as React from "react"
-import { type LucideIcon } from "lucide-react"
+import * as React from 'react'
+import { type LucideIcon } from 'lucide-react'
 
 import {
   SidebarGroup,
@@ -7,7 +7,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
+} from '@/components/ui/sidebar'
 
 export function NavSecondary({
   items,
@@ -28,7 +28,10 @@ export function NavSecondary({
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton asChild size="sm">
                 {item.onClick ? (
-                  <button onClick={item.onClick} className="flex w-full items-center">
+                  <button
+                    onClick={item.onClick}
+                    className="flex w-full items-center"
+                  >
                     <item.icon />
                     <span>{item.title}</span>
                   </button>

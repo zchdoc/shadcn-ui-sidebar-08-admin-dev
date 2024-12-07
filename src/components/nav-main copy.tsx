@@ -1,13 +1,13 @@
-"use client";
+'use client'
 
-import { ChevronRight, type LucideIcon } from "lucide-react";
-import Link from "next/link";
+import { ChevronRight, type LucideIcon } from 'lucide-react'
+import Link from 'next/link'
 
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible";
+} from '@/components/ui/collapsible'
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -18,28 +18,28 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-} from "@/components/ui/sidebar";
+} from '@/components/ui/sidebar'
 
 export function NavMain({
   items,
 }: {
   items: {
-    title: string;
-    url: string;
-    icon: LucideIcon;
-    isActive?: boolean;
+    title: string
+    url: string
+    icon: LucideIcon
+    isActive?: boolean
     items?: {
-      title: string;
-      url: string;
-    }[];
-  }[];
+      title: string
+      url: string
+    }[]
+  }[]
 }) {
   return (
     <SidebarGroup>
       {/* <SidebarGroupLabel>Platform</SidebarGroupLabel> */}
       <SidebarMenu>
         {items.map((item) => (
-          <Collapsible key={item.title} asChild defaultOpen={item.isActive} >
+          <Collapsible key={item.title} asChild defaultOpen={item.isActive}>
             <SidebarMenuItem>
               <SidebarMenuButton asChild={true} tooltip={item.title}>
                 <Link href={item.url}>
@@ -51,7 +51,7 @@ export function NavMain({
                 <>
                   <CollapsibleTrigger asChild>
                     <SidebarMenuAction className="data-[state=open]:rotate-90">
-                      <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-270"/>
+                      <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-270" />
                       <span className="sr-only">Toggle</span>
                     </SidebarMenuAction>
                   </CollapsibleTrigger>
@@ -75,5 +75,5 @@ export function NavMain({
         ))}
       </SidebarMenu>
     </SidebarGroup>
-  );
+  )
 }

@@ -1,7 +1,7 @@
-"use client"
+'use client'
 
-import * as React from "react"
-import { ChevronsUpDown, Plus } from "lucide-react"
+import * as React from 'react'
+import { ChevronsUpDown, Plus } from 'lucide-react'
 
 import {
   DropdownMenu,
@@ -11,13 +11,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from '@/components/ui/dropdown-menu'
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/components/ui/sidebar"
+} from '@/components/ui/sidebar'
 
 export function TeamSwitcherSingle({
   teams,
@@ -57,7 +57,7 @@ export function TeamSwitcherSingle({
           <DropdownMenuContent
             className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
             align="start"
-            side={isMobile ? "bottom" : "bottom"}
+            side={isMobile ? 'bottom' : 'bottom'}
             sideOffset={4}
           >
             <DropdownMenuLabel className="text-xs text-muted-foreground">
@@ -77,17 +77,16 @@ export function TeamSwitcherSingle({
               </DropdownMenuItem>
             ))} */}
             <DropdownMenuItem
-                key={teams[0].name}
-                onClick={() => setActiveTeam(teams[0])}
-                className="gap-2 p-2"
-              >
-                
-                <div className="flex size-6 items-center justify-center rounded-sm border">
-                  <Logo className="size-4 shrink-0" />
-                </div>
-                {teams[0].name}
-                <DropdownMenuShortcut>⌘1</DropdownMenuShortcut>
-              </DropdownMenuItem>
+              key={teams[0].name}
+              onClick={() => setActiveTeam(teams[0])}
+              className="gap-2 p-2"
+            >
+              <div className="flex size-6 items-center justify-center rounded-sm border">
+                <Logo className="size-4 shrink-0" />
+              </div>
+              {teams[0].name}
+              <DropdownMenuShortcut>⌘1</DropdownMenuShortcut>
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem className="gap-2 p-2">
               <div className="flex size-6 items-center justify-center rounded-md border bg-background">

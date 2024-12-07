@@ -1,7 +1,7 @@
-"use client"
+'use client'
 
-import { Card } from "@/components/ui/card"
-import { LineChart } from "lucide-react"
+import { Card } from '@/components/ui/card'
+import { LineChart } from 'lucide-react'
 
 export default function HistoryPage() {
   return (

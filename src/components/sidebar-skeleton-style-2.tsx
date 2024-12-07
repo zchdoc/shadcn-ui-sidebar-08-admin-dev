@@ -1,17 +1,17 @@
-import { Skeleton } from "@/components/ui/skeleton"
+import { Skeleton } from '@/components/ui/skeleton'
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
-} from "@/components/ui/sidebar"
+} from '@/components/ui/sidebar'
 
 export function SidebarSkeletonStyle2() {
   return (
     <Sidebar className="relative overflow-hidden">
       {/* 动态波浪效果背景 */}
       <div className="absolute inset-0 bg-gradient-to-r from-background via-muted/20 to-background animate-wave" />
-      
+
       <SidebarHeader className="border-none">
         <div className="p-3 space-y-4">
           <div className="flex items-center justify-between">
@@ -21,7 +21,7 @@ export function SidebarSkeletonStyle2() {
           <div className="h-[1px] bg-border/50" />
         </div>
       </SidebarHeader>
-      
+
       <SidebarContent>
         <div className="px-3 space-y-6">
           {/* 主导航组 */}
