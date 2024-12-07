@@ -1,0 +1,24 @@
+1.
+src/app/dashboard/bookmark/zch-bookmark/index-only-html.html
+这是我以前写的我常用的网站的一个简单的html，请帮我在当前的项目中实现一个 next的组件
+让 src/components/app-sidebar.tsx 这个sidebar组件 通过路径 /dashboard/bookmark/zch-bookmark
+可以打开的一个页面
+你现在不能直接创建我文件，如果有创建文件的操作请告诉我，我来创建文件，你来实现文件代码功能
+2.
+src/app/dashboard/bookmark/zch-bookmark/index-only-html.html 帮我把这个文件里面
+的 url 导航全部迁移到 src/app/dashboard/bookmark/zch-bookmark/page.tsx
+3.
+你真棒，基本实现了nextjs的建议书签功能，但是现在有一个小问题，书签多的时候会出现滚动条，页面滚动的时候
+右侧显示区域的面包屑导航也滚动了，我希望右侧的显示区域内，上方面包屑导航不滚动，
+只有书签部分内容滚动，并且 后面的所有组件都是这样，面包屑导航不滚动，请帮我实现这个功能，
+4.
+现在打开 http://localhost:3000/dashboard/bookmark/zch-bookmark 书签页面后，所有的书签都平铺了出来
+东西有点多，看起来 有些杂乱，帮我修改一下界面布局，左边是类似目前sidebar的导航区域，导航区域内最上方是一个下拉选择书签组的组件，
+然后右边显示这个书签组内的具体书签内容，
+如，左边下拉可以选择 XB Client Login、XB Login、Tools、Search Engines、Social Media等分组，
+选择 Tools分组之后，组选择右边是分组的具体书签内容：Pulse-Water-Billing-Calc 、Localize-Jrh、Localize、Ip-Check等
+如图所示
+5. 
+very very nice,你已经基本实现了这个功能，并且显示了书签个数，这个功能非常棒，
+但是现在书签区域左右两边分割感比较严重，不太美观，可以做成图片上的那种
+左边是圆弧型的一个区域，右边也是圆弧型的一个区域吗，跟现在的sidebat类似像是漂浮在内容区域
