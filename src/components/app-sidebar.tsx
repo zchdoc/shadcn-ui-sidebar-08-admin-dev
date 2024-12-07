@@ -9,6 +9,7 @@ import {
   Frame,
   GalleryVerticalEnd,
   LifeBuoy,
+  LucideBookmark,
   LucideLayoutDashboard,
   Map,
   Moon,
@@ -76,7 +77,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     // return <SidebarSkeletonStyle1 /> // 使用样式1
     return <SidebarSkeletonStyle1 /> // 使用样式2
   }
-
+  // Sider bar items
   const data = {
     user: {
       name: 'Zch',
@@ -109,12 +110,29 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         icon: LucideLayoutDashboard,
         isActive: true,
       },
+      // Bookmark
+      {
+        title: 'Bookmark',
+        url: '#',
+        icon: LucideBookmark,
+        isActive: true,
+        items: [
+          {
+            title: 'Z.UsualBookmark',
+            url: '/dashboard/bookmark/zch-bookmark',
+          },
+          {
+            title: 'Z.ChromeBookmark',
+            url: '/dashboard/bookmark/chrome-bookmark',
+          },
+        ],
+      },
       // Playground
       {
         title: 'Playground',
         url: '#',
         icon: SquareTerminal,
-        isActive: true,
+        isActive: false,
         items: [
           {
             title: 'History',
