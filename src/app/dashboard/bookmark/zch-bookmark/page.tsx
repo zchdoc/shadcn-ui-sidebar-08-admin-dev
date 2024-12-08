@@ -183,16 +183,20 @@ export default function BookmarkPage() {
   )
 
   return (
-    <>
-      <BookmarkSidebar
-        bookmarkData={bookmarkData}
-        selectedGroup={selectedGroup}
-        onGroupChange={setSelectedGroup}
-      />
-      <BookmarkContent
-        bookmarks={bookmarkData[selectedGroup].links}
-        groupTitle={bookmarkData[selectedGroup].title}
-      />
-    </>
+    <div className="flex w-full h-full">
+      <div className="p-4 w-[280px]">
+        <BookmarkSidebar
+          bookmarkData={bookmarkData}
+          selectedGroup={selectedGroup}
+          onGroupChange={setSelectedGroup}
+        />
+      </div>
+      <div className="p-4 flex-1">
+        <BookmarkContent
+          bookmarks={bookmarkData[selectedGroup].links}
+          groupTitle={bookmarkData[selectedGroup].title}
+        />
+      </div>
+    </div>
   )
 }
