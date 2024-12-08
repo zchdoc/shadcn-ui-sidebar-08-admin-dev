@@ -27,10 +27,14 @@ export default function Page() {
         <Card className="p-4">
           {/* 返回首页 '/' */}
           <h1>Dashboard</h1>
-          <a href="#" onClick={redirectToIndex}>
+          <a
+            href="#"
+            onClick={redirectToIndex}
+            className="underline hover:no-underline"
+          >
             return to index
           </a>
-          .<p>Welcome to your dashboard.</p>
+          <p>Welcome to your dashboard.</p>
           <p>
             You can customize this page by editing the <code>page.tsx</code>{' '}
             file.
@@ -39,13 +43,17 @@ export default function Page() {
             You can also add new pages by creating new files in the{' '}
             <code>pages</code> directory.
           </p>
-          <p>
-            To learn more about Next.js, take a look at the{' '}
-            <a href="https://nextjs.org/docs">Next.js documentation</a>.
-          </p>
+          <p>To learn more about Next.js, take a look at the </p>
           <p>
             To learn more about Shadcn UI, visit the{' '}
-            <a href="https://shadcn.github.io/shadcn-ui/">documentation</a>.
+            <a
+              href="https://shadcn.github.io/shadcn-ui/"
+              target="_blank"
+              className="underline hover:no-underline"
+            >
+              documentation
+            </a>
+            .
           </p>
         </Card>
       </div>
