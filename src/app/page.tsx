@@ -1,6 +1,29 @@
+'use client'
+import { Button } from '@/components/ui/button'
 import Image from 'next/image'
-
+import { useRouter } from 'next/navigation' // 改用 useRouter
+import * as React from 'react'
+import { useCallback } from 'react'
 export default function Home() {
+  const router = useRouter() // 初始化 router
+  const [loading, setLoading] = React.useState(false)
+
+  // 获取当前环境
+  const currentEnv = process.env.NEXT_PUBLIC_ENV
+  // 将会显示 'development' 或 'production'
+  console.log('Current environment:', currentEnv)
+  const redirectToAbout = () => {
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+    }, 5000)
+    router.replace('/about')
+  }
+
+  const redirectToDashboard = useCallback(() => {
+    router.replace('/dashboard')
+  }, [router])
+
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
@@ -25,6 +48,19 @@ export default function Home() {
         </ol>
 
         <div className="flex gap-4 items-center flex-col sm:flex-row">
+          <Button
+            className="bg-foreground text-background rounded-full border border-solid border-transparent transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
+            onClick={redirectToAbout}
+          >
+            Go to About
+          </Button>
+          <Button
+            className="bg-foreground text-background rounded-full border border-solid border-transparent transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
+            onClick={redirectToDashboard}
+            disabled={loading}
+          >
+            Go to Dashboard
+          </Button>
           <a
             className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
             href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
@@ -41,6 +77,9 @@ export default function Home() {
             />
             Deploy now
           </a>
+        </div>
+
+        <div className="flex gap-4 items-center flex-col sm:flex-row">
           <a
             className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
             href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"

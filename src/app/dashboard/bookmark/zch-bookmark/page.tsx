@@ -183,7 +183,7 @@ export default function BookmarkPage() {
   )
 
   return (
-    <div className="flex h-full gap-6 p-6">
+    <>
       <BookmarkSidebar
         bookmarkData={bookmarkData}
         selectedGroup={selectedGroup}
@@ -193,6 +193,6 @@ export default function BookmarkPage() {
         bookmarks={bookmarkData[selectedGroup].links}
         groupTitle={bookmarkData[selectedGroup].title}
       />
-    </div>
+    </>
   )
 }
