@@ -5,13 +5,39 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 First, run the development server:
 
 ```bash
+npm i && npm run dev
+
+# or
+
+npm i
+
+# or
+
 npm run dev
+
 # or
+
 yarn dev
+
 # or
+
 pnpm dev
+
 # or
+
 bun dev
+
+```
+
+otherwise, run the following command:
+
+```bash
+rm -f -r .next node_modules
+
+npm run format
+
+npm run pre-deploy
+
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
