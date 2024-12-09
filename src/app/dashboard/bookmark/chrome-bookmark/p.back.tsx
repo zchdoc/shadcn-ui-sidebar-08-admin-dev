@@ -1,7 +1,9 @@
 'use client'
-import { useState, useEffect, useCallback } from 'react'
+
+import { useState, useEffect } from 'react'
 import { BookmarkSidebar } from '@/components/bookmark/bookmark-sidebar'
 import { BookmarkContent } from '@/components/bookmark/bookmark-content'
+// import { Button } from "@/components/ui/button"
 import { Input } from '@/components/ui/input'
 import { format } from 'date-fns'
 
@@ -23,56 +25,58 @@ export default function ChromeBookmarkPage() {
   >({})
   const [selectedGroup, setSelectedGroup] = useState<string>('')
 
-  // 使用 useCallback 包裹 processBookmarks 函数
-  const processBookmarks = useCallback(
-    (bookmarks: ChromeBookmark, category: string = '') => {
-      const parsedBookmarks: Record<string, BookmarkGroup> = {}
+  // 添加处理书签数据的通用函数
+  const processBookmarks = (
+    bookmarks: ChromeBookmark,
+    category: string = ''
+  ) => {
+    const parsedBookmarks: Record<string, BookmarkGroup> = {}
 
-      if (bookmarks.children) {
-        const categoryName = bookmarks.name || category
-        if (bookmarks.children.some((child) => child.type === 'url')) {
-          parsedBookmarks[categoryName] = {
-            title: categoryName,
-            links: bookmarks.children
-              .filter((child) => child.type === 'url')
-              .map((child) => ({
-                title: child.name || '',
-                url: child.url || '',
-              })),
-          }
+    if (bookmarks.children) {
+      const categoryName = bookmarks.name || category
+      if (bookmarks.children.some((child) => child.type === 'url')) {
+        parsedBookmarks[categoryName] = {
+          title: categoryName,
+          links: bookmarks.children
+            .filter((child) => child.type === 'url')
+            .map((child) => ({
+              title: child.name || '',
+              url: child.url || '',
+            })),
         }
-        bookmarks.children.forEach((child) => {
-          if (child.children) {
-            Object.assign(parsedBookmarks, processBookmarks(child, child.name))
-          }
-        })
       }
-      return parsedBookmarks
-    },
-    []
-  )
-
-  useEffect(() => {
-    const loadInitialBookmarks = async () => {
-      try {
-        const response = await fetch('/api/bookmarks')
-        if (response.ok) {
-          const { content } = await response.json()
-          const chromeBookmarks = JSON.parse(content)
-          if (chromeBookmarks.roots?.bookmark_bar) {
-            const parsedBookmarks = processBookmarks(
-              chromeBookmarks.roots.bookmark_bar
-            )
-            setBookmarkData(parsedBookmarks)
-          }
+      bookmarks.children.forEach((child) => {
+        if (child.children) {
+          Object.assign(parsedBookmarks, processBookmarks(child, child.name))
         }
-      } catch (error) {
-        console.error('Error loading initial bookmarks:', error)
-      }
+      })
     }
+    return parsedBookmarks
+  }
 
+  // 添加初始化加载函数
+  const loadInitialBookmarks = async () => {
+    try {
+      const response = await fetch('/api/bookmarks')
+      if (response.ok) {
+        const { content } = await response.json()
+        const chromeBookmarks = JSON.parse(content)
+        if (chromeBookmarks.roots?.bookmark_bar) {
+          const parsedBookmarks = processBookmarks(
+            chromeBookmarks.roots.bookmark_bar
+          )
+          setBookmarkData(parsedBookmarks)
+        }
+      }
+    } catch (error) {
+      console.error('Error loading initial bookmarks:', error)
+    }
+  }
+
+  // 组件加载时获取书签数据
+  useEffect(() => {
     loadInitialBookmarks()
-  }, [processBookmarks])
+  }, [loadInitialBookmarks]) // 将 loadInitialBookmarks 添加到依赖数组
 
   const handleFileUpload = async (
     event: React.ChangeEvent<HTMLInputElement>
