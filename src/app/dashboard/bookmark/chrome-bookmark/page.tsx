@@ -82,35 +82,52 @@ export default function ChromeBookmarkPage() {
   }
 
   return (
-    <div className="h-full flex-1 flex-col space-y-8 p-8 flex">
-      <div className="flex items-center justify-between space-y-2">
-        <div>
-          {/* <h2 className="text-2xl font-bold tracking-tight">Chrome Bookmarks</h2> */}
-          <p className="text-muted-foreground">
-            Upload your Chrome bookmarks JSON file to view and manage them
-          </p>
+    <div className="h-full flex flex-col">
+      {/* Fixed Header */}
+      <div className="flex-none p-8 pb-0">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-muted-foreground">
+              Upload your Chrome bookmarks JSON file to view and manage them
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center space-x-2 mt-4">
+          <Input
+            type="file"
+            accept=".json"
+            onChange={handleFileUpload}
+            className="max-w-[300px]"
+          />
         </div>
       </div>
-      <div className="flex items-center space-x-2">
-        <Input
-          type="file"
-          accept=".json"
-          onChange={handleFileUpload}
-          className="max-w-[300px]"
-        />
-      </div>
-      <div className="flex-1 space-y-4 pt-4">
-        <div className="flex items-start justify-between gap-4">
-          <BookmarkSidebar
-            bookmarkData={bookmarkData}
-            selectedGroup={selectedGroup}
-            onGroupChange={setSelectedGroup}
-          />
-          <BookmarkContent
-            bookmarks={bookmarkData[selectedGroup]?.links || []}
-            groupTitle={bookmarkData[selectedGroup]?.title || 'Select a group'}
-            cardsPerRow={3}
-          />
+
+      {/* Main Content Area */}
+      <div className="flex-1 p-8 pt-4 min-h-0">
+        {' '}
+        {/* min-h-0 is crucial for nested flex scroll */}
+        <div className="flex gap-4 h-full">
+          {/* Sidebar - fixed width */}
+          <div className="w-64 flex-none">
+            <BookmarkSidebar
+              bookmarkData={bookmarkData}
+              selectedGroup={selectedGroup}
+              onGroupChange={setSelectedGroup}
+            />
+          </div>
+
+          {/* Content - fills remaining space */}
+          <div className="flex-1 min-w-0">
+            {' '}
+            {/* min-w-0 prevents flex child from overflowing */}
+            <BookmarkContent
+              bookmarks={bookmarkData[selectedGroup]?.links || []}
+              groupTitle={
+                bookmarkData[selectedGroup]?.title || 'Select a group'
+              }
+              cardsPerRow={3}
+            />
+          </div>
         </div>
       </div>
     </div>
