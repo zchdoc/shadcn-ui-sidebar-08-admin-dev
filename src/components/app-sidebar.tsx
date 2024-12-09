@@ -117,13 +117,20 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         icon: LucideBookmark,
         isActive: true,
         items: [
+          // zch UsualBookmark
           {
             title: 'Z.UsualBookmark',
             url: '/dashboard/bookmark/zch-bookmark',
           },
+          // Chrome Bookmark
           {
             title: 'Z.ChromeBookmark',
             url: '/dashboard/bookmark/chrome-bookmark',
+          },
+          // Chrome Bookmark Dev
+          {
+            title: 'Z.ChromeBookmarkDev',
+            url: '/dashboard/bookmark/chrome-bookmark-dev',
           },
         ],
       },
