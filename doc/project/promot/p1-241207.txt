@@ -22,3 +22,11 @@ src/app/dashboard/bookmark/zch-bookmark/index-only-html.html 帮我把这个文�
 very very nice,你已经基本实现了这个功能，并且显示了书签个数，这个功能非常棒，
 但是现在书签区域左右两边分割感比较严重，不太美观，可以做成图片上的那种
 左边是圆弧型的一个区域，右边也是圆弧型的一个区域吗，跟现在的sidebat类似像是漂浮在内容区域
+6.
+src/app/dashboard/bookmark/zch-bookmark/page.tsx 实现了一个简易的快捷书签功能，
+参考这个快捷书签功能的界面布局
+在src/app/dashboard/bookmark/chrome-bookmark/page.tsx 中实现 chrome 书签json解析并展示书签的功能
+你需要在这个布局的基础上在界面上方添加一个 json文件上传组件，然后用户上传之后将json保存在项目能够解析的地方，
+然后将解析的内容展示到书签区域，src/app/dashboard/bookmark/chrome-bookmark/BookmarksDemo.json 有一个示例 chrome 示例json
+保存的文件要保存在 如 src/app/dashboard/bookmark/chrome-bookmark/Bookmarks-241209.json 中
+不能吧 BookmarksDemo.json 覆盖

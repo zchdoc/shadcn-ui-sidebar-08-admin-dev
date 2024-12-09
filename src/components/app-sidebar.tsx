@@ -221,20 +221,24 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       },
     ],
     navSecondary: [
+      // Theme
+      {
+        title: '',
+        // title: theme === 'dark' ? 'Theme:Dark' : 'Theme:Light',
+        onClick: () => setTheme(theme === 'dark' ? 'light' : 'dark'),
+        icon: theme === 'dark' ? Moon : Sun,
+      },
+      // Support
       {
         title: 'Support',
         url: '/dashboard/support',
         icon: LifeBuoy,
       },
+      // Feedback
       {
         title: 'Feedback',
         url: '/dashboard/feedback',
         icon: Send,
-      },
-      {
-        title: 'Theme',
-        onClick: () => setTheme(theme === 'dark' ? 'light' : 'dark'),
-        icon: theme === 'dark' ? Moon : Sun,
       },
     ],
     projects: [

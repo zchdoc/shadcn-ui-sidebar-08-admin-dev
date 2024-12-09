@@ -1,13 +1,22 @@
 'use client'
 import { Button } from '@/components/ui/button'
-import { BookOpenText, Flower2, LayoutDashboard } from 'lucide-react'
+import { BookOpenText, Flower2, LayoutDashboard, Moon, Sun } from 'lucide-react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation' // 改用 useRouter
 import * as React from 'react'
 import { useCallback } from 'react'
+import { useTheme } from 'next-themes'
+
 export default function Home() {
   const router = useRouter() // 初始化 router
   const [loading, setLoading] = React.useState(false)
+  const { theme, setTheme } = useTheme()
+  const [mounted, setMounted] = React.useState(false)
+
+  // useEffect to handle mounting state
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
 
   // 获取当前环境
   const currentEnv = process.env.NEXT_PUBLIC_ENV
@@ -94,6 +103,17 @@ export default function Home() {
         </div>
       </main>
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
+        <a
+          className="flex items-center gap-2 hover:underline hover:underline-offset-4 cursor-pointer"
+          onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+        >
+          {mounted && theme === 'light' ? (
+            <Moon className="h-4 w-4" />
+          ) : (
+            <Sun className="h-4 w-4" />
+          )}
+          {mounted && theme === 'light' ? 'Switch to Dark' : 'Switch to Light'}
+        </a>
         <a
           className="flex items-center gap-2 hover:underline hover:underline-offset-4"
           href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
