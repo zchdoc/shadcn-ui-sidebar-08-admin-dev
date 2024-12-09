@@ -30,3 +30,9 @@ src/app/dashboard/bookmark/zch-bookmark/page.tsx 实现了一个简易的快捷�
 然后将解析的内容展示到书签区域，src/app/dashboard/bookmark/chrome-bookmark/BookmarksDemo.json 有一个示例 chrome 示例json
 保存的文件要保存在 如 src/app/dashboard/bookmark/chrome-bookmark/Bookmarks-241209.json 中
 不能吧 BookmarksDemo.json 覆盖
+7.
+src/app/dashboard/bookmark/chrome-bookmark/page.tsx 里，左边 BookmarkSidebar 太宽了，改窄一点
+BookmarkContent 内容多的时候会滚动，BookmarkContent组件是 由 两个 shadcn ui 的card组件封装成的组件
+现在我希望只让 最内层的 card 组件 内容滚动，外层card 不滚动，并且 BookmarkSidebar 和 上方的json上传组件也不滚动，
+帮我实现这样的界面功能
+
