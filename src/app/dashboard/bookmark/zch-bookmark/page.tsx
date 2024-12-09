@@ -184,17 +184,18 @@ export default function BookmarkPage() {
 
   return (
     <div className="flex w-full h-full">
-      <div className="p-4 w-[280px]">
+      <div className="p-4 w-[280px] h-full">
         <BookmarkSidebar
           bookmarkData={bookmarkData}
           selectedGroup={selectedGroup}
           onGroupChange={setSelectedGroup}
         />
       </div>
-      <div className="p-4 flex-1">
+      <div className="p-4 flex-1 h-full">
         <BookmarkContent
           bookmarks={bookmarkData[selectedGroup].links}
           groupTitle={bookmarkData[selectedGroup].title}
+          cardsPerRow={4}
         />
       </div>
     </div>
