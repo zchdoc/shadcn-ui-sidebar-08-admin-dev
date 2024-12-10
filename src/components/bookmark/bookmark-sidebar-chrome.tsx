@@ -65,7 +65,7 @@ export function BookmarkSidebarChrome({
 
   useEffect(() => {
     setLevels([{ data: bookmarkData, selected: selectedGroups[0] || '' }])
-  }, [bookmarkData])
+  }, [bookmarkData, selectedGroups])
 
   useEffect(() => {
     if (selectedGroups.length === 0) {

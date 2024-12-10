@@ -1,6 +1,6 @@
 'use client'
 import { Button } from '@/components/ui/button'
-import { BookOpenText, Flower2, LayoutDashboard, Moon, Sun } from 'lucide-react'
+import { Flower2, LayoutDashboard, Moon, Sun } from 'lucide-react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation' // 改用 useRouter
 import * as React from 'react'
@@ -93,12 +93,35 @@ export default function Home() {
         <div className="flex gap-4 items-center flex-col sm:flex-row">
           <a
             className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44 gap-2"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+            href="https://nextjs.org/docs/app/getting-started/installation"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <BookOpenText />
-            Read our docs
+            {/* <BookOpenText /> */}
+            <Image
+              className="dark:invert"
+              src="/next.svg"
+              alt="Vercel logomark"
+              width={60}
+              height={60}
+            />
+            Docs
+          </a>
+          <a
+            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44 gap-2"
+            href="https://ui.shadcn.com/docs/installation/next"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {/* <BookOpenText /> */}
+            <Image
+              className="dark:invert"
+              src="/shadcn.svg"
+              alt="Vercel logomark"
+              width={25}
+              height={25}
+            />
+            Shadcn Docs
           </a>
         </div>
       </main>
