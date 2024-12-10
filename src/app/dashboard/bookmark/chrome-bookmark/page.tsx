@@ -316,7 +316,6 @@ export default function ChromeBookmarkPage() {
         {toast && (
           <Toast
             open={toast.open}
-            variant={toast.variant}
             onOpenChange={(open) => {
               if (!open) setToast(null)
             }}
@@ -332,9 +331,8 @@ export default function ChromeBookmarkPage() {
         <div className="flex-none p-8 pb-0">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-muted-foreground">
-                Upload your Chrome bookmarks JSON file to view and manage them
-              </p>
+              {/*Upload your Chrome bookmarks JSON file to view and manage them*/}
+              <p className="text-muted-foreground" />
             </div>
           </div>
           <div className="flex items-center gap-4 mb-4">
@@ -389,7 +387,7 @@ export default function ChromeBookmarkPage() {
               <BookmarkContent
                 bookmarks={getCurrentBookmarks().links}
                 groupTitle={getCurrentBookmarks().title}
-                cardsPerRow={3}
+                cardsPerRow={6}
               />
             </div>
           </div>

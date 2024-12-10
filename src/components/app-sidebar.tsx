@@ -12,12 +12,12 @@ import {
   LucideBookmark,
   LucideLayoutDashboard,
   Map,
-  Moon,
   PieChart,
   Send,
   Settings2,
   SquareTerminal,
   Sun,
+  MoonStar,
 } from 'lucide-react'
 
 import { NavMain } from '@/components/nav-main'
@@ -230,10 +230,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     navSecondary: [
       // Theme
       {
-        title: '',
-        // title: theme === 'dark' ? 'Theme:Dark' : 'Theme:Light',
+        // title: '',
+        title: theme === 'dark' ? 'Theme' : 'Theme',
         onClick: () => setTheme(theme === 'dark' ? 'light' : 'dark'),
-        icon: theme === 'dark' ? Moon : Sun,
+        icon: theme === 'dark' ? MoonStar : Sun,
       },
       // Support
       {
