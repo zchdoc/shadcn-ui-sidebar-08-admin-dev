@@ -95,7 +95,7 @@ export default function ChromeBookmarkPage() {
             type="file"
             accept=".json"
             onChange={handleFileUpload}
-            className="max-w-[300px]"
+            className="w-full"
           />
         </div>
       </div>

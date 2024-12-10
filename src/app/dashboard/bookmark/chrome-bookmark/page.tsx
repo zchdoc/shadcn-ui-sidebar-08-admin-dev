@@ -98,12 +98,14 @@ export default function ChromeBookmarkPage() {
       let bookmarksPath
 
       if (platform.includes('mac')) {
-        const homeDir = process.env.NEXT_PUBLIC_HOME_DIR_MAC || ''
-        bookmarksPath = `${homeDir}/Library/Application Support/Google/Chrome/Default/Bookmarks`
+        const homeDirMac = process.env.NEXT_PUBLIC_HOME_DIR_MAC || ''
+        console.info(`Load API Home directory: ${homeDirMac}`)
+        bookmarksPath = `${homeDirMac}/Library/Application Support/Google/Chrome/Default/Bookmarks`
         command = `cat "${bookmarksPath}"`
       } else if (platform.includes('win')) {
-        const homeDir = process.env.NEXT_PUBLIC_HOME_DIR_WIN || ''
-        bookmarksPath = `${homeDir}\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Bookmarks`
+        const homeDirWin = process.env.NEXT_PUBLIC_HOME_DIR_WIN || ''
+        console.info(`Load API Home directory: ${homeDirWin}`)
+        bookmarksPath = `${homeDirWin}\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Bookmarks`
         command = `type "${bookmarksPath}"`
       } else {
         alert('Unsupported operating system')

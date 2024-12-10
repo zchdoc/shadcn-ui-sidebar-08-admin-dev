@@ -3,3 +3,11 @@ src/app/dashboard/bookmark/chrome-bookmark/page.tsx 这个组件有一个上传�
 可以根据系统去打开指定的文件夹吗，比如在
 mac系统默认打开 /Users/$(whoami)/Library/Application\ Support/Google/Chrome/Default/ 路径
 win系统默认打开 %USERPROFILE%\AppData\Local\Google\Chrome\User Data\Default\ 
+2.
+src/app/dashboard/bookmark/chrome-bookmark/page.tsx 组件里有一个 加载 本地书签的功能，
+这个功能可以加载本地的 chrome 书签文件，比如在
+mac系统默认打开 /Users/$(whoami)/Library/Application\ Support/Google/Chrome/Default/Bookmarks
+win系统默认打开 %USERPROFILE%\AppData\Local\Google\Chrome\User Data\Default\Bookmarks
+这个功能在 handleLoadBookmarks 方法里，但是这个方法的读取路径里有一个 /Users/$(whoami)，
+这样带 $ 的路径传到 src/app/api/system/read-bookmarks/route.ts 之后 
+出现 Error reading bookmarks file: [Error: ENOENT: no such file or directory, 错误，怎么处理一下这个问题呢
