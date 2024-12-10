@@ -5,8 +5,13 @@ import { BookmarkContent } from '@/components/bookmark/bookmark-content'
 import { Button } from '@/components/ui/button'
 import { format } from 'date-fns'
 import { Input } from '@/components/ui/input'
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { Terminal, AlertCircle, CheckCircle2 } from 'lucide-react'
+import {
+  ToastProvider,
+  Toast,
+  ToastViewport,
+  ToastTitle,
+  ToastDescription,
+} from '@/components/ui/toast'
 
 interface BookmarkGroup {
   title: string
@@ -27,8 +32,9 @@ export default function ChromeBookmarkPage() {
     Record<string, BookmarkGroup>
   >({})
   const [selectedGroups, setSelectedGroups] = useState<string[]>([])
-  const [alert, setAlert] = useState<{
-    type: 'success' | 'error'
+  const [toast, setToast] = useState<{
+    open: boolean
+    variant: 'success' | 'error'
     title: string
     description: string
   } | null>(null)
@@ -118,8 +124,9 @@ export default function ChromeBookmarkPage() {
         }
         bookmarksPath = `${homeDir}\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Bookmarks`
       } else {
-        setAlert({
-          type: 'error',
+        setToast({
+          open: true,
+          variant: 'error',
           title: '不支持的操作系统',
           description: '目前只支持 macOS 和 Windows 系统',
         })
@@ -145,16 +152,18 @@ export default function ChromeBookmarkPage() {
           chromeBookmarks.roots.bookmark_bar
         )
         setBookmarkData(parsedBookmarks)
-        setAlert({
-          type: 'success',
+        setToast({
+          open: true,
+          variant: 'success',
           title: '书签加载成功',
           description: '已成功从Chrome浏览器导入书签',
         })
       }
     } catch (error) {
       console.error('Error reading bookmarks file:', error)
-      setAlert({
-        type: 'error',
+      setToast({
+        open: true,
+        variant: 'error',
         title: '加载失败',
         description: '无法读取书签文件，请确保Chrome浏览器已关闭',
       })
@@ -174,9 +183,9 @@ export default function ChromeBookmarkPage() {
         const homeDir = process.env.NEXT_PUBLIC_HOME_DIR_WIN || ''
         command = `explorer "${homeDir}\\AppData\\Local\\Google\\Chrome\\User Data\\Default"`
       } else {
-        // alert('Unsupported operating system')
-        setAlert({
-          type: 'error',
+        setToast({
+          open: true,
+          variant: 'error',
           title: '不支持的操作系统',
           description: '目前只支持 macOS 和 Windows 系统',
         })
@@ -192,9 +201,9 @@ export default function ChromeBookmarkPage() {
       })
     } catch (error) {
       console.error('Error opening bookmarks folder:', error)
-      // alert('Failed to open bookmarks folder')
-      setAlert({
-        type: 'error',
+      setToast({
+        open: true,
+        variant: 'error',
         title: 'error',
         description: 'Failed to open bookmarks folder',
       })
@@ -276,8 +285,9 @@ export default function ChromeBookmarkPage() {
       } else {
         // alert('Unsupported operating system')
         // return
-        setAlert({
-          type: 'error',
+        setToast({
+          open: true,
+          variant: 'error',
           title: 'Unsupported',
           description: 'Unsupported operating system',
         })
@@ -301,22 +311,23 @@ export default function ChromeBookmarkPage() {
     }
   }
   return (
-    <div className="flex h-screen">
-      {alert && (
-        <div className="fixed top-4 right-4 w-96 z-50">
-          <Alert variant={alert.type === 'error' ? 'destructive' : 'default'}>
-            <Terminal />
-            {alert.type === 'error' ? (
-              <AlertCircle className="h-4 w-4" />
-            ) : (
-              <CheckCircle2 className="h-4 w-4" />
-            )}
-            <AlertTitle>{alert.title}</AlertTitle>
-            <AlertDescription>{alert.description}</AlertDescription>
-          </Alert>
-        </div>
-      )}
+    <ToastProvider>
       <div className="h-full flex flex-col">
+        {toast && (
+          <Toast
+            open={toast.open}
+            variant={toast.variant}
+            onOpenChange={(open) => {
+              if (!open) setToast(null)
+            }}
+          >
+            <div>
+              <ToastTitle>{toast.title}</ToastTitle>
+              <ToastDescription>{toast.description}</ToastDescription>
+            </div>
+          </Toast>
+        )}
+        <ToastViewport />
         {/* Fixed Header */}
         <div className="flex-none p-8 pb-0">
           <div className="flex items-center justify-between">
@@ -358,7 +369,6 @@ export default function ChromeBookmarkPage() {
             </Button>
           </div>
         </div>
-
         {/* Main Content Area */}
         <div className="flex-1 p-8 pt-4 min-h-0">
           {' '}
@@ -372,7 +382,6 @@ export default function ChromeBookmarkPage() {
                 onGroupChange={setSelectedGroups}
               />
             </div>
-
             {/* Content - fills remaining space */}
             <div className="flex-1 min-w-0">
               {' '}
@@ -386,6 +395,6 @@ export default function ChromeBookmarkPage() {
           </div>
         </div>
       </div>
-    </div>
+    </ToastProvider>
   )
 }
