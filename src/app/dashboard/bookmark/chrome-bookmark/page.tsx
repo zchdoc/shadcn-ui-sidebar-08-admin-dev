@@ -1,12 +1,13 @@
 'use client'
 import { useState, useEffect, useCallback } from 'react'
-import { BookmarkSidebar } from '@/components/bookmark/bookmark-sidebar'
+import { BookmarkSidebarChrome } from '@/components/bookmark/bookmark-sidebar-chrome'
 import { BookmarkContent } from '@/components/bookmark/bookmark-content'
 import { Input } from '@/components/ui/input'
 import { format } from 'date-fns'
 
 interface BookmarkGroup {
   title: string
+  children?: Record<string, BookmarkGroup>
   links: Array<{ title: string; url: string }>
 }
 
@@ -15,13 +16,14 @@ interface ChromeBookmark {
   name?: string
   type?: string
   url?: string
+  date_added?: string
 }
 
 export default function ChromeBookmarkPage() {
   const [bookmarkData, setBookmarkData] = useState<
     Record<string, BookmarkGroup>
   >({})
-  const [selectedGroup, setSelectedGroup] = useState<string>('')
+  const [selectedGroups, setSelectedGroups] = useState<string[]>([])
 
   // 使用 useCallback 包裹 processBookmarks 函数
   const processBookmarks = useCallback(
@@ -30,20 +32,34 @@ export default function ChromeBookmarkPage() {
 
       if (bookmarks.children) {
         const categoryName = bookmarks.name || category
-        if (bookmarks.children.some((child) => child.type === 'url')) {
-          parsedBookmarks[categoryName] = {
-            title: categoryName,
-            links: bookmarks.children
-              .filter((child) => child.type === 'url')
-              .map((child) => ({
-                title: child.name || '',
-                url: child.url || '',
-              })),
-          }
+
+        // 创建当前层级的书签组
+        parsedBookmarks[categoryName] = {
+          title: categoryName,
+          children: {},
+          links: [],
         }
+
+        // 处理当前层级的链接
+        const currentLinks = bookmarks.children
+          .filter((child) => child.type === 'url')
+          .map((child) => ({
+            title: child.name || '',
+            url: child.url || '',
+          }))
+
+        if (currentLinks.length > 0) {
+          parsedBookmarks[categoryName].links = currentLinks
+        }
+
+        // 递归处理子文件夹
         bookmarks.children.forEach((child) => {
           if (child.children) {
-            Object.assign(parsedBookmarks, processBookmarks(child, child.name))
+            const childBookmarks = processBookmarks(child, child.name)
+            parsedBookmarks[categoryName].children = {
+              ...parsedBookmarks[categoryName].children,
+              ...childBookmarks,
+            }
           }
         })
       }
@@ -113,6 +129,27 @@ export default function ChromeBookmarkPage() {
     }
   }
 
+  // 获取当前选中书签组的内容
+  const getCurrentBookmarks = useCallback(() => {
+    if (selectedGroups.length === 0)
+      return { links: [], title: 'Select a group' }
+
+    let currentGroup = bookmarkData[selectedGroups[0]]
+    let currentPath = selectedGroups[0]
+
+    // 遍历选中的路径以获取最终选中的书签组
+    for (let i = 1; i < selectedGroups.length; i++) {
+      if (!currentGroup?.children) break
+      currentGroup = currentGroup.children[selectedGroups[i]]
+      currentPath += ' > ' + selectedGroups[i]
+    }
+
+    return {
+      links: currentGroup?.links || [],
+      title: currentPath,
+    }
+  }, [selectedGroups, bookmarkData])
+
   return (
     <div className="h-full flex flex-col">
       {/* Fixed Header */}
@@ -141,10 +178,10 @@ export default function ChromeBookmarkPage() {
         <div className="flex gap-4 h-full">
           {/* Sidebar - fixed width */}
           <div className="w-64 flex-none">
-            <BookmarkSidebar
+            <BookmarkSidebarChrome
               bookmarkData={bookmarkData}
-              selectedGroup={selectedGroup}
-              onGroupChange={setSelectedGroup}
+              selectedGroups={selectedGroups}
+              onGroupChange={setSelectedGroups}
             />
           </div>
 
@@ -153,10 +190,8 @@ export default function ChromeBookmarkPage() {
             {' '}
             {/* min-w-0 prevents flex child from overflowing */}
             <BookmarkContent
-              bookmarks={bookmarkData[selectedGroup]?.links || []}
-              groupTitle={
-                bookmarkData[selectedGroup]?.title || 'Select a group'
-              }
+              bookmarks={getCurrentBookmarks().links}
+              groupTitle={getCurrentBookmarks().title}
               cardsPerRow={3}
             />
           </div>
