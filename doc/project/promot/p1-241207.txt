@@ -36,3 +36,33 @@ BookmarkContent 内容多的时候会滚动，BookmarkContent组件是 由 两�
 现在我希望只让 最内层的 card 组件 内容滚动，外层card 不滚动，并且 BookmarkSidebar 和 上方的json上传组件也不滚动，
 帮我实现这样的界面功能
 
+8.
+src/app/dashboard/bookmark/chrome-bookmark/page.tsx 组件有一个解析 chrome 书签的功能，
+chrome 书签是一个json文件，如果你要查看json的具体格式和内容，
+可以查看 doc/back-useless-code/src/components/BookmarksDemo.json 文件，
+目前解析功能有一个小问题，就是解析出来的书签 所有组没有层级关系，没有父子关系，所以在左边的导航栏中没有层级关系）
+我希望在 BookmarkSidebar 体现出父子关系，假如用户第一次选择的书签还有子目录，在下方再出现一个 下拉框选择子书签，
+这样依次递归展示所有子目录，如果没有子目录了则在 右侧的 BookmarkContent 显示具体书签内容，
+帮我修改一下代码实现这个功能。
+9.
+src/app/dashboard/bookmark/chrome-bookmark/page.tsx 组件有一个解析 chrome 书签的功能，
+chrome 书签是一个json文件，如果你要查看json的具体格式和内容，
+可以查看 doc/back-useless-code/src/components/BookmarksDemo.json 文件，
+解析成功之后会吧书签内容渲染在 BookmarkSidebar 和 BookmarkContent 组件中，
+但是这个组件也被 src/app/dashboard/bookmark/zch-bookmark/page.tsx 使用了，
+现在 src/app/dashboard/bookmark/chrome-bookmark/page.tsx 可以正常解析书签内容，但是
+我自己手动收集的书签不能正常显示了，打开之后页面出现：
+Unhandled Runtime Error
+TypeError: Cannot read properties of undefined (reading '0')
+
+Source
+src/components/bookmark/bookmark-sidebar.tsx (33:52) @ BookmarkSidebar
+
+帮我修复这个问题。注意要保持 chrome-bookmark/page.tsx 能正常工作，
+src/app/dashboard/bookmark/zch-bookmark/page.tsx 也要正常工作。就是两者要兼容，
+如果实在无法兼容，请帮我创建新的 BookmarkSidebarZch 
+和 BookmarkContentZch 组件实现渲染src/app/dashboard/bookmark/zch-bookmark/page.tsx的内容。
+
+
+src/components/bookmark/bookmark-content-zch.tsx 组件请参考 src/components/bookmark/bookmark-content.tsx 组件去实现
+双层 shadcn ui card 嵌套，内容多的时候只滚动 内部card，外层card 不滚动，可以自定义每行显示多少个书签
