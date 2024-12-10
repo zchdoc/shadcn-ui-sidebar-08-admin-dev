@@ -15,9 +15,9 @@ export async function POST(request: Request) {
     }
 
     // 直接读取文件而不是使用命令行
-    console.info('Reading bookmarks file:', path)
+
     const content = await readFile(path, 'utf-8')
-    console.info('Bookmarks file content:', content)
+
     return NextResponse.json({ content })
   } catch (error) {
     console.error('Error reading bookmarks file:', error)
