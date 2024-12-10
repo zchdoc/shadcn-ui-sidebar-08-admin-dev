@@ -94,19 +94,24 @@ export default function ChromeBookmarkPage() {
   const handleLoadBookmarks = async () => {
     try {
       const platform = window.navigator.platform.toLowerCase()
-      let command
       let bookmarksPath
 
       if (platform.includes('mac')) {
-        const homeDirMac = process.env.NEXT_PUBLIC_HOME_DIR_MAC || ''
-        console.info(`Load API Home directory: ${homeDirMac}`)
-        bookmarksPath = `${homeDirMac}/Library/Application Support/Google/Chrome/Default/Bookmarks`
-        command = `cat "${bookmarksPath}"`
+        // Use the HOME environment variable from the server side
+        const response = await fetch('/api/system/get-home-dir')
+        const { homeDir } = await response.json()
+        if (!homeDir) {
+          throw new Error('Could not determine home directory')
+        }
+        bookmarksPath = `${homeDir}/Library/Application Support/Google/Chrome/Default/Bookmarks`
       } else if (platform.includes('win')) {
-        const homeDirWin = process.env.NEXT_PUBLIC_HOME_DIR_WIN || ''
-        console.info(`Load API Home directory: ${homeDirWin}`)
-        bookmarksPath = `${homeDirWin}\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Bookmarks`
-        command = `type "${bookmarksPath}"`
+        // For Windows, we'll use the USERPROFILE environment variable
+        const response = await fetch('/api/system/get-home-dir')
+        const { homeDir } = await response.json()
+        if (!homeDir) {
+          throw new Error('Could not determine home directory')
+        }
+        bookmarksPath = `${homeDir}\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Bookmarks`
       } else {
         alert('Unsupported operating system')
         return
@@ -117,7 +122,7 @@ export default function ChromeBookmarkPage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ command, path: bookmarksPath }),
+        body: JSON.stringify({ path: bookmarksPath }),
       })
 
       if (!response.ok) {
