@@ -16,3 +16,10 @@ src/app/dashboard/bookmark/chrome-bookmark/page.tsx 组件里有一个 保存 �
 这个功能可以保存本地的 chrome 书签文件,这个组件里有一个本地书签上传功能，用户上传书签后，
 这个组件会讲故事书签文件转存在 uploads 目录下，
 现在帮我改一下，在保存用户新上传的书签之前将老的书签备份在 uploads/backup 目录下，
+4.
+src/app/dashboard/bookmark/chrome-bookmark/page.tsx 组件里有一个 保存 本地书签的功能，
+这个功能可以保存本地的 chrome 书签文件,具体方法是通过用户上传本地 chrome 的 Bookmarks 文件，
+Bookmarks 文件其实是一个json文件，用户上传之后，
+src/app/dashboard/bookmark/chrome-bookmark/page.tsx 组件会把 Bookmarks 解析并保存，
+现在有一个问题就是用户上传的 Bookmarks 文件有一个 sync_metadata 字段，这个字段非常长，
+请帮修改 page.tsx里面的保存代码，在保存书签的时候，把sync_metadata 的值设置为 '' 空字符串，
