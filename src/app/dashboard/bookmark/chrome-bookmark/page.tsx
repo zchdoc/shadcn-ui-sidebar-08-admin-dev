@@ -240,14 +240,32 @@ export default function ChromeBookmarkPage() {
       const content = await file.text()
       const chromeBookmarks = JSON.parse(content)
 
-      // Save the file with timestamp
-      const timestamp = format(new Date(), 'yyMMdd')
-      const fileName = `Bookmarks-${timestamp}.json`
+      // First, try to backup existing bookmarks
+      try {
+        const timestamp = format(new Date(), 'yyMMddHHmmss')
+        const backupResponse = await fetch('/api/bookmarks/backup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ timestamp }),
+        })
+
+        if (!backupResponse.ok) {
+          console.warn('Failed to backup existing bookmarks')
+        }
+      } catch (backupError) {
+        console.error('Error during backup:', backupError)
+      }
+
+      // Save the new file with timestamp
+      const saveTimestamp = format(new Date(), 'yyMMdd')
+      const fileName = `Bookmarks-${saveTimestamp}.json`
       const blob = new Blob([content], { type: 'application/json' })
       const formData = new FormData()
       formData.append('file', blob, fileName)
 
-      // 发送文件到服务器
+      // Send file to server
       const response = await fetch('/api/upload', {
         method: 'POST',
         body: formData,
@@ -257,15 +275,27 @@ export default function ChromeBookmarkPage() {
         throw new Error('Upload failed')
       }
 
-      // 处理书签数据
+      // Process bookmark data
       if (chromeBookmarks.roots?.bookmark_bar) {
         const parsedBookmarks = processBookmarks(
           chromeBookmarks.roots.bookmark_bar
         )
         setBookmarkData(parsedBookmarks)
+        setToast({
+          open: true,
+          variant: 'success',
+          title: '书签保存成功',
+          description: '已成功保存新书签并备份旧书签',
+        })
       }
     } catch (error) {
       console.error('Error processing bookmark file:', error)
+      setToast({
+        open: true,
+        variant: 'error',
+        title: '保存失败',
+        description: '处理书签文件时发生错误',
+      })
     }
   }
 

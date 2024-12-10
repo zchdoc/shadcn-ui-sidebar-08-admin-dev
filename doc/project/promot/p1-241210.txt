@@ -11,3 +11,8 @@ win系统默认打开 %USERPROFILE%\AppData\Local\Google\Chrome\User Data\Defaul
 这个功能在 handleLoadBookmarks 方法里，但是这个方法的读取路径里有一个 /Users/$(whoami)，
 这样带 $ 的路径传到 src/app/api/system/read-bookmarks/route.ts 之后 
 出现 Error reading bookmarks file: [Error: ENOENT: no such file or directory, 错误，怎么处理一下这个问题呢
+3.
+src/app/dashboard/bookmark/chrome-bookmark/page.tsx 组件里有一个 保存 本地书签的功能，
+这个功能可以保存本地的 chrome 书签文件,这个组件里有一个本地书签上传功能，用户上传书签后，
+这个组件会讲故事书签文件转存在 uploads 目录下，
+现在帮我改一下，在保存用户新上传的书签之前将老的书签备份在 uploads/backup 目录下，
