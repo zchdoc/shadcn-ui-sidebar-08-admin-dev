@@ -87,9 +87,7 @@ export default function ChromeBookmarkPage() {
       <div className="flex-none p-8 pb-0">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-muted-foreground">
-              Upload your Chrome bookmarks JSON file to view and manage them
-            </p>
+            <p className="text-muted-foreground"></p>
           </div>
         </div>
         <div className="flex items-center space-x-2 mt-4">

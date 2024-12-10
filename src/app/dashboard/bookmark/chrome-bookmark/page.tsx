@@ -2,9 +2,9 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { BookmarkSidebarChrome } from '@/components/bookmark/bookmark-sidebar-chrome'
 import { BookmarkContent } from '@/components/bookmark/bookmark-content'
-import { Input } from '@/components/ui/input'
-import { format } from 'date-fns'
 import { Button } from '@/components/ui/button'
+import { format } from 'date-fns'
+import { Input } from '@/components/ui/input'
 
 interface BookmarkGroup {
   title: string
@@ -26,7 +26,6 @@ export default function ChromeBookmarkPage() {
   >({})
   const [selectedGroups, setSelectedGroups] = useState<string[]>([])
   const fileInputRef = useRef<HTMLInputElement>(null)
-
   // 使用 useCallback 包裹 processBookmarks 函数
   const processBookmarks = useCallback(
     (bookmarks: ChromeBookmark, category: string = '') => {
@@ -92,34 +91,39 @@ export default function ChromeBookmarkPage() {
     loadInitialBookmarks()
   }, [processBookmarks])
 
-  const handleFileUpload = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const file = event.target.files?.[0]
-    if (!file) return
-
+  const handleLoadBookmarks = async () => {
     try {
-      const content = await file.text()
-      const chromeBookmarks = JSON.parse(content)
+      const platform = window.navigator.platform.toLowerCase()
+      let command
+      let bookmarksPath
 
-      // Save the file with timestamp
-      const timestamp = format(new Date(), 'yyMMdd')
-      const fileName = `Bookmarks-${timestamp}.json`
-      const blob = new Blob([content], { type: 'application/json' })
-      const formData = new FormData()
-      formData.append('file', blob, fileName)
+      if (platform.includes('mac')) {
+        const homeDir = process.env.NEXT_PUBLIC_HOME_DIR_MAC || ''
+        bookmarksPath = `${homeDir}/Library/Application Support/Google/Chrome/Default/Bookmarks`
+        command = `cat "${bookmarksPath}"`
+      } else if (platform.includes('win')) {
+        const homeDir = process.env.NEXT_PUBLIC_HOME_DIR_WIN || ''
+        bookmarksPath = `${homeDir}\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Bookmarks`
+        command = `type "${bookmarksPath}"`
+      } else {
+        alert('Unsupported operating system')
+        return
+      }
 
-      // 发送文件到服务器
-      const response = await fetch('/api/upload', {
+      const response = await fetch('/api/system/read-bookmarks', {
         method: 'POST',
-        body: formData,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ command, path: bookmarksPath }),
       })
 
       if (!response.ok) {
-        throw new Error('Upload failed')
+        throw new Error('Failed to read bookmarks file')
       }
 
-      // 处理书签数据
+      const { content } = await response.json()
+      const chromeBookmarks = JSON.parse(content)
       if (chromeBookmarks.roots?.bookmark_bar) {
         const parsedBookmarks = processBookmarks(
           chromeBookmarks.roots.bookmark_bar
@@ -127,41 +131,10 @@ export default function ChromeBookmarkPage() {
         setBookmarkData(parsedBookmarks)
       }
     } catch (error) {
-      console.error('Error processing bookmark file:', error)
-    }
-  }
-
-  const handleUploadClick = async () => {
-    try {
-      const platform = window.navigator.platform.toLowerCase()
-      let command
-
-      if (platform.includes('mac')) {
-        const homeDir = process.env.NEXT_PUBLIC_HOME_DIR_MAC || ''
-        command = `open -R "${homeDir}/Library/Application Support/Google/Chrome/Default/Bookmarks"`
-      } else if (platform.includes('win')) {
-        const homeDir = process.env.NEXT_PUBLIC_HOME_DIR_WIN || ''
-        command = `explorer /select,"${homeDir}\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Bookmarks"`
-      } else {
-        alert('Unsupported operating system')
-        return
-      }
-
-      await fetch('/api/system/open-folder', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ command }),
-      })
-
-      // 触发文件选择器
-      if (fileInputRef.current) {
-        fileInputRef.current.click()
-      }
-    } catch (error) {
-      console.error('Error opening bookmarks file:', error)
-      alert('Failed to open bookmarks file')
+      console.error('Error reading bookmarks file:', error)
+      alert(
+        'Failed to read bookmarks file. Please make sure Chrome is not running.'
+      )
     }
   }
 
@@ -215,7 +188,80 @@ export default function ChromeBookmarkPage() {
       title: currentPath,
     }
   }, [selectedGroups, bookmarkData])
+  const handleFileUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0]
+    if (!file) return
 
+    try {
+      const content = await file.text()
+      const chromeBookmarks = JSON.parse(content)
+
+      // Save the file with timestamp
+      const timestamp = format(new Date(), 'yyMMdd')
+      const fileName = `Bookmarks-${timestamp}.json`
+      const blob = new Blob([content], { type: 'application/json' })
+      const formData = new FormData()
+      formData.append('file', blob, fileName)
+
+      // 发送文件到服务器
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (!response.ok) {
+        throw new Error('Upload failed')
+      }
+
+      // 处理书签数据
+      if (chromeBookmarks.roots?.bookmark_bar) {
+        const parsedBookmarks = processBookmarks(
+          chromeBookmarks.roots.bookmark_bar
+        )
+        setBookmarkData(parsedBookmarks)
+      }
+    } catch (error) {
+      console.error('Error processing bookmark file:', error)
+    }
+  }
+
+  const handleUploadClick = async () => {
+    try {
+      const platform = window.navigator.platform.toLowerCase()
+      let command
+
+      if (platform.includes('mac')) {
+        const homeDirMac = process.env.NEXT_PUBLIC_HOME_DIR_MAC || ''
+        console.info(`Home directory: ${homeDirMac}`)
+        // command = `open -R "${homeDir}/Library/Application Support/Google/Chrome/Default/Bookmarks"`
+      } else if (platform.includes('win')) {
+        const homeDirWin = process.env.NEXT_PUBLIC_HOME_DIR_WIN || ''
+        console.info(`Home directory: ${homeDirWin}`)
+        // command = `explorer /select,"${homeDir}\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Bookmarks"`
+      } else {
+        alert('Unsupported operating system')
+        // return
+      }
+
+      await fetch('/api/system/open-folder', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ command }),
+      })
+
+      // 触发文件选择器
+      if (fileInputRef.current) {
+        fileInputRef.current.click()
+      }
+    } catch (error) {
+      console.error('Error opening bookmarks file:', error)
+      alert('Failed to open bookmarks file')
+    }
+  }
   return (
     <div className="h-full flex flex-col">
       {/* Fixed Header */}
@@ -228,12 +274,27 @@ export default function ChromeBookmarkPage() {
           </div>
         </div>
         <div className="flex items-center gap-4 mb-4">
+          <Button
+            onClick={handleLoadBookmarks}
+            variant="outline"
+            className="whitespace-nowrap"
+          >
+            加载 Bookmarks
+          </Button>
+          <Button
+            onClick={openDefaultBookmarksFolder}
+            variant="outline"
+            className="whitespace-nowrap"
+          >
+            打开书签文件夹
+          </Button>
           <Input
             type="file"
             ref={fileInputRef}
             onChange={handleFileUpload}
             accept=".json"
             className="hidden"
+            placeholder="上传书签文件"
           />
           <Button
             onClick={handleUploadClick}
@@ -241,13 +302,6 @@ export default function ChromeBookmarkPage() {
             className="whitespace-nowrap"
           >
             选择 Bookmarks 文件
-          </Button>
-          <Button
-            onClick={openDefaultBookmarksFolder}
-            variant="outline"
-            className="whitespace-nowrap"
-          >
-            Open Bookmarks Folder
           </Button>
         </div>
       </div>
