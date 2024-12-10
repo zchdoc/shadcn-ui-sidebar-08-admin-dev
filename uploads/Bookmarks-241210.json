@@ -1,5 +1,5 @@
 {
-  "checksum": "4f90726e9849bff125428bad5f0c4cd8",
+  "checksum": "c5765350b073d0acc800fc5b4a3bb402",
   "roots": {
     "bookmark_bar": {
       "children": [
@@ -6910,7 +6910,7 @@
             },
             {
               "date_added": "13332231270000000",
-              "date_last_used": "0",
+              "date_last_used": "13378289602769172",
               "guid": "be536472-e0ad-4400-af6d-37bf13287874",
               "id": "413",
               "name": "阿里云登录",
@@ -8778,7 +8778,7 @@
               ],
               "date_added": "13361354684069984",
               "date_last_used": "0",
-              "date_modified": "13378272826057853",
+              "date_modified": "13378283883541319",
               "guid": "4d5bfbc0-cf79-41b3-ab2b-66b0dc203c4c",
               "id": "1202",
               "name": "react",
@@ -22926,11 +22926,23 @@
           "id": "1726",
           "name": "Zai",
           "type": "folder"
+        },
+        {
+          "date_added": "13378283883541319",
+          "date_last_used": "0",
+          "guid": "7af02030-d52d-4a18-bf34-220f214512b5",
+          "id": "2499",
+          "meta_info": {
+            "power_bookmark_meta": ""
+          },
+          "name": "Z.ToolBox",
+          "type": "url",
+          "url": "http://localhost:3000/dashboard/bookmark/chrome-bookmark"
         }
       ],
       "date_added": "13345700747854350",
       "date_last_used": "0",
-      "date_modified": "13378214414412289",
+      "date_modified": "13378283887536862",
       "guid": "0bc5d13f-2cba-5d74-951f-3f233fe6c908",
       "id": "1",
       "name": "书签栏",
