@@ -1,0 +1,5 @@
+1.
+src/app/dashboard/bookmark/chrome-bookmark/page.tsx 这个组件有一个上传文件的功能，
+可以根据系统去打开指定的文件夹吗，比如在
+mac系统默认打开 /Users/$(whoami)/Library/Application\ Support/Google/Chrome/Default/ 路径
+win系统默认打开 %USERPROFILE%\AppData\Local\Google\Chrome\User Data\Default\ 

@@ -1,9 +1,10 @@
 'use client'
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { BookmarkSidebarChrome } from '@/components/bookmark/bookmark-sidebar-chrome'
 import { BookmarkContent } from '@/components/bookmark/bookmark-content'
 import { Input } from '@/components/ui/input'
 import { format } from 'date-fns'
+import { Button } from '@/components/ui/button'
 
 interface BookmarkGroup {
   title: string
@@ -24,6 +25,7 @@ export default function ChromeBookmarkPage() {
     Record<string, BookmarkGroup>
   >({})
   const [selectedGroups, setSelectedGroups] = useState<string[]>([])
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   // 使用 useCallback 包裹 processBookmarks 函数
   const processBookmarks = useCallback(
@@ -129,6 +131,70 @@ export default function ChromeBookmarkPage() {
     }
   }
 
+  const handleUploadClick = async () => {
+    try {
+      const platform = window.navigator.platform.toLowerCase()
+      let command
+
+      if (platform.includes('mac')) {
+        const homeDir = process.env.NEXT_PUBLIC_HOME_DIR_MAC || ''
+        command = `open -R "${homeDir}/Library/Application Support/Google/Chrome/Default/Bookmarks"`
+      } else if (platform.includes('win')) {
+        const homeDir = process.env.NEXT_PUBLIC_HOME_DIR_WIN || ''
+        command = `explorer /select,"${homeDir}\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Bookmarks"`
+      } else {
+        alert('Unsupported operating system')
+        return
+      }
+
+      await fetch('/api/system/open-folder', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ command }),
+      })
+
+      // 触发文件选择器
+      if (fileInputRef.current) {
+        fileInputRef.current.click()
+      }
+    } catch (error) {
+      console.error('Error opening bookmarks file:', error)
+      alert('Failed to open bookmarks file')
+    }
+  }
+
+  const openDefaultBookmarksFolder = async () => {
+    try {
+      const platform = window.navigator.platform.toLowerCase()
+      let command
+
+      if (platform.includes('mac')) {
+        const homeDir = process.env.NEXT_PUBLIC_HOME_DIR_MAC || ''
+        console.info(`Home directory: ${homeDir}`)
+        command = `open "${homeDir}/Library/Application Support/Google/Chrome/Default"`
+      } else if (platform.includes('win')) {
+        const homeDir = process.env.NEXT_PUBLIC_HOME_DIR_WIN || ''
+        command = `explorer "${homeDir}\\AppData\\Local\\Google\\Chrome\\User Data\\Default"`
+      } else {
+        alert('Unsupported operating system')
+        return
+      }
+
+      await fetch('/api/system/open-folder', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ command }),
+      })
+    } catch (error) {
+      console.error('Error opening bookmarks folder:', error)
+      alert('Failed to open bookmarks folder')
+    }
+  }
+
   // 获取当前选中书签组的内容
   const getCurrentBookmarks = useCallback(() => {
     if (selectedGroups.length === 0)
@@ -161,13 +227,28 @@ export default function ChromeBookmarkPage() {
             </p>
           </div>
         </div>
-        <div className="flex items-center space-x-2 mt-4">
+        <div className="flex items-center gap-4 mb-4">
           <Input
             type="file"
-            accept=".json"
+            ref={fileInputRef}
             onChange={handleFileUpload}
-            className="max-w-[300px]"
+            accept=".json"
+            className="hidden"
           />
+          <Button
+            onClick={handleUploadClick}
+            variant="outline"
+            className="whitespace-nowrap"
+          >
+            选择 Bookmarks 文件
+          </Button>
+          <Button
+            onClick={openDefaultBookmarksFolder}
+            variant="outline"
+            className="whitespace-nowrap"
+          >
+            Open Bookmarks Folder
+          </Button>
         </div>
       </div>
 
