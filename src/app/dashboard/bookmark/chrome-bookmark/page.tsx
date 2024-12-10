@@ -5,6 +5,8 @@ import { BookmarkContent } from '@/components/bookmark/bookmark-content'
 import { Button } from '@/components/ui/button'
 import { format } from 'date-fns'
 import { Input } from '@/components/ui/input'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { Terminal, AlertCircle, CheckCircle2 } from 'lucide-react'
 
 interface BookmarkGroup {
   title: string
@@ -25,6 +27,11 @@ export default function ChromeBookmarkPage() {
     Record<string, BookmarkGroup>
   >({})
   const [selectedGroups, setSelectedGroups] = useState<string[]>([])
+  const [alert, setAlert] = useState<{
+    type: 'success' | 'error'
+    title: string
+    description: string
+  } | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   // 使用 useCallback 包裹 processBookmarks 函数
   const processBookmarks = useCallback(
@@ -97,7 +104,6 @@ export default function ChromeBookmarkPage() {
       let bookmarksPath
 
       if (platform.includes('mac')) {
-        // Use the HOME environment variable from the server side
         const response = await fetch('/api/system/get-home-dir')
         const { homeDir } = await response.json()
         if (!homeDir) {
@@ -105,7 +111,6 @@ export default function ChromeBookmarkPage() {
         }
         bookmarksPath = `${homeDir}/Library/Application Support/Google/Chrome/Default/Bookmarks`
       } else if (platform.includes('win')) {
-        // For Windows, we'll use the USERPROFILE environment variable
         const response = await fetch('/api/system/get-home-dir')
         const { homeDir } = await response.json()
         if (!homeDir) {
@@ -113,7 +118,11 @@ export default function ChromeBookmarkPage() {
         }
         bookmarksPath = `${homeDir}\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Bookmarks`
       } else {
-        alert('Unsupported operating system')
+        setAlert({
+          type: 'error',
+          title: '不支持的操作系统',
+          description: '目前只支持 macOS 和 Windows 系统',
+        })
         return
       }
 
@@ -136,12 +145,19 @@ export default function ChromeBookmarkPage() {
           chromeBookmarks.roots.bookmark_bar
         )
         setBookmarkData(parsedBookmarks)
+        setAlert({
+          type: 'success',
+          title: '书签加载成功',
+          description: '已成功从Chrome浏览器导入书签',
+        })
       }
     } catch (error) {
       console.error('Error reading bookmarks file:', error)
-      alert(
-        'Failed to read bookmarks file. Please make sure Chrome is not running.'
-      )
+      setAlert({
+        type: 'error',
+        title: '加载失败',
+        description: '无法读取书签文件，请确保Chrome浏览器已关闭',
+      })
     }
   }
 
@@ -158,7 +174,12 @@ export default function ChromeBookmarkPage() {
         const homeDir = process.env.NEXT_PUBLIC_HOME_DIR_WIN || ''
         command = `explorer "${homeDir}\\AppData\\Local\\Google\\Chrome\\User Data\\Default"`
       } else {
-        alert('Unsupported operating system')
+        // alert('Unsupported operating system')
+        setAlert({
+          type: 'error',
+          title: '不支持的操作系统',
+          description: '目前只支持 macOS 和 Windows 系统',
+        })
         return
       }
 
@@ -171,7 +192,12 @@ export default function ChromeBookmarkPage() {
       })
     } catch (error) {
       console.error('Error opening bookmarks folder:', error)
-      alert('Failed to open bookmarks folder')
+      // alert('Failed to open bookmarks folder')
+      setAlert({
+        type: 'error',
+        title: 'error',
+        description: 'Failed to open bookmarks folder',
+      })
     }
   }
 
@@ -248,8 +274,13 @@ export default function ChromeBookmarkPage() {
         console.info(`Home directory: ${homeDirWin}`)
         // command = `explorer /select,"${homeDir}\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Bookmarks"`
       } else {
-        alert('Unsupported operating system')
+        // alert('Unsupported operating system')
         // return
+        setAlert({
+          type: 'error',
+          title: 'Unsupported',
+          description: 'Unsupported operating system',
+        })
       }
 
       await fetch('/api/system/open-folder', {
@@ -266,76 +297,92 @@ export default function ChromeBookmarkPage() {
       }
     } catch (error) {
       console.error('Error opening bookmarks file:', error)
-      alert('Failed to open bookmarks file')
+      // alert('Failed to open bookmarks file')
     }
   }
   return (
-    <div className="h-full flex flex-col">
-      {/* Fixed Header */}
-      <div className="flex-none p-8 pb-0">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-muted-foreground">
-              Upload your Chrome bookmarks JSON file to view and manage them
-            </p>
+    <div className="flex h-screen">
+      {alert && (
+        <div className="fixed top-4 right-4 w-96 z-50">
+          <Alert variant={alert.type === 'error' ? 'destructive' : 'default'}>
+            <Terminal />
+            {alert.type === 'error' ? (
+              <AlertCircle className="h-4 w-4" />
+            ) : (
+              <CheckCircle2 className="h-4 w-4" />
+            )}
+            <AlertTitle>{alert.title}</AlertTitle>
+            <AlertDescription>{alert.description}</AlertDescription>
+          </Alert>
+        </div>
+      )}
+      <div className="h-full flex flex-col">
+        {/* Fixed Header */}
+        <div className="flex-none p-8 pb-0">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-muted-foreground">
+                Upload your Chrome bookmarks JSON file to view and manage them
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-4 mb-4">
+            <Button
+              onClick={handleLoadBookmarks}
+              variant="outline"
+              className="whitespace-nowrap"
+            >
+              加载 Bookmarks
+            </Button>
+            <Button
+              onClick={openDefaultBookmarksFolder}
+              variant="outline"
+              className="whitespace-nowrap"
+            >
+              打开书签文件夹
+            </Button>
+            <Input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleFileUpload}
+              accept=".json"
+              className="hidden"
+              placeholder="上传书签文件"
+            />
+            <Button
+              onClick={handleUploadClick}
+              variant="outline"
+              className="whitespace-nowrap"
+            >
+              选择 Bookmarks 文件
+            </Button>
           </div>
         </div>
-        <div className="flex items-center gap-4 mb-4">
-          <Button
-            onClick={handleLoadBookmarks}
-            variant="outline"
-            className="whitespace-nowrap"
-          >
-            加载 Bookmarks
-          </Button>
-          <Button
-            onClick={openDefaultBookmarksFolder}
-            variant="outline"
-            className="whitespace-nowrap"
-          >
-            打开书签文件夹
-          </Button>
-          <Input
-            type="file"
-            ref={fileInputRef}
-            onChange={handleFileUpload}
-            accept=".json"
-            className="hidden"
-            placeholder="上传书签文件"
-          />
-          <Button
-            onClick={handleUploadClick}
-            variant="outline"
-            className="whitespace-nowrap"
-          >
-            选择 Bookmarks 文件
-          </Button>
-        </div>
-      </div>
 
-      {/* Main Content Area */}
-      <div className="flex-1 p-8 pt-4 min-h-0">
-        {' '}
-        {/* min-h-0 is crucial for nested flex scroll */}
-        <div className="flex gap-4 h-full">
-          {/* Sidebar - fixed width */}
-          <div className="w-64 flex-none">
-            <BookmarkSidebarChrome
-              bookmarkData={bookmarkData}
-              selectedGroups={selectedGroups}
-              onGroupChange={setSelectedGroups}
-            />
-          </div>
+        {/* Main Content Area */}
+        <div className="flex-1 p-8 pt-4 min-h-0">
+          {' '}
+          {/* min-h-0 is crucial for nested flex scroll */}
+          <div className="flex gap-4 h-full">
+            {/* Sidebar - fixed width */}
+            <div className="w-64 flex-none">
+              <BookmarkSidebarChrome
+                bookmarkData={bookmarkData}
+                selectedGroups={selectedGroups}
+                onGroupChange={setSelectedGroups}
+              />
+            </div>
 
-          {/* Content - fills remaining space */}
-          <div className="flex-1 min-w-0">
-            {' '}
-            {/* min-w-0 prevents flex child from overflowing */}
-            <BookmarkContent
-              bookmarks={getCurrentBookmarks().links}
-              groupTitle={getCurrentBookmarks().title}
-              cardsPerRow={3}
-            />
+            {/* Content - fills remaining space */}
+            <div className="flex-1 min-w-0">
+              {' '}
+              {/* min-w-0 prevents flex child from overflowing */}
+              <BookmarkContent
+                bookmarks={getCurrentBookmarks().links}
+                groupTitle={getCurrentBookmarks().title}
+                cardsPerRow={3}
+              />
+            </div>
           </div>
         </div>
       </div>
