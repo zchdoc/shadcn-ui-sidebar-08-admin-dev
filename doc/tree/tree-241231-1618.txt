@@ -1,0 +1,111 @@
+.
+├── README.md
+├── README.txt
+├── components.json
+├── next-env.d.ts
+├── next.config.mjs
+├── package-lock.json
+├── package.json
+├── postcss.config.mjs
+├── public
+│   ├── avatars
+│   │   └── shadcn.jpg
+│   ├── file.svg
+│   ├── globe.svg
+│   ├── grid.svg
+│   ├── next.svg
+│   ├── shadcn.svg
+│   ├── vercel.svg
+│   └── window.svg
+├── src
+│   ├── app
+│   │   ├── api
+│   │   │   ├── bookmarks
+│   │   │   │   ├── backup
+│   │   │   │   │   └── route.ts
+│   │   │   │   └── route.ts
+│   │   │   ├── system
+│   │   │   │   ├── get-home-dir
+│   │   │   │   │   └── route.ts
+│   │   │   │   ├── open-folder
+│   │   │   │   │   └── route.ts
+│   │   │   │   └── read-bookmarks
+│   │   │   │       └── route.ts
+│   │   │   └── upload
+│   │   │       ├── route-241209-01.ts
+│   │   │       └── route.ts
+│   │   ├── dashboard
+│   │   │   ├── bookmark
+│   │   │   │   ├── chrome-bookmark
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── chrome-bookmark-dev
+│   │   │   │   │   └── page.tsx
+│   │   │   │   └── zch-bookmark
+│   │   │   │       └── page.tsx
+│   │   │   ├── browser
+│   │   │   │   └── info
+│   │   │   │       └── page.tsx
+│   │   │   ├── history
+│   │   │   │   └── page.tsx
+│   │   │   ├── layout.tsx
+│   │   │   ├── models
+│   │   │   │   └── genesis
+│   │   │   │       └── page.tsx
+│   │   │   └── page.tsx
+│   │   ├── favicon.ico
+│   │   ├── fonts
+│   │   │   ├── GeistMonoVF.woff
+│   │   │   └── GeistVF.woff
+│   │   ├── globals.css
+│   │   ├── layout.tsx
+│   │   └── page.tsx
+│   ├── components
+│   │   ├── app-sidebar.tsx
+│   │   ├── bookmark
+│   │   │   ├── bookmark-content.tsx
+│   │   │   ├── bookmark-sidebar-chrome.tsx
+│   │   │   ├── bookmark-sidebar.tsx
+│   │   │   └── bookmark-table.tsx
+│   │   ├── nav-main.tsx
+│   │   ├── nav-projects.tsx
+│   │   ├── nav-secondary.tsx
+│   │   ├── nav-user.tsx
+│   │   ├── sidebar-skeleton-style-1.tsx
+│   │   ├── sidebar-skeleton-style-2.tsx
+│   │   ├── sidebar-skeleton.tsx
+│   │   ├── team-switcher-single.tsx
+│   │   ├── team-switcher.tsx
+│   │   ├── theme-toggle.tsx
+│   │   └── ui
+│   │       ├── alert.tsx
+│   │       ├── avatar.tsx
+│   │       ├── breadcrumb.tsx
+│   │       ├── button.tsx
+│   │       ├── card.tsx
+│   │       ├── collapsible.tsx
+│   │       ├── dropdown-menu.tsx
+│   │       ├── hover-card.tsx
+│   │       ├── input.tsx
+│   │       ├── scroll-area.tsx
+│   │       ├── select.tsx
+│   │       ├── separator.tsx
+│   │       ├── sheet.tsx
+│   │       ├── sidebar.tsx
+│   │       ├── skeleton.tsx
+│   │       ├── toast.tsx
+│   │       └── tooltip.tsx
+│   ├── hooks
+│   │   └── use-mobile.tsx
+│   └── lib
+│       └── utils.ts
+├── tailwind.config.ts
+├── tsconfig.json
+├── tsconfig.tsbuildinfo
+└── uploads
+    ├── Bookmarks-241210.json
+    ├── Bookmarks-241231.json
+    └── backup
+        ├── Bookmarks-backup-24-12-31-15-31-38.json
+        └── Bookmarks-backup-241210165623.json
+
+31 directories, 78 files
