@@ -9,5 +9,7 @@
   "git.enableSmartCommit": true,
   "git.smartCommitChanges": "all",
   "git.suggestSmartCommit": true,
-  "git.autoRepositoryDetection": true
+  "git.autoRepositoryDetection": true,
+  "editor.tabSize": 2,
+  "workbench.tree.indent": 16
 }

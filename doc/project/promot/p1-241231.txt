@@ -18,4 +18,11 @@ export const metadata: Metadata = {
 请帮我实现这个功能
 
 2.
-src/app/dashboard/browser/info/page.tsx 有一个
+假如我使用 react+typescript+next.js+tailwind+shadcn-ui+radix-ui 项目 等技术做了一个网站, 打包之后部署在 vercel 上,
+我想尽可能多的获取访问我的网站的用户信息,都可以获取哪些信息呢,详细的罗列一下
+
+
+当前项目是一个react+typescript+next.js+tailwind+shadcn-ui+radix-ui 项目,
+在 src/app/dashboard/browser/info/有一个 page.tsx,
+帮我在这个文件中的 <Card className="p-4"></Card> 组建中添加一些获取访问当前网页的用户信息的功能,
+我希望尽可能多的信息
