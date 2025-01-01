@@ -2,7 +2,7 @@
 
 import { Card } from '@/components/ui/card'
 
-export default function HistoryPage() {
+export default function BrowserInfoPage() {
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">BrowserInfo</h1>
