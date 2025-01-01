@@ -13,11 +13,6 @@ interface BrowserInfo {
     lat?: number
     lon?: number
   }
-  ipInfo?: {
-    forwardedFor: string
-    realIP: string
-    remoteAddr: string
-  }
   browserInfo?: {
     browser: {
       name?: string
@@ -48,17 +43,12 @@ interface BrowserInfo {
   }
 }
 
-export default function BrowserInfoPage() {
-  const [browserInfo, setBrowserInfo] = useState<BrowserInfo>({})
+export default function BrowserInfoPageV2() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const getBrowserInfo = async () => {
       try {
-        // 获取IP信息
-        const ipResponse = await fetch('/api/ip')
-        const ipInfo = await ipResponse.json()
-
         // 解析UA信息
         const parser = new UAParser.UAParser()
         const uaResult = parser.getResult()
@@ -89,7 +79,6 @@ export default function BrowserInfoPage() {
 
         const info: BrowserInfo = {
           location: {},
-          ipInfo: ipInfo,
           browserInfo: {
             browser: uaResult.browser,
             os: uaResult.os,
@@ -122,52 +111,7 @@ export default function BrowserInfoPage() {
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">浏览器信息</h1>
       <Card className="p-4">
-        {loading ? (
-          <div>加载中...</div>
-        ) : (
-          <div className="space-y-4">
-            <div>
-              <h2 className="text-xl font-semibold mb-2">浏览器信息</h2>
-              <p>
-                浏览器: {browserInfo.browserInfo?.browser.name}{' '}
-                {browserInfo.browserInfo?.browser.version}
-              </p>
-              <p>
-                操作系统: {browserInfo.browserInfo?.os.name}{' '}
-                {browserInfo.browserInfo?.os.version}
-              </p>
-              <p>
-                设备: {browserInfo.browserInfo?.device.vendor}{' '}
-                {browserInfo.browserInfo?.device.model}
-              </p>
-            </div>
-
-            <div>
-              <h2 className="text-xl font-semibold mb-2">IP信息</h2>
-              <p>X-Forwarded-For: {browserInfo.ipInfo?.forwardedFor}</p>
-              <p>X-Real-IP: {browserInfo.ipInfo?.realIP}</p>
-              <p>Remote Address: {browserInfo.ipInfo?.remoteAddr}</p>
-            </div>
-
-            <div>
-              <h2 className="text-xl font-semibold mb-2">设备信息</h2>
-              <p>网络类型: {browserInfo.deviceInfo?.network}</p>
-              <p>
-                电池状态:{' '}
-                {browserInfo.deviceInfo?.battery?.charging
-                  ? '充电中'
-                  : '使用电池'}
-                ({browserInfo.deviceInfo?.battery?.level?.toFixed(0)}%)
-              </p>
-              <p>语言设置: {browserInfo.deviceInfo?.language}</p>
-              <p>时区: {browserInfo.deviceInfo?.timezone}</p>
-              <p>
-                屏幕分辨率: {browserInfo.deviceInfo?.screen?.width} x{' '}
-                {browserInfo.deviceInfo?.screen?.height}
-              </p>
-            </div>
-          </div>
-        )}
+        {loading ? <div>加载中...</div> : <div></div>}
       </Card>
     </div>
   )

@@ -23,7 +23,20 @@ export const metadata: Metadata = {
 
 
 当前项目是一个react+typescript+next.js+tailwind+shadcn-ui+radix-ui 项目,
-在 src/app/dashboard/browser/info/有一个 page.tsx,
-帮我在这个文件中的 <Card className="p-4"></Card> 组建中添加一些获取访问当前网页的用户信息的功能,
-我希望尽可能多的信息,然后现实到 <Card className="p-4"></Card> 组建中,
-请帮我完成这个功能,并且请使用中文注释
+在 src/app/dashboard/browser/info-v2/page.tsx 中,
+帮我在这个文件中的 <Card className="p-4"></Card> 组建中添加一些信息:
+1.访问者的浏览器信息,包括浏览器型号,版本号,操作系统,设备型号等
+2.访问者的ip地址,包括
+ X-Forwarded-For: 用户的真实 IP 地址。当用户通过代理服务器或 CDN 访问时，原始 IP 地址会被包含在这个头部中。
+ X-Real-IP: 某些代理服务器可能会使用这个头部传递用户的真实 IP 地址。
+3.访问者的地理位置(后期处理先暂定为空)
+4.访问者的网络类型,是否为移动网络或者wifi
+5.访问者的设备信息,包括设备类型,手机,平板电脑,台式机等,还有电池状态,是否是充电状态,是否为电源或者电池
+6.访问者的语言设置
+7.访问者的时区设置
+8.访问者的屏幕分辨率
+9.访问者的cookie信息
+10.访问者的设备信息
+11.访问者的移动状态,是否在移动或者静止
+注意
+在本项目中新建route获取不要访问外部网络内容.地理位置暂不考虑

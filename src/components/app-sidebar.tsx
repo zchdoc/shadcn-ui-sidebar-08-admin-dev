@@ -146,6 +146,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             url: '/dashboard/browser/info',
           },
           {
+            title: 'BrowserV2',
+            url: '/dashboard/browser/info-v2',
+          },
+          {
             title: 'History',
             url: '/dashboard/history',
           },
