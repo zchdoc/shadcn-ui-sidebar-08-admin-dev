@@ -477,14 +477,14 @@ export default function ChromeBookmarkPage() {
               variant="outline"
               className="whitespace-nowrap"
             >
-              加载 Bookmarks
+              加载本地 Bookmarks
             </Button>
             <Button
               onClick={openDefaultBookmarksFolder}
               variant="outline"
               className="whitespace-nowrap"
             >
-              打开书签文件夹
+              打开本地书签文件夹
             </Button>
             <Input
               type="file"
@@ -499,8 +499,10 @@ export default function ChromeBookmarkPage() {
               variant="outline"
               className="whitespace-nowrap"
             >
-              选择 Bookmarks 文件
+              上传 Bookmarks 文件
             </Button>
+            {/* 使用shadcn-ui组建 添加一个简要的说明 仅在本地调试有效 */}
+            <p className="text-muted-foreground">(三个功能仅在本地调试有效)</p>
           </div>
         </div>
         {/* Main Content Area */}
