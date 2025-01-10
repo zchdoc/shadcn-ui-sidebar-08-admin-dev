@@ -218,7 +218,20 @@ export function BookmarkContent({
                   {settings.showCardTitle && (
                     <CardTitle className="text-base">
                       <div className="flex items-center justify-between">
-                        <span className="truncate">{bookmark.title}</span>
+                        <HoverCard>
+                          <HoverCardTrigger>
+                            <span className="truncate cursor-pointer">
+                              {bookmark.title}
+                            </span>
+                          </HoverCardTrigger>
+                          <HoverCardContent>
+                            <Card>
+                              <CardContent className="p-2">
+                                {bookmark.title}
+                              </CardContent>
+                            </Card>
+                          </HoverCardContent>
+                        </HoverCard>
                         <Button
                           variant="ghost"
                           size="icon"
@@ -241,11 +254,17 @@ export function BookmarkContent({
                       {settings.showHoverCard ? (
                         <HoverCard>
                           <HoverCardTrigger>
-                            <p className="text-sm text-muted-foreground truncate">
-                              书签说明
+                            <p className="text-sm text-muted-foreground truncate cursor-pointer">
+                              {bookmark.url}
                             </p>
                           </HoverCardTrigger>
-                          <HoverCardContent>这是书签说明</HoverCardContent>
+                          <HoverCardContent>
+                            <Card>
+                              <CardContent className="p-2">
+                                {bookmark.url}
+                              </CardContent>
+                            </Card>
+                          </HoverCardContent>
                         </HoverCard>
                       ) : (
                         <p className="text-sm text-muted-foreground truncate">
@@ -258,9 +277,26 @@ export function BookmarkContent({
               )}
               {settings.showCardContent && (
                 <CardContent className="p-4 pt-0">
-                  <p className="text-sm text-muted-foreground truncate">
-                    {bookmark.url}
-                  </p>
+                  {settings.showHoverCard ? (
+                    <HoverCard>
+                      <HoverCardTrigger>
+                        <p className="text-sm text-muted-foreground truncate cursor-pointer">
+                          {bookmark.url}
+                        </p>
+                      </HoverCardTrigger>
+                      <HoverCardContent>
+                        <Card>
+                          <CardContent className="p-2">
+                            {bookmark.url}
+                          </CardContent>
+                        </Card>
+                      </HoverCardContent>
+                    </HoverCard>
+                  ) : (
+                    <p className="text-sm text-muted-foreground truncate">
+                      {bookmark.url}
+                    </p>
+                  )}
                 </CardContent>
               )}
             </Card>
