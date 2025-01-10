@@ -2,8 +2,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { BookmarkSidebarChrome } from '@/components/bookmark/bookmark-sidebar-chrome'
 import { BookmarkContent } from '@/components/bookmark/bookmark-content'
-import { Button } from '@/components/ui/button'
-import { format } from 'date-fns'
 import { Input } from '@/components/ui/input'
 import {
   ToastProvider,
@@ -12,6 +10,8 @@ import {
   ToastTitle,
   ToastDescription,
 } from '@/components/ui/toast'
+import { LocalDebugButtons } from '@/components/bookmark/local-debug-buttons'
+import { format } from 'date-fns'
 
 interface BookmarkGroup {
   title: string
@@ -320,26 +320,6 @@ export default function ChromeBookmarkPage() {
     }
   }
 
-  // 获取当前选中书签组的内容
-  const getCurrentBookmarks = useCallback(() => {
-    if (selectedGroups.length === 0)
-      return { links: [], title: 'Select a group' }
-
-    let currentGroup = bookmarkData[selectedGroups[0]]
-    let currentPath = selectedGroups[0]
-
-    // 遍历选中的路径以获取最终选中的书签组
-    for (let i = 1; i < selectedGroups.length; i++) {
-      if (!currentGroup?.children) break
-      currentGroup = currentGroup.children[selectedGroups[i]]
-      currentPath += ' > ' + selectedGroups[i]
-    }
-
-    return {
-      links: currentGroup?.links || [],
-      title: currentPath,
-    }
-  }, [selectedGroups, bookmarkData])
   const handleFileUpload = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -424,137 +404,57 @@ export default function ChromeBookmarkPage() {
     }
   }
 
-  const handleUploadClick = async () => {
-    try {
-      // 使用 userAgent 替代已弃用的 platform API
-      const userAgent = window.navigator.userAgent.toLowerCase()
-      const isMac = userAgent.includes('mac')
-      const isWindows = userAgent.includes('win')
-
-      if (isMac) {
-        const homeDirMac = process.env.NEXT_PUBLIC_HOME_DIR_MAC || ''
-        console.info(`Home directory: ${homeDirMac}`)
-        const command = `open -R "${homeDirMac}/Library/Application Support/Google/Chrome/Default/Bookmarks"`
-        await fetch('/api/system/open-folder', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ command }),
-        })
-      } else if (isWindows) {
-        const homeDirWin = process.env.NEXT_PUBLIC_HOME_DIR_WIN || ''
-        console.info(`Home directory: ${homeDirWin}`)
-        const command = `explorer /select,"${homeDirWin}\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Bookmarks"`
-        await fetch('/api/system/open-folder', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ command }),
-        })
-      } else {
-        setToast({
-          open: true,
-          variant: 'error',
-          title: 'Unsupported',
-          description: 'Unsupported operating system',
-        })
-      }
-
-      // 触发文件选择器
-      if (fileInputRef.current) {
-        fileInputRef.current.click()
-      }
-    } catch (error) {
-      console.error('Error opening bookmarks file:', error)
-    }
+  const handleUploadClick = () => {
+    fileInputRef.current?.click()
   }
+
   return (
-    <ToastProvider>
-      <div className="h-full flex flex-col">
-        {toast && (
-          <Toast
-            open={toast.open}
-            onOpenChange={(open) => {
-              if (!open) setToast(null)
-            }}
-          >
-            <div>
-              <ToastTitle>{toast.title}</ToastTitle>
-              <ToastDescription>{toast.description}</ToastDescription>
-            </div>
-          </Toast>
-        )}
-        <ToastViewport />
-        {/* Fixed Header */}
-        <div className="flex-none p-8 pb-0">
-          <div className="flex items-center justify-between">
-            <div>
-              {/*Upload your Chrome bookmarks JSON file to view and manage them*/}
-              <p className="text-muted-foreground" />
-            </div>
-          </div>
-          <div className="flex items-center gap-4 mb-4">
-            <Button
-              onClick={handleLoadBookmarks}
-              variant="outline"
-              className="whitespace-nowrap"
-            >
-              加载本地 Bookmarks
-            </Button>
-            <Button
-              onClick={openDefaultBookmarksFolder}
-              variant="outline"
-              className="whitespace-nowrap"
-            >
-              打开本地书签文件夹
-            </Button>
-            <Input
-              type="file"
-              ref={fileInputRef}
-              onChange={handleFileUpload}
-              accept=".json"
-              className="hidden"
-              placeholder="上传书签文件"
+    <div className="h-full flex flex-col">
+      <LocalDebugButtons
+        onLoadLocalBookmarks={handleLoadBookmarks}
+        onOpenLocalFolder={openDefaultBookmarksFolder}
+        onUploadBookmarks={handleUploadClick}
+      />
+      <div className="flex-1 px-8 py-4 min-h-0">
+        <div className="flex gap-4 h-full">
+          <div className="w-64 flex-none">
+            <BookmarkSidebarChrome
+              bookmarkData={bookmarkData}
+              selectedGroups={selectedGroups}
+              onGroupChange={setSelectedGroups}
             />
-            <Button
-              onClick={handleUploadClick}
-              variant="outline"
-              className="whitespace-nowrap"
-            >
-              上传 Bookmarks 文件
-            </Button>
-            {/* 使用shadcn-ui组建 添加一个简要的说明 仅在本地调试有效 */}
-            <p className="text-muted-foreground">(三个功能仅在本地调试有效)</p>
           </div>
-        </div>
-        {/* Main Content Area */}
-        <div className="flex-1 p-8 pt-4 min-h-0">
-          {' '}
-          {/* min-h-0 is crucial for nested flex scroll */}
-          <div className="flex gap-4 h-full">
-            {/* Sidebar - fixed width */}
-            <div className="w-64 flex-none">
-              <BookmarkSidebarChrome
-                bookmarkData={bookmarkData}
-                selectedGroups={selectedGroups}
-                onGroupChange={setSelectedGroups}
-              />
-            </div>
-            {/* Content - fills remaining space */}
-            <div className="flex-1 min-w-0">
-              {' '}
-              {/* min-w-0 prevents flex child from overflowing */}
-              <BookmarkContent
-                bookmarks={getCurrentBookmarks().links}
-                groupTitle={getCurrentBookmarks().title}
-                cardsPerRow={6}
-              />
-            </div>
+          <div className="flex-1 min-w-0">
+            <BookmarkContent
+              bookmarks={
+                selectedGroups.length > 1
+                  ? bookmarkData[selectedGroups[0]]?.children?.[
+                      selectedGroups[1]
+                    ]?.links || []
+                  : bookmarkData[selectedGroups[0]]?.links || []
+              }
+              groupTitle={selectedGroups.join(' > ')}
+              cardsPerRow={6}
+            />
           </div>
         </div>
       </div>
-    </ToastProvider>
+      <ToastProvider>
+        {toast && (
+          <Toast open={toast.open} onOpenChange={() => setToast(null)}>
+            <ToastTitle>{toast.title}</ToastTitle>
+            <ToastDescription>{toast.description}</ToastDescription>
+          </Toast>
+        )}
+        <ToastViewport />
+      </ToastProvider>
+      <Input
+        type="file"
+        accept=".json"
+        onChange={handleFileUpload}
+        className="hidden"
+        ref={fileInputRef}
+      />
+    </div>
   )
 }

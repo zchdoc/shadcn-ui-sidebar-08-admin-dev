@@ -22,12 +22,12 @@ export function HoverText({
 
   return (
     <HoverCard>
-      <HoverCardTrigger>
+      <HoverCardTrigger className="w-full">
         <p className={`truncate cursor-pointer ${className}`}>{text}</p>
       </HoverCardTrigger>
-      <HoverCardContent>
+      <HoverCardContent align="start" className="w-[400px]">
         <Card>
-          <CardContent className="p-2">{text}</CardContent>
+          <CardContent className="p-2 break-all">{text}</CardContent>
         </Card>
       </HoverCardContent>
     </HoverCard>
