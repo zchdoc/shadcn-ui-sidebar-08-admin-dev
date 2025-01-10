@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/toast'
 import { LocalDebugButtons } from '@/components/bookmark/local-debug-buttons'
 import { format } from 'date-fns'
+import { motion } from 'framer-motion'
 
 interface BookmarkGroup {
   title: string
@@ -409,35 +410,58 @@ export default function ChromeBookmarkPage() {
   }
 
   return (
-    <div className="h-full flex flex-col">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="h-full flex flex-col  from-background to-muted/50"
+    >
       <LocalDebugButtons
         onLoadLocalBookmarks={handleLoadBookmarks}
         onOpenLocalFolder={openDefaultBookmarksFolder}
         onUploadBookmarks={handleUploadClick}
       />
       <div className="flex-1 px-8 py-4 min-h-0">
-        <div className="flex gap-4 h-full">
-          <div className="w-64 flex-none">
-            <BookmarkSidebarChrome
-              bookmarkData={bookmarkData}
-              selectedGroups={selectedGroups}
-              onGroupChange={setSelectedGroups}
-            />
-          </div>
-          <div className="flex-1 min-w-0">
-            <BookmarkContent
-              bookmarks={
-                selectedGroups.length > 1
-                  ? bookmarkData[selectedGroups[0]]?.children?.[
-                      selectedGroups[1]
-                    ]?.links || []
-                  : bookmarkData[selectedGroups[0]]?.links || []
-              }
-              groupTitle={selectedGroups.join(' > ')}
-              cardsPerRow={6}
-            />
-          </div>
-        </div>
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="flex gap-4 h-full"
+        >
+          <motion.div
+            initial={{ x: -20, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="w-64 flex-none"
+          >
+            <div className="rounded-lg  shadow-lg border border-border/50">
+              <BookmarkSidebarChrome
+                bookmarkData={bookmarkData}
+                selectedGroups={selectedGroups}
+                onGroupChange={setSelectedGroups}
+              />
+            </div>
+          </motion.div>
+          <motion.div
+            initial={{ x: 20, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ delay: 0.4 }}
+            className="flex-1 min-w-0"
+          >
+            <div className="h-full rounded-lg  shadow-lg border border-border/50">
+              <BookmarkContent
+                bookmarks={
+                  selectedGroups.length > 1
+                    ? bookmarkData[selectedGroups[0]]?.children?.[
+                        selectedGroups[1]
+                      ]?.links || []
+                    : bookmarkData[selectedGroups[0]]?.links || []
+                }
+                groupTitle={selectedGroups.join(' > ')}
+                cardsPerRow={6}
+              />
+            </div>
+          </motion.div>
+        </motion.div>
       </div>
       <ToastProvider>
         {toast && (
@@ -455,6 +479,6 @@ export default function ChromeBookmarkPage() {
         className="hidden"
         ref={fileInputRef}
       />
-    </div>
+    </motion.div>
   )
 }
