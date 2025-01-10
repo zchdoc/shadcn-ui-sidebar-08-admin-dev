@@ -84,40 +84,35 @@ export default function ChromeBookmarkPage() {
   return (
     <div className="h-full flex flex-col">
       {/* Fixed Header */}
-      <div className="flex-none p-8 pb-0">
+      <div className="flex-none px-4 pb-0">
         <div className="flex items-center justify-between">
           <div>
             <p className="text-muted-foreground"></p>
           </div>
         </div>
-        <div className="flex items-center space-x-2 mt-4">
-          <Input
-            type="file"
-            accept=".json"
-            onChange={handleFileUpload}
-            className="w-full"
-          />
-        </div>
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-1 p-8 pt-4 min-h-0">
-        {' '}
-        {/* min-h-0 is crucial for nested flex scroll */}
+      <div className="flex-1 px-4 pt-4 pb-6 min-h-0">
         <div className="flex gap-4 h-full">
-          {/* Sidebar - fixed width */}
-          <div className="w-64 flex-none">
-            <BookmarkSidebar
-              bookmarkData={bookmarkData}
-              selectedGroup={selectedGroup}
-              onGroupChange={setSelectedGroup}
-            />
-          </div>
-
           {/* Content - fills remaining space */}
-          <div className="flex-1 min-w-0">
-            {' '}
-            {/* min-w-0 prevents flex child from overflowing */}
+          <div className="flex-1 min-w-0 flex flex-col gap-2 p-2">
+            {/* Top controls row */}
+            <div className="flex gap-4 items-center">
+              <div className="w-64">
+                <BookmarkSidebar
+                  bookmarkData={bookmarkData}
+                  selectedGroup={selectedGroup}
+                  onGroupChange={setSelectedGroup}
+                />
+              </div>
+              <Input
+                type="file"
+                accept=".json"
+                onChange={handleFileUpload}
+                className="flex-1"
+              />
+            </div>
             <BookmarkContent
               bookmarks={bookmarkData[selectedGroup]?.links || []}
               groupTitle={
