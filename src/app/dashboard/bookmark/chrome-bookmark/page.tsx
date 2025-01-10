@@ -471,7 +471,7 @@ export default function ChromeBookmarkPage() {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="h-full flex flex-col  from-background to-muted/50"
+      className="h-full flex flex-col"
     >
       <LocalDebugButtons
         onLoadLocalBookmarks={handleLoadBookmarks}
@@ -491,7 +491,7 @@ export default function ChromeBookmarkPage() {
             transition={{ delay: 0.3 }}
             className="w-64 flex-none"
           >
-            <div className="rounded-lg  shadow-lg border border-border/50">
+            <div className="rounded-lg ring-1 ring-border/20">
               <BookmarkSidebarChrome
                 bookmarkData={bookmarkData}
                 selectedGroups={selectedGroups}
@@ -505,7 +505,7 @@ export default function ChromeBookmarkPage() {
             transition={{ delay: 0.4 }}
             className="flex-1 min-w-0"
           >
-            <div className="h-full rounded-lg  shadow-lg border border-border/50">
+            <div className="h-full rounded-lg ring-1 ring-border/20">
               <BookmarkContent
                 bookmarks={getSelectedBookmarks()}
                 groupTitle={selectedGroups.join(' > ')}

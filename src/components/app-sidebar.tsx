@@ -142,12 +142,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         isActive: false,
         items: [
           {
-            title: 'Browser',
-            url: '/dashboard/browser/info',
+            title: 'BrowserV1',
+            url: '/dashboard/browser/info-v1',
           },
           {
-            title: 'BrowserV2',
-            url: '/dashboard/browser/info-v2',
+            title: 'Browser',
+            url: '/dashboard/browser/info',
           },
           {
             title: 'History',
