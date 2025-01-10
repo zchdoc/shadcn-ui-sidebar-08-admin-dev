@@ -87,13 +87,11 @@ export function BookmarkSettings({
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="1">1</SelectItem>
-              <SelectItem value="2">2</SelectItem>
-              <SelectItem value="3">3</SelectItem>
-              <SelectItem value="4">4</SelectItem>
-              <SelectItem value="5">5</SelectItem>
-              <SelectItem value="6">6</SelectItem>
-              <SelectItem value="8">8</SelectItem>
+              {Array.from({ length: 20 }, (_, index) => (
+                <SelectItem key={index} value={(index + 1).toString()}>
+                  {index + 1}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>

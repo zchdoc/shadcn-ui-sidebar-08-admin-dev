@@ -18,7 +18,7 @@ export function LocalDebugButtons({
   }
 
   return (
-    <div className="flex-none px-8 py-4 border-b">
+    <div className="flex-none px-8 py-4">
       <div className="flex items-center gap-4">
         <div className="flex gap-2">
           <Button variant="outline" onClick={onLoadLocalBookmarks}>
