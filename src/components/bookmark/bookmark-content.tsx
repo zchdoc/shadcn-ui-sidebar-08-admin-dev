@@ -33,6 +33,8 @@ const gridCols = {
   3: 'grid-cols-3',
   4: 'grid-cols-4',
   6: 'grid-cols-6',
+  8: 'grid-cols-8',
+  10: 'grid-cols-10',
 } as const
 
 type GridColsKey = keyof typeof gridCols
@@ -119,8 +121,8 @@ export function BookmarkContent({
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    {([1, 2, 3, 4, 6] as const).map((cols) => (
-                      <SelectItem key={cols} value={cols.toString()}>
+                    {Object.keys(gridCols).map((cols) => (
+                      <SelectItem key={cols} value={cols}>
                         {cols}
                       </SelectItem>
                     ))}
@@ -140,9 +142,13 @@ export function BookmarkContent({
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="2">小</SelectItem>
-                    <SelectItem value="4">中</SelectItem>
-                    <SelectItem value="6">大</SelectItem>
+                    <SelectItem value="1">1</SelectItem>
+                    <SelectItem value="2">2</SelectItem>
+                    <SelectItem value="3">3</SelectItem>
+                    <SelectItem value="4">4</SelectItem>
+                    <SelectItem value="5">5</SelectItem>
+                    <SelectItem value="6">6</SelectItem>
+                    <SelectItem value="8">8</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -236,13 +242,10 @@ export function BookmarkContent({
                         <HoverCard>
                           <HoverCardTrigger>
                             <p className="text-sm text-muted-foreground truncate">
-                              {bookmark.url}
+                              书签说明
                             </p>
                           </HoverCardTrigger>
-                          <HoverCardContent>
-                            The React Framework – created and maintained by
-                            @vercel.
-                          </HoverCardContent>
+                          <HoverCardContent>这是书签说明</HoverCardContent>
                         </HoverCard>
                       ) : (
                         <p className="text-sm text-muted-foreground truncate">
