@@ -6,7 +6,7 @@ import {
   CardDescription,
 } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { ExternalLink } from 'lucide-react'
+import { ExternalLink, Save } from 'lucide-react'
 import Link from 'next/link'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '../ui/hover-card'
 import {
@@ -18,12 +18,34 @@ import {
 } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 interface BookmarkContentProps {
   bookmarks: Array<{ title: string; url: string }>
   groupTitle: string
-  cardsPerRow?: 1 | 2 | 3 | 4 | 6 // Number of cards per row
+  // Number of cards per row
+  cardsPerRow?: 1 | 2 | 3 | 4 | 6 | 8
+}
+
+const gridCols = {
+  1: 'grid-cols-1',
+  2: 'grid-cols-2',
+  3: 'grid-cols-3',
+  4: 'grid-cols-4',
+  6: 'grid-cols-6',
+} as const
+
+type GridColsKey = keyof typeof gridCols
+
+// 定义设置类型
+interface BookmarkSettings {
+  cardsPerRow: GridColsKey
+  gap: number
+  showCardHeader: boolean
+  showCardTitle: boolean
+  showCardDescription: boolean
+  showHoverCard: boolean
+  showCardContent: boolean
 }
 
 export function BookmarkContent({
@@ -31,24 +53,36 @@ export function BookmarkContent({
   groupTitle,
   cardsPerRow = 2, // Default to 2 cards per row
 }: BookmarkContentProps) {
-  // 状态管理
-  const [currentCardsPerRow, setCurrentCardsPerRow] =
-    useState<number>(cardsPerRow)
-  const [gap, setGap] = useState<number>(4)
-  const [showCardHeader, setShowCardHeader] = useState(true)
-  const [showCardTitle, setShowCardTitle] = useState(true)
-  const [showCardDescription, setShowCardDescription] = useState(true)
-  const [showHoverCard, setShowHoverCard] = useState(true)
-  const [showCardContent, setShowCardContent] = useState(true)
+  // 从 localStorage 获取保存的设置
+  const loadSettings = (): BookmarkSettings => {
+    const savedSettings = localStorage.getItem('bookmarkSettings')
+    if (savedSettings) {
+      return JSON.parse(savedSettings)
+    }
+    return {
+      cardsPerRow: (cardsPerRow || 2) as GridColsKey,
+      gap: 4,
+      showCardHeader: true,
+      showCardTitle: true,
+      showCardDescription: true,
+      showHoverCard: true,
+      showCardContent: true,
+    }
+  }
 
-  // Calculate grid columns based on cardsPerRow
-  const gridCols = {
-    1: 'grid-cols-1',
-    2: 'grid-cols-2',
-    3: 'grid-cols-3',
-    4: 'grid-cols-4',
-    6: 'grid-cols-6',
-  }[currentCardsPerRow]
+  // 状态管理
+  const [settings, setSettings] = useState<BookmarkSettings>(loadSettings)
+
+  // 保存设置到 localStorage
+  const saveSettings = () => {
+    localStorage.setItem('bookmarkSettings', JSON.stringify(settings))
+  }
+
+  // 组件加载时从 localStorage 读取设置
+  useEffect(() => {
+    const savedSettings = loadSettings()
+    setSettings(savedSettings)
+  }, [])
 
   return (
     <Card className="h-full flex flex-col">
@@ -56,26 +90,40 @@ export function BookmarkContent({
         <CardTitle className="text-lg">{groupTitle}</CardTitle>
         <CardDescription>
           <div className="flex flex-col space-y-4">
-            <div>{bookmarks.length} bookmarks</div>
+            <div className="flex items-center justify-between">
+              <span>{bookmarks.length} bookmarks</span>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={saveSettings}
+                className="flex items-center gap-2"
+              >
+                <Save className="h-4 w-4" />
+                保存设置
+              </Button>
+            </div>
 
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
                 <Label>每行卡片数:</Label>
                 <Select
-                  value={currentCardsPerRow.toString()}
+                  value={settings.cardsPerRow.toString()}
                   onValueChange={(value) =>
-                    setCurrentCardsPerRow(Number(value))
+                    setSettings({
+                      ...settings,
+                      cardsPerRow: parseInt(value) as GridColsKey,
+                    })
                   }
                 >
                   <SelectTrigger className="w-20">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="1">1</SelectItem>
-                    <SelectItem value="2">2</SelectItem>
-                    <SelectItem value="3">3</SelectItem>
-                    <SelectItem value="4">4</SelectItem>
-                    <SelectItem value="6">6</SelectItem>
+                    {([1, 2, 3, 4, 6] as const).map((cols) => (
+                      <SelectItem key={cols} value={cols.toString()}>
+                        {cols}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
@@ -83,8 +131,10 @@ export function BookmarkContent({
               <div className="flex items-center gap-2">
                 <Label>卡片间距:</Label>
                 <Select
-                  value={gap.toString()}
-                  onValueChange={(value) => setGap(Number(value))}
+                  value={settings.gap.toString()}
+                  onValueChange={(value) =>
+                    setSettings({ ...settings, gap: Number(value) })
+                  }
                 >
                   <SelectTrigger className="w-20">
                     <SelectValue />
@@ -101,36 +151,46 @@ export function BookmarkContent({
             <div className="flex flex-wrap gap-4">
               <div className="flex items-center gap-2">
                 <Switch
-                  checked={showCardHeader}
-                  onCheckedChange={setShowCardHeader}
+                  checked={settings.showCardHeader}
+                  onCheckedChange={(checked) =>
+                    setSettings({ ...settings, showCardHeader: checked })
+                  }
                 />
                 <Label>显示卡片头部</Label>
               </div>
               <div className="flex items-center gap-2">
                 <Switch
-                  checked={showCardTitle}
-                  onCheckedChange={setShowCardTitle}
+                  checked={settings.showCardTitle}
+                  onCheckedChange={(checked) =>
+                    setSettings({ ...settings, showCardTitle: checked })
+                  }
                 />
                 <Label>显示标题</Label>
               </div>
               <div className="flex items-center gap-2">
                 <Switch
-                  checked={showCardDescription}
-                  onCheckedChange={setShowCardDescription}
+                  checked={settings.showCardDescription}
+                  onCheckedChange={(checked) =>
+                    setSettings({ ...settings, showCardDescription: checked })
+                  }
                 />
                 <Label>显示描述</Label>
               </div>
               <div className="flex items-center gap-2">
                 <Switch
-                  checked={showHoverCard}
-                  onCheckedChange={setShowHoverCard}
+                  checked={settings.showHoverCard}
+                  onCheckedChange={(checked) =>
+                    setSettings({ ...settings, showHoverCard: checked })
+                  }
                 />
                 <Label>显示悬浮卡片</Label>
               </div>
               <div className="flex items-center gap-2">
                 <Switch
-                  checked={showCardContent}
-                  onCheckedChange={setShowCardContent}
+                  checked={settings.showCardContent}
+                  onCheckedChange={(checked) =>
+                    setSettings({ ...settings, showCardContent: checked })
+                  }
                 />
                 <Label>显示内容</Label>
               </div>
@@ -139,15 +199,17 @@ export function BookmarkContent({
         </CardDescription>
       </CardHeader>
       <CardContent className="flex-1 overflow-y-auto">
-        <div className={`grid ${gridCols} gap-${gap}`}>
+        <div
+          className={`grid ${gridCols[settings.cardsPerRow]} gap-${settings.gap}`}
+        >
           {bookmarks.map((bookmark) => (
             <Card
               key={bookmark.title}
               className="group hover:shadow-lg transition-all border-none bg-muted/50"
             >
-              {showCardHeader && (
+              {settings.showCardHeader && (
                 <CardHeader className="p-4">
-                  {showCardTitle && (
+                  {settings.showCardTitle && (
                     <CardTitle className="text-base">
                       <div className="flex items-center justify-between">
                         <span className="truncate">{bookmark.title}</span>
@@ -168,9 +230,9 @@ export function BookmarkContent({
                       </div>
                     </CardTitle>
                   )}
-                  {showCardDescription && (
+                  {settings.showCardDescription && (
                     <CardDescription className="text-sm text-muted-foreground">
-                      {showHoverCard ? (
+                      {settings.showHoverCard ? (
                         <HoverCard>
                           <HoverCardTrigger>
                             <p className="text-sm text-muted-foreground truncate">
@@ -191,7 +253,7 @@ export function BookmarkContent({
                   )}
                 </CardHeader>
               )}
-              {showCardContent && (
+              {settings.showCardContent && (
                 <CardContent className="p-4 pt-0">
                   <p className="text-sm text-muted-foreground truncate">
                     {bookmark.url}

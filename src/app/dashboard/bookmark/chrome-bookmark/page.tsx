@@ -44,7 +44,7 @@ export default function ChromeBookmarkPage() {
   const checkAndSetDefaultSubgroup = useCallback(
     (data: Record<string, BookmarkGroup>) => {
       const defaultGroup = '书签栏'
-      const defaultSubgroup = 'acollect'
+      const defaultSubgroup = 'zai'
 
       if (data[defaultGroup]?.children?.[defaultSubgroup]) {
         setSelectedGroups([defaultGroup, defaultSubgroup])
