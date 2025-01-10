@@ -31,7 +31,7 @@ export default function ChromeBookmarkPage() {
   const [bookmarkData, setBookmarkData] = useState<
     Record<string, BookmarkGroup>
   >({})
-  const [selectedGroups, setSelectedGroups] = useState<string[]>([])
+  const [selectedGroups, setSelectedGroups] = useState<string[]>(['书签栏'])
   const [toast, setToast] = useState<{
     open: boolean
     variant: 'success' | 'error'
@@ -39,6 +39,28 @@ export default function ChromeBookmarkPage() {
     description: string
   } | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+
+  // 添加检查默认二级书签的函数
+  const checkAndSetDefaultSubgroup = useCallback(
+    (data: Record<string, BookmarkGroup>) => {
+      const defaultGroup = '书签栏'
+      const defaultSubgroup = 'acollect'
+
+      if (data[defaultGroup]?.children?.[defaultSubgroup]) {
+        setSelectedGroups([defaultGroup, defaultSubgroup])
+      } else {
+        setSelectedGroups([defaultGroup])
+        setToast({
+          open: true,
+          variant: 'error',
+          title: '提示',
+          description: '默认节点 acollect 不存在',
+        })
+      }
+    },
+    []
+  )
+
   // 使用 useCallback 包裹 processBookmarks 函数
   const processBookmarks = useCallback(
     (bookmarks: ChromeBookmark, category: string = '') => {
@@ -94,6 +116,8 @@ export default function ChromeBookmarkPage() {
               chromeBookmarks.roots.bookmark_bar
             )
             setBookmarkData(parsedBookmarks)
+            // 在设置书签数据后检查并设置默认的二级书签
+            checkAndSetDefaultSubgroup(parsedBookmarks)
           }
         }
       } catch (error) {
@@ -104,7 +128,7 @@ export default function ChromeBookmarkPage() {
     loadInitialBookmarks().then((r) =>
       console.info('loadInitialBookmarks-r:', r)
     )
-  }, [processBookmarks])
+  }, [processBookmarks, checkAndSetDefaultSubgroup])
 
   const handleLoadBookmarks = async () => {
     try {
@@ -118,7 +142,6 @@ export default function ChromeBookmarkPage() {
           const response = await fetch('/api/system/get-home-dir')
           const { homeDir } = await response.json()
           if (!homeDir) {
-            // throw new Error('Could not determine home directory')
             setToast({
               open: true,
               variant: 'error',
@@ -137,7 +160,6 @@ export default function ChromeBookmarkPage() {
           })
 
           if (!response2.ok) {
-            // throw new Error('Failed to read bookmarks file')
             setToast({
               open: true,
               variant: 'error',
@@ -154,6 +176,8 @@ export default function ChromeBookmarkPage() {
               chromeBookmarks.roots.bookmark_bar
             )
             setBookmarkData(parsedBookmarks)
+            // 在这里也添加检查默认二级书签的逻辑
+            checkAndSetDefaultSubgroup(parsedBookmarks)
             setToast({
               open: true,
               variant: 'success',
