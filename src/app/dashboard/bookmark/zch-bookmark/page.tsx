@@ -3,6 +3,14 @@
 import { useState } from 'react'
 import { BookmarkSidebar } from '@/components/bookmark/bookmark-sidebar'
 import { BookmarkContent } from '@/components/bookmark/bookmark-content'
+import { Button } from '@/components/ui/button'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
 
 interface BookmarkData {
   [key: string]: {
@@ -226,19 +234,51 @@ export default function BookmarkPage() {
   )
 
   return (
-    <div className="flex w-full h-full">
-      <div className="p-4 w-[280px] h-full">
-        <BookmarkSidebar
-          bookmarkData={bookmarkData}
-          selectedGroup={selectedGroup}
-          onGroupChange={setSelectedGroup}
-        />
+    <div className="h-full flex flex-col">
+      {/* 顶部区域 */}
+      <div className="flex-none px-4 py-4">
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-4">
+            <div className="w-[280px]">
+              <BookmarkSidebar
+                bookmarkData={bookmarkData}
+                selectedGroup={selectedGroup}
+                onGroupChange={setSelectedGroup}
+              />
+            </div>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="outline">查看当前分组内容</Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
+                <DialogHeader>
+                  <DialogTitle>
+                    {bookmarkData[selectedGroup].title} - 书签列表
+                  </DialogTitle>
+                </DialogHeader>
+                <div className="grid gap-4 py-4">
+                  {bookmarkData[selectedGroup].links.map((link, index) => (
+                    <div key={index} className="flex items-center gap-4">
+                      <div className="font-medium">{link.title}</div>
+                      <div className="text-sm text-muted-foreground">
+                        {link.url}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </DialogContent>
+            </Dialog>
+          </div>
+          <p className="text-sm text-muted-foreground" />
+        </div>
       </div>
-      <div className="p-4 flex-1 h-full">
+
+      {/* 主要内容区域 */}
+      <div className="flex-1 px-4 pb-6 min-h-0">
         <BookmarkContent
           bookmarks={bookmarkData[selectedGroup].links}
           groupTitle={bookmarkData[selectedGroup].title}
-          cardsPerRow={4}
+          cardsPerRow={6}
         />
       </div>
     </div>
