@@ -41,25 +41,62 @@ export default function ChromeBookmarkPage() {
   } | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  // 添加检查默认二级书签的函数
+  // 修改检查默认二级书签的函数
   const checkAndSetDefaultSubgroup = useCallback(
     (data: Record<string, BookmarkGroup>) => {
       const defaultGroup = '书签栏'
       const defaultSubgroup = 'zai'
 
+      // 如果存在默认的二级书签，则设置它
       if (data[defaultGroup]?.children?.[defaultSubgroup]) {
         setSelectedGroups([defaultGroup, defaultSubgroup])
       } else {
+        // 如果不存在，只设置一级书签
         setSelectedGroups([defaultGroup])
         setToast({
           open: true,
           variant: 'error',
           title: '提示',
-          description: '默认节点 acollect 不存在',
+          description: '默认节点 zai 不存在',
         })
       }
     },
     []
+  )
+
+  // 添加处理书签选择的函数
+  const handleGroupChange = useCallback(
+    (groups: string[]) => {
+      // 验证选择的书签路径是否有效
+      let currentLevel = bookmarkData
+      let isValidPath = true
+
+      // 遍历路径中的每一级
+      for (let i = 0; i < groups.length; i++) {
+        const group = groups[i]
+        if (i === 0) {
+          // 检查第一级
+          if (!currentLevel[group]) {
+            isValidPath = false
+            break
+          }
+          currentLevel = currentLevel[group].children || {}
+        } else {
+          // 检查后续级别
+          if (!currentLevel[group]) {
+            isValidPath = false
+            break
+          }
+          currentLevel = currentLevel[group].children || {}
+        }
+      }
+
+      // 如果路径有效，更新选择
+      if (isValidPath) {
+        setSelectedGroups(groups)
+      }
+    },
+    [bookmarkData]
   )
 
   // 使用 useCallback 包裹 processBookmarks 函数
@@ -409,6 +446,27 @@ export default function ChromeBookmarkPage() {
     fileInputRef.current?.click()
   }
 
+  // 修改 BookmarkContent 的 bookmarks 属性获取逻辑
+  const getSelectedBookmarks = useCallback(() => {
+    let current = bookmarkData
+    let currentLinks: Array<{ title: string; url: string }> = []
+
+    // 遍历选中的路径
+    for (let i = 0; i < selectedGroups.length; i++) {
+      const group = selectedGroups[i]
+      if (i === selectedGroups.length - 1) {
+        // 最后一级，获取链接
+        currentLinks = current[group]?.links || []
+      } else {
+        // 不是最后一级，继续遍历
+        if (!current[group]?.children) break
+        current = current[group].children!
+      }
+    }
+
+    return currentLinks
+  }, [bookmarkData, selectedGroups])
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -437,7 +495,7 @@ export default function ChromeBookmarkPage() {
               <BookmarkSidebarChrome
                 bookmarkData={bookmarkData}
                 selectedGroups={selectedGroups}
-                onGroupChange={setSelectedGroups}
+                onGroupChange={handleGroupChange}
               />
             </div>
           </motion.div>
@@ -449,13 +507,7 @@ export default function ChromeBookmarkPage() {
           >
             <div className="h-full rounded-lg  shadow-lg border border-border/50">
               <BookmarkContent
-                bookmarks={
-                  selectedGroups.length > 1
-                    ? bookmarkData[selectedGroups[0]]?.children?.[
-                        selectedGroups[1]
-                      ]?.links || []
-                    : bookmarkData[selectedGroups[0]]?.links || []
-                }
+                bookmarks={getSelectedBookmarks()}
                 groupTitle={selectedGroups.join(' > ')}
                 cardsPerRow={6}
               />
