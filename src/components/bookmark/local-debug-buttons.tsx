@@ -14,7 +14,21 @@ export function LocalDebugButtons({
   onUploadBookmarks,
 }: LocalDebugButtonsProps) {
   if (!isLocalEnvironment()) {
-    return null
+    return (
+      <div className="flex-none px-8 py-4">
+        <div className="flex items-center gap-4">
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={onLoadLocalBookmarks}>
+              复制命令行拷贝 Bookmarks
+            </Button>
+            {/* onLoadLocalBookmarksToServer */}
+            <Button variant="outline" onClick={alert}>
+              上传 Bookmarks 文件到服务端
+            </Button>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (
