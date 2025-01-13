@@ -13,6 +13,7 @@ import {
 import { LocalDebugButtons } from '@/components/bookmark/local-debug-buttons'
 import { format } from 'date-fns'
 import { motion } from 'framer-motion'
+import { Dialog, DialogContent } from '@/components/ui/dialog'
 
 interface BookmarkGroup {
   title: string
@@ -40,6 +41,8 @@ export default function ChromeBookmarkPage() {
     description: string
   } | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const [showCommandModal, setShowCommandModal] = useState(false)
+  const [cmdString, setCmdString] = useState('')
 
   // 修改检查默认二级书签的函数
   const checkAndSetDefaultSubgroup = useCallback(
@@ -445,7 +448,66 @@ export default function ChromeBookmarkPage() {
   const handleUploadClick = () => {
     fileInputRef.current?.click()
   }
-  const copyCmdLocalBookmarks = () => {}
+
+  const copyCmdLocalBookmarks = async () => {
+    // 检测操作系统
+    const userAgent = window.navigator.userAgent.toLowerCase()
+    const isMac = userAgent.includes('mac')
+    const isWindows = userAgent.includes('win')
+
+    // 根据操作系统设置不同的命令
+    let cmdString = ''
+    if (isMac) {
+      cmdString = `cp "$HOME/Library/Application Support/Google/Chrome/Default/Bookmarks" "$HOME/Downloads/Bookmarks.json"`
+    } else if (isWindows) {
+      cmdString = `copy "%LOCALAPPDATA%\\Google\\Chrome\\User Data\\Default\\Bookmarks" "%USERPROFILE%\\Desktop\\Bookmarks.json"`
+    } else {
+      setToast({
+        open: true,
+        variant: 'error',
+        title: '不支持的操作系统',
+        description: '目前只支持 macOS 和 Windows 系统',
+      })
+      return
+    }
+
+    try {
+      if (navigator.clipboard) {
+        await navigator.clipboard.writeText(cmdString)
+
+        setToast({
+          open: true,
+          variant: 'success',
+          title: '命令已复制',
+          description: '命令行已成功复制到剪贴板。',
+        })
+      } else {
+        // 对于不支持 Clipboard API 的浏览器使用备用方案
+        setShowCommandModal(true)
+        setCmdString(cmdString)
+
+        setToast({
+          open: true,
+          variant: 'error',
+          title: '不支持剪贴板API',
+          description: '请手动复制下方的命令。',
+        })
+      }
+    } catch (error) {
+      console.error('复制命令失败:', error)
+
+      setShowCommandModal(true)
+      setCmdString(cmdString)
+
+      setToast({
+        open: true,
+        variant: 'error',
+        title: '复制失败',
+        description: '复制命令时出现问题。',
+      })
+    }
+  }
+
   // 修改 BookmarkContent 的 bookmarks 属性获取逻辑
   const getSelectedBookmarks = useCallback(() => {
     let current = bookmarkData
@@ -532,6 +594,17 @@ export default function ChromeBookmarkPage() {
         className="hidden"
         ref={fileInputRef}
       />
+
+      {/* Command Modal */}
+      {showCommandModal && (
+        <Dialog open={true} onOpenChange={() => setShowCommandModal(false)}>
+          <DialogContent>
+            <div className="flex flex-col items-center justify-center space-y-4">
+              {cmdString}
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
     </motion.div>
   )
 }

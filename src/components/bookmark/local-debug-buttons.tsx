@@ -24,9 +24,7 @@ export function LocalDebugButtons({
               复制命令行拷贝 Bookmarks
             </Button>
             {/* onLoadLocalBookmarksToServer */}
-            <Button variant="outline" onClick={alert}>
-              上传 Bookmarks 文件到服务端
-            </Button>
+            <Button variant="outline">上传 Bookmarks 文件到服务端</Button>
           </div>
         </div>
       </div>

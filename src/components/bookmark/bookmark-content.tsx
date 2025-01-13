@@ -44,9 +44,11 @@ export function BookmarkContent({
 }: BookmarkContentProps) {
   // 从 localStorage 获取保存的设置
   const loadSettings = useCallback((): BookmarkSettings => {
-    const savedSettings = localStorage.getItem('bookmarkSettings')
-    if (savedSettings) {
-      return JSON.parse(savedSettings)
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const savedSettings = window.localStorage.getItem('bookmarkSettings')
+      if (savedSettings) {
+        return JSON.parse(savedSettings)
+      }
     }
     return {
       cardsPerRow: cardsPerRow || 2,

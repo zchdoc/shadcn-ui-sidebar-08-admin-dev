@@ -3,3 +3,22 @@ cp '/Users/zch/Library/Application Support/Google/Chrome/Default/Bookmarks' /Use
 
 
 cp "$HOME/Library/Application Support/Google/Chrome/Default/Bookmarks" "$HOME/Downloads/Bookmarks.json"
+
+win10 中如何把
+C:\Users\zchcpy\AppData\Local\Google\Chrome\User Data\Default\Bookmarks
+文件 复制 桌面并重命名为
+C:\Users\zchcpy\Desktop\Bookmarks.json
+
+copy "C:\Users\zchcpy\AppData\Local\Google\Chrome\User Data\Default\Bookmarks" "C:\Users\zchcpy\Desktop\Bookmarks.json"
+
+copy "%LOCALAPPDATA%\Google\Chrome\User Data\Default\Bookmarks" "%USERPROFILE%\Desktop\Bookmarks.json"
+copy "%USERPROFILE%\AppData\Local\Google\Chrome\User Data\Default\Bookmarks" "%USERPROFILE%\Desktop\Bookmarks.json"
+
+这两个命令都能在任何 Windows 电脑上运行，因为：
+
+%USERPROFILE% 会自动指向当前用户的主目录（例如 C:\Users\当前用户名）
+%LOCALAPPDATA% 会自动指向当前用户的本地应用数据目录（例如 C:\Users\当前用户名\AppData\Local）
+
+我更推荐使用第二种方式，因为它使用了更具体的环境变量 %LOCALAPPDATA%，这样更符合 Windows 的设计理念。无论是哪个用户在使用，这些环境变量都会自动指向正确的目录。
+
+
