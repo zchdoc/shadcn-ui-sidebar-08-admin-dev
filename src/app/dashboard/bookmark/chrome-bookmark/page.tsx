@@ -445,7 +445,7 @@ export default function ChromeBookmarkPage() {
   const handleUploadClick = () => {
     fileInputRef.current?.click()
   }
-
+  const copyCmdLocalBookmarks = () => {}
   // 修改 BookmarkContent 的 bookmarks 属性获取逻辑
   const getSelectedBookmarks = useCallback(() => {
     let current = bookmarkData
@@ -477,6 +477,7 @@ export default function ChromeBookmarkPage() {
         onLoadLocalBookmarks={handleLoadBookmarks}
         onOpenLocalFolder={openDefaultBookmarksFolder}
         onUploadBookmarks={handleUploadClick}
+        onCopyCmdLocalBookmarks={copyCmdLocalBookmarks}
       />
       <div className="flex-1 px-8 py-4 min-h-0">
         <motion.div

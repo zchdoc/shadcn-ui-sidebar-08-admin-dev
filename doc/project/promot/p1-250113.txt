@@ -1,0 +1,5 @@
+cp '/Users/zch/Library/Application Support/Google/Chrome/Default/Bookmarks' /Users/zch/Downloads/Bookmarks.json
+这是一条cmd命令用于拷贝文件,但是在不同的电脑上用户名是不同的怎么修改为不同的电脑都可以运行的命令
+
+
+cp "$HOME/Library/Application Support/Google/Chrome/Default/Bookmarks" "$HOME/Downloads/Bookmarks.json"

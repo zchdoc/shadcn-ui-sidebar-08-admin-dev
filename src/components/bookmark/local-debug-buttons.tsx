@@ -6,19 +6,21 @@ interface LocalDebugButtonsProps {
   onLoadLocalBookmarks: () => void
   onOpenLocalFolder: () => void
   onUploadBookmarks: () => void
+  onCopyCmdLocalBookmarks: () => void
 }
 
 export function LocalDebugButtons({
   onLoadLocalBookmarks,
   onOpenLocalFolder,
   onUploadBookmarks,
+  onCopyCmdLocalBookmarks,
 }: LocalDebugButtonsProps) {
   if (!isLocalEnvironment()) {
     return (
       <div className="flex-none px-8 py-4">
         <div className="flex items-center gap-4">
           <div className="flex gap-2">
-            <Button variant="outline" onClick={onLoadLocalBookmarks}>
+            <Button variant="outline" onClick={onCopyCmdLocalBookmarks}>
               复制命令行拷贝 Bookmarks
             </Button>
             {/* onLoadLocalBookmarksToServer */}
