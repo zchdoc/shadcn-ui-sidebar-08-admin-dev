@@ -85,23 +85,25 @@ export default function BrowserInfoPageV2() {
             </div>
 
             <div>
-              <h2 className="font-semibold">表单自动填充支持</h2>
+              <h2 className="font-semibold">硬件信息</h2>
+              <p>CPU核心数: {browserInfo?.deviceInfo?.cpu?.cores}</p>
+              <p>设备内存: {browserInfo?.deviceInfo?.memory?.deviceMemory}GB</p>
               <p>
-                支持自动填充:{' '}
-                {browserInfo?.deviceInfo?.autoFill?.supported ? '是' : '否'}
+                最大触控点:{' '}
+                {browserInfo?.deviceInfo?.capabilities?.maxTouchPoints}
               </p>
-              <div className="mt-2">
-                <p className="font-medium">可自动填充的字段:</p>
-                <ul className="list-disc pl-5">
-                  {browserInfo?.deviceInfo?.autoFill?.fields.map(
-                    (field, index) => (
-                      <li key={index}>
-                        {field.name}: {field.autoFillable ? '支持' : '不支持'}
-                      </li>
-                    )
-                  )}
-                </ul>
-              </div>
+            </div>
+
+            <div>
+              <h2 className="font-semibold">存储信息</h2>
+              <p>
+                存储配额:{' '}
+                {(browserInfo?.deviceInfo?.storage?.quota || 0) / 1024 / 1024}MB
+              </p>
+              <p>
+                已使用:{' '}
+                {(browserInfo?.deviceInfo?.storage?.usage || 0) / 1024 / 1024}MB
+              </p>
             </div>
           </div>
         )}

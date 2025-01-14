@@ -142,7 +142,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         isActive: false,
         items: [
           {
-            title: 'BrowserV1',
+            title: 'Browser-v1',
             url: '/dashboard/browser/info-v1',
           },
           {

@@ -40,30 +40,10 @@ export interface BrowserInfo {
       width?: number
       height?: number
     }
-    autoFill?: {
-      supported: boolean
-      fields: {
-        name: string
-        autoFillable: boolean
-      }[]
-    }
-    cpu?: {
-      cores: number
-    }
-    memory?: {
-      deviceMemory: number
-    }
-    capabilities?: {
-      maxTouchPoints: number
-    }
-    storage?: {
-      quota: number
-      usage: number
-    }
   }
 }
 
-export class BrowserInfoService {
+export class BrowserInfoServiceV1 {
   // 获取UA信息
   static getUAInfo() {
     const parser = new UAParser.UAParser()
@@ -129,34 +109,6 @@ export class BrowserInfoService {
     }
   }
 
-  // 检查表单自动填充支持情况
-  static checkAutoFillSupport() {
-    const testFields = [
-      { name: 'name', type: 'text', autocomplete: 'name' },
-      { name: 'email', type: 'email', autocomplete: 'email' },
-      { name: 'tel', type: 'tel', autocomplete: 'tel' },
-      { name: 'address', type: 'text', autocomplete: 'street-address' },
-    ]
-
-    const autoFillInfo = {
-      supported: 'autocomplete' in document.createElement('input'),
-      fields: [] as { name: string; autoFillable: boolean }[],
-    }
-
-    testFields.forEach((field) => {
-      const input = document.createElement('input')
-      input.type = field.type
-      input.setAttribute('autocomplete', field.autocomplete)
-
-      autoFillInfo.fields.push({
-        name: field.name,
-        autoFillable: input.getAttribute('autocomplete') === field.autocomplete,
-      })
-    })
-
-    return autoFillInfo
-  }
-
   // 获取所有浏览器信息
   static async getAllBrowserInfo(): Promise<BrowserInfo> {
     try {
@@ -166,7 +118,6 @@ export class BrowserInfoService {
       const ipData = await this.getIpInfo()
       const screenInfo = this.getScreenInfo()
       const localeInfo = this.getLocaleInfo()
-      const autoFillInfo = this.checkAutoFillSupport()
 
       return {
         ip: ipData.ip,
@@ -182,28 +133,11 @@ export class BrowserInfoService {
           language: localeInfo.language,
           timezone: localeInfo.timezone,
           screen: screenInfo,
-          autoFill: autoFillInfo,
-          cpu: { cores: navigator.hardwareConcurrency },
-          memory: {
-            deviceMemory:
-              (navigator as Navigator & { deviceMemory?: number })
-                .deviceMemory || 0,
-          },
-          capabilities: { maxTouchPoints: navigator.maxTouchPoints },
-          storage: await this.getStorageInfo(),
         },
       }
     } catch (error) {
       console.error('Error getting browser info:', error)
       throw error
     }
-  }
-
-  private static async getStorageInfo() {
-    if ('storage' in navigator && 'estimate' in navigator.storage) {
-      const { quota, usage } = await navigator.storage.estimate()
-      return { quota: quota || 0, usage: usage || 0 }
-    }
-    return { quota: 0, usage: 0 }
   }
 }
