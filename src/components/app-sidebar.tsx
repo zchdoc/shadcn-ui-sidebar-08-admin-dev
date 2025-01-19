@@ -79,11 +79,18 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   }
   // Sider bar items
   const data = {
-    user: {
-      name: 'Zch',
-      email: 'zghnzch@163.com',
-      avatar: '/avatars/shadcn.jpg',
-    },
+    user: [
+      {
+        name: 'Zch',
+        email: 'zghnzch@163.com',
+        avatar: '/avatars/shadcn.jpg',
+      },
+      {
+        name: 'Zch2',
+        email: 'zghnzch@163.com',
+        avatar: '/avatars/shadcn.jpg',
+      },
+    ],
     teams: [
       // Acme Inc
       {
@@ -287,7 +294,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={data.user[0]} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

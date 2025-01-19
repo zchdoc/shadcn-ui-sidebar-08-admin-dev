@@ -1,6 +1,7 @@
 'use client'
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { BookmarkSidebarChrome } from '@/components/bookmark/bookmark-sidebar-chrome'
+import { BookmarkSidebarTree } from '@/components/bookmark/bookmark-sidebar-tree'
 import { BookmarkContent } from '@/components/bookmark/bookmark-content'
 import { Input } from '@/components/ui/input'
 import {
@@ -14,6 +15,8 @@ import { LocalDebugButtons } from '@/components/bookmark/local-debug-buttons'
 import { format } from 'date-fns'
 import { motion } from 'framer-motion'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
+import { Button } from '@/components/ui/button'
+import { ListTree, List } from 'lucide-react'
 
 interface BookmarkGroup {
   title: string
@@ -34,9 +37,10 @@ export default function ChromeBookmarkPage() {
     Record<string, BookmarkGroup>
   >({})
   const [selectedGroups, setSelectedGroups] = useState<string[]>(['书签栏'])
+  const [viewMode, setViewMode] = useState<'cascade' | 'tree'>('cascade')
   const [toast, setToast] = useState<{
     open: boolean
-    variant: 'success' | 'error'
+    variant: 'default' | 'destructive'
     title: string
     description: string
   } | null>(null)
@@ -58,7 +62,7 @@ export default function ChromeBookmarkPage() {
         setSelectedGroups([defaultGroup])
         setToast({
           open: true,
-          variant: 'error',
+          variant: 'destructive',
           title: '提示',
           description: '默认节点 zai 不存在',
         })
@@ -185,7 +189,7 @@ export default function ChromeBookmarkPage() {
           if (!homeDir) {
             setToast({
               open: true,
-              variant: 'error',
+              variant: 'destructive',
               title: '加载失败',
               description: 'Could not determine home directory',
             })
@@ -203,7 +207,7 @@ export default function ChromeBookmarkPage() {
           if (!response2.ok) {
             setToast({
               open: true,
-              variant: 'error',
+              variant: 'destructive',
               title: 'Fail',
               description: 'Failed to read bookmarks file',
             })
@@ -221,7 +225,7 @@ export default function ChromeBookmarkPage() {
             checkAndSetDefaultSubgroup(parsedBookmarks)
             setToast({
               open: true,
-              variant: 'success',
+              variant: 'default',
               title: '书签加载成功',
               description: '已成功从Chrome浏览器导入书签',
             })
@@ -230,7 +234,7 @@ export default function ChromeBookmarkPage() {
           console.error('Error reading bookmarks file:', error)
           setToast({
             open: true,
-            variant: 'error',
+            variant: 'destructive',
             title: '加载失败',
             description: '无法读取书签文件，请确保Chrome浏览器已关闭',
           })
@@ -243,7 +247,7 @@ export default function ChromeBookmarkPage() {
             // throw new Error('Could not determine home directory')
             setToast({
               open: true,
-              variant: 'error',
+              variant: 'destructive',
               title: 'Fail',
               description: 'Could not determine home directory',
             })
@@ -262,7 +266,7 @@ export default function ChromeBookmarkPage() {
             // throw new Error('Failed to read bookmarks file')
             setToast({
               open: true,
-              variant: 'error',
+              variant: 'destructive',
               title: 'Fail',
               description: 'Failed to read bookmarks file on Windows',
             })
@@ -278,7 +282,7 @@ export default function ChromeBookmarkPage() {
             setBookmarkData(parsedBookmarks)
             setToast({
               open: true,
-              variant: 'success',
+              variant: 'default',
               title: '书签加载成功',
               description: '已成功从Chrome浏览器导入书签',
             })
@@ -287,7 +291,7 @@ export default function ChromeBookmarkPage() {
           console.error('Error reading bookmarks file:', error)
           setToast({
             open: true,
-            variant: 'error',
+            variant: 'destructive',
             title: '加载失败',
             description: '无法读取书签文件，请确保Chrome浏览器已关闭',
           })
@@ -295,7 +299,7 @@ export default function ChromeBookmarkPage() {
       } else {
         setToast({
           open: true,
-          variant: 'error',
+          variant: 'destructive',
           title: '不支持的操作系统',
           description: '目前只支持 macOS 和 Windows 系统',
         })
@@ -305,7 +309,7 @@ export default function ChromeBookmarkPage() {
       console.error('Error reading bookmarks file:', error)
       setToast({
         open: true,
-        variant: 'error',
+        variant: 'destructive',
         title: '加载失败',
         description: '无法读取书签文件，请确保Chrome浏览器已关闭',
       })
@@ -344,7 +348,7 @@ export default function ChromeBookmarkPage() {
       } else {
         setToast({
           open: true,
-          variant: 'error',
+          variant: 'destructive',
           title: '不支持的操作系统',
           description: '目前只支持 macOS 和 Windows 系统',
         })
@@ -354,7 +358,7 @@ export default function ChromeBookmarkPage() {
       console.error('Error opening bookmarks folder:', error)
       setToast({
         open: true,
-        variant: 'error',
+        variant: 'destructive',
         title: 'error',
         description: 'Failed to open bookmarks folder',
       })
@@ -414,7 +418,7 @@ export default function ChromeBookmarkPage() {
         // throw new Error('Upload failed')
         setToast({
           open: true,
-          variant: 'error',
+          variant: 'destructive',
           title: 'Fail',
           description: 'Upload failed',
         })
@@ -429,7 +433,7 @@ export default function ChromeBookmarkPage() {
         setBookmarkData(parsedBookmarks)
         setToast({
           open: true,
-          variant: 'success',
+          variant: 'default',
           title: '书签保存成功',
           description: '已成功保存新书签并备份旧书签',
         })
@@ -438,7 +442,7 @@ export default function ChromeBookmarkPage() {
       console.error('Error processing bookmark file:', error)
       setToast({
         open: true,
-        variant: 'error',
+        variant: 'destructive',
         title: '保存失败',
         description: '处理书签文件时发生错误',
       })
@@ -464,7 +468,7 @@ export default function ChromeBookmarkPage() {
     } else {
       setToast({
         open: true,
-        variant: 'error',
+        variant: 'destructive',
         title: '不支持的操作系统',
         description: '目前只支持 macOS 和 Windows 系统',
       })
@@ -477,7 +481,7 @@ export default function ChromeBookmarkPage() {
 
         setToast({
           open: true,
-          variant: 'success',
+          variant: 'default',
           title: '命令已复制',
           description: '命令行已成功复制到剪贴板。',
         })
@@ -488,7 +492,7 @@ export default function ChromeBookmarkPage() {
 
         setToast({
           open: true,
-          variant: 'error',
+          variant: 'destructive',
           title: '不支持剪贴板API',
           description: '请手动复制下方的命令。',
         })
@@ -501,32 +505,27 @@ export default function ChromeBookmarkPage() {
 
       setToast({
         open: true,
-        variant: 'error',
+        variant: 'destructive',
         title: '复制失败',
         description: '复制命令时出现问题。',
       })
     }
   }
 
-  // 修改 BookmarkContent 的 bookmarks 属性获取逻辑
+  // 获取当前选中的书签
   const getSelectedBookmarks = useCallback(() => {
     let current = bookmarkData
-    let currentLinks: Array<{ title: string; url: string }> = []
+    const bookmarks: Array<{ title: string; url: string }> = []
 
-    // 遍历选中的路径
-    for (let i = 0; i < selectedGroups.length; i++) {
-      const group = selectedGroups[i]
-      if (i === selectedGroups.length - 1) {
-        // 最后一级，获取链接
-        currentLinks = current[group]?.links || []
-      } else {
-        // 不是最后一级，继续遍历
-        if (!current[group]?.children) break
-        current = current[group].children!
+    for (const group of selectedGroups) {
+      if (!current[group]) break
+      if (current[group].links) {
+        bookmarks.push(...current[group].links)
       }
+      current = current[group].children || {}
     }
 
-    return currentLinks
+    return bookmarks
   }, [bookmarkData, selectedGroups])
 
   return (
@@ -554,12 +553,41 @@ export default function ChromeBookmarkPage() {
             transition={{ delay: 0.3 }}
             className="w-64 flex-none"
           >
-            <div className="rounded-lg ring-1 ring-border/20">
-              <BookmarkSidebarChrome
-                bookmarkData={bookmarkData}
-                selectedGroups={selectedGroups}
-                onGroupChange={handleGroupChange}
-              />
+            <div className="rounded-lg ring-1 ring-border/20 p-4">
+              <div className="mb-4 flex items-center justify-between">
+                <div className="flex space-x-2">
+                  <Button
+                    variant={viewMode === 'cascade' ? 'default' : 'outline'}
+                    size="icon"
+                    onClick={() => setViewMode('cascade')}
+                    title="级联视图"
+                  >
+                    <List className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant={viewMode === 'tree' ? 'default' : 'outline'}
+                    size="icon"
+                    onClick={() => setViewMode('tree')}
+                    title="树状视图"
+                  >
+                    <ListTree className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+
+              {viewMode === 'cascade' ? (
+                <BookmarkSidebarChrome
+                  bookmarkData={bookmarkData}
+                  selectedGroups={selectedGroups}
+                  onGroupChange={handleGroupChange}
+                />
+              ) : (
+                <BookmarkSidebarTree
+                  bookmarkData={bookmarkData}
+                  selectedGroups={selectedGroups}
+                  onGroupChange={handleGroupChange}
+                />
+              )}
             </div>
           </motion.div>
           <motion.div
@@ -578,33 +606,34 @@ export default function ChromeBookmarkPage() {
           </motion.div>
         </motion.div>
       </div>
+
       <ToastProvider>
         {toast && (
-          <Toast open={toast.open} onOpenChange={() => setToast(null)}>
+          <Toast variant={toast.variant}>
             <ToastTitle>{toast.title}</ToastTitle>
             <ToastDescription>{toast.description}</ToastDescription>
           </Toast>
         )}
         <ToastViewport />
       </ToastProvider>
-      <Input
-        type="file"
-        accept=".json"
-        onChange={handleFileUpload}
-        className="hidden"
-        ref={fileInputRef}
-      />
 
-      {/* Command Modal */}
-      {showCommandModal && (
-        <Dialog open={true} onOpenChange={() => setShowCommandModal(false)}>
-          <DialogContent>
-            <div className="flex flex-col items-center justify-center space-y-4">
-              {cmdString}
-            </div>
-          </DialogContent>
-        </Dialog>
-      )}
+      <Dialog open={showCommandModal} onOpenChange={setShowCommandModal}>
+        <DialogContent>
+          <Input
+            value={cmdString}
+            onChange={(e) => setCmdString(e.target.value)}
+            readOnly
+          />
+        </DialogContent>
+      </Dialog>
+
+      <input
+        type="file"
+        ref={fileInputRef}
+        style={{ display: 'none' }}
+        onChange={handleFileUpload}
+        accept=".json"
+      />
     </motion.div>
   )
 }
