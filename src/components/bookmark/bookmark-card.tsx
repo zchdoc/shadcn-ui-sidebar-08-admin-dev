@@ -5,10 +5,12 @@ import {
   CardContent,
   CardDescription,
 } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { ExternalLink } from 'lucide-react'
-import Link from 'next/link'
-import { HoverText } from './hover-text'
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from '@/components/ui/hover-card'
+import { Badge } from '@/components/ui/badge'
 
 interface BookmarkCardProps {
   title: string
@@ -19,55 +21,71 @@ interface BookmarkCardProps {
     showCardDescription: boolean
     showHoverCard: boolean
     showCardContent: boolean
+    showBadge: boolean
   }
+  group?: string
 }
 
-export function BookmarkCard({ title, url, settings }: BookmarkCardProps) {
-  return (
-    <Card className="group hover:shadow-lg transition-all border-none bg-muted/50">
+export function BookmarkCard({
+  title,
+  url,
+  settings,
+  group,
+}: BookmarkCardProps) {
+  const handleClick = () => {
+    window.open(url, '_blank')
+  }
+
+  const card = (
+    <Card
+      className="cursor-pointer hover:bg-accent transition-colors"
+      onClick={handleClick}
+    >
       {settings.showCardHeader && (
         <CardHeader className="p-4">
           {settings.showCardTitle && (
-            <CardTitle className="text-base">
-              <div className="flex items-center justify-between">
-                <HoverText
-                  text={title}
-                  showHover={settings.showHoverCard}
-                  className="text-base font-semibold"
-                />
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="opacity-0 group-hover:opacity-100 transition-opacity"
-                  asChild
-                >
-                  <Link href={url} target="_blank" rel="noopener noreferrer">
-                    <ExternalLink className="h-4 w-4" />
-                  </Link>
-                </Button>
-              </div>
+            <CardTitle className="text-base truncate">
+              {title}
+              {group && settings.showBadge && (
+                <Badge variant="secondary" className="ml-2">
+                  {group}
+                </Badge>
+              )}
             </CardTitle>
           )}
           {settings.showCardDescription && (
-            <CardDescription className="text-sm text-muted-foreground">
-              <HoverText
-                text={url}
-                showHover={settings.showHoverCard}
-                className="text-sm text-muted-foreground"
-              />
-            </CardDescription>
+            <CardDescription className="truncate">{url}</CardDescription>
           )}
         </CardHeader>
       )}
       {settings.showCardContent && (
         <CardContent className="p-4 pt-0">
-          <HoverText
-            text={url}
-            showHover={settings.showHoverCard}
-            className="text-sm text-muted-foreground"
-          />
+          <div className="text-sm text-muted-foreground truncate">{url}</div>
         </CardContent>
       )}
     </Card>
   )
+
+  if (settings.showHoverCard) {
+    return (
+      <HoverCard>
+        <HoverCardTrigger asChild>{card}</HoverCardTrigger>
+        <HoverCardContent className="w-80">
+          <div className="space-y-2">
+            <h4 className="text-sm font-semibold">
+              {title}
+              {group && settings.showBadge && (
+                <Badge variant="secondary" className="ml-2">
+                  {group}
+                </Badge>
+              )}
+            </h4>
+            <p className="text-sm text-muted-foreground break-all">{url}</p>
+          </div>
+        </HoverCardContent>
+      </HoverCard>
+    )
+  }
+
+  return card
 }

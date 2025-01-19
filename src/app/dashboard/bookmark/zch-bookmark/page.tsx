@@ -1,9 +1,9 @@
 'use client'
 
-import { useState } from 'react'
-import { BookmarkSidebar } from '@/components/bookmark/bookmark-sidebar'
+import { useState, useEffect } from 'react'
 import { BookmarkContent } from '@/components/bookmark/bookmark-content'
 import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
 import {
   Dialog,
   DialogContent,
@@ -11,6 +11,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 
 interface BookmarkData {
   [key: string]: {
@@ -161,27 +166,6 @@ export default function BookmarkPage() {
           title: 'R-OpenRouter',
           url: 'https://openrouter.ai/rankings/programming?view=month',
         },
-        { title: 'R-SuperClue', url: 'https://www.superclueai.com' },
-        { title: 'R-LMsys', url: 'https://chat.lmsys.org/?leaderboard' },
-        { title: 'R-Aider', url: 'https://aider.chat/docs/leaderboards' },
-        {
-          title: 'R-OpenRouter',
-          url: 'https://openrouter.ai/rankings/programming?view=month',
-        },
-        { title: 'R-SuperClue', url: 'https://www.superclueai.com' },
-        { title: 'R-LMsys', url: 'https://chat.lmsys.org/?leaderboard' },
-        { title: 'R-Aider', url: 'https://aider.chat/docs/leaderboards' },
-        {
-          title: 'R-OpenRouter',
-          url: 'https://openrouter.ai/rankings/programming?view=month',
-        },
-        { title: 'R-SuperClue', url: 'https://www.superclueai.com' },
-        { title: 'R-LMsys', url: 'https://chat.lmsys.org/?leaderboard' },
-        { title: 'R-Aider', url: 'https://aider.chat/docs/leaderboards' },
-        {
-          title: 'R-OpenRouter',
-          url: 'https://openrouter.ai/rankings/programming?view=month',
-        },
       ],
     },
     aiTools: {
@@ -229,57 +213,132 @@ export default function BookmarkPage() {
     },
   }
 
-  const [selectedGroup, setSelectedGroup] = useState<string>(
-    Object.keys(bookmarkData)[0]
+  const [selectedGroups, setSelectedGroups] = useState<string[]>([
+    Object.keys(bookmarkData)[0],
+  ])
+  const [isClient, setIsClient] = useState(false)
+
+  // 在客户端加载时从 localStorage 读取保存的选择
+  useEffect(() => {
+    setIsClient(true)
+    const saved = localStorage.getItem('bookmarkSelectedGroups')
+    if (saved) {
+      setSelectedGroups(JSON.parse(saved))
+    }
+  }, [])
+
+  // 保存选择到本地存储
+  const saveSelection = () => {
+    localStorage.setItem(
+      'bookmarkSelectedGroups',
+      JSON.stringify(selectedGroups)
+    )
+  }
+
+  // 合并所有选中分组的链接
+  const allSelectedBookmarks = selectedGroups.flatMap((groupKey) =>
+    bookmarkData[groupKey].links.map((link) => ({
+      ...link,
+      group: bookmarkData[groupKey].title,
+    }))
   )
 
   return (
     <div className="h-full flex flex-col">
       {/* 顶部区域 */}
       <div className="flex-none px-4 py-4">
-        <div className="flex flex-col gap-2">
-          <div className="flex items-center gap-4">
-            <div className="w-[280px]">
-              <BookmarkSidebar
-                bookmarkData={bookmarkData}
-                selectedGroup={selectedGroup}
-                onGroupChange={setSelectedGroup}
-              />
-            </div>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant="outline">查看当前分组内容</Button>
-              </DialogTrigger>
-              <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
-                <DialogHeader>
-                  <DialogTitle>
-                    {bookmarkData[selectedGroup].title} - 书签列表
-                  </DialogTitle>
-                </DialogHeader>
-                <div className="grid gap-4 py-4">
-                  {bookmarkData[selectedGroup].links.map((link, index) => (
-                    <div key={index} className="flex items-center gap-4">
-                      <div className="font-medium">{link.title}</div>
-                      <div className="text-sm text-muted-foreground">
-                        {link.url}
+        <div className="flex items-center gap-4">
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="outline">查看选中分组内容</Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>已选择的书签列表</DialogTitle>
+              </DialogHeader>
+              <div className="grid gap-4 py-4">
+                {selectedGroups.map((groupKey) => (
+                  <div key={groupKey} className="space-y-2">
+                    <h3 className="font-semibold">
+                      {bookmarkData[groupKey].title}
+                    </h3>
+                    {bookmarkData[groupKey].links.map((link, index) => (
+                      <div key={index} className="flex items-center gap-4 ml-4">
+                        <div className="font-medium">{link.title}</div>
+                        <div className="text-sm text-muted-foreground">
+                          {link.url}
+                        </div>
                       </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </DialogContent>
+          </Dialog>
+
+          <div className="flex items-center gap-4 flex-1">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline">选择分组</Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56">
+                <div className="grid gap-2 p-2">
+                  {Object.entries(bookmarkData).map(([key, group]) => (
+                    <div key={key} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={key}
+                        checked={selectedGroups.includes(key)}
+                        onCheckedChange={(checked) => {
+                          setSelectedGroups((prev) =>
+                            checked
+                              ? [...prev, key]
+                              : prev.filter((g) => g !== key)
+                          )
+                        }}
+                      />
+                      <label
+                        htmlFor={key}
+                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                      >
+                        {group.title}
+                      </label>
                     </div>
                   ))}
                 </div>
-              </DialogContent>
-            </Dialog>
+                <div className="p-2 border-t">
+                  <Button
+                    className="w-full"
+                    variant="outline"
+                    onClick={saveSelection}
+                  >
+                    保存选择
+                  </Button>
+                </div>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {isClient && (
+              <p className="text-sm text-muted-foreground">
+                已选择:{' '}
+                {selectedGroups
+                  .map((key) => bookmarkData[key].title)
+                  .join(', ')}
+              </p>
+            )}
           </div>
-          <p className="text-sm text-muted-foreground" />
         </div>
       </div>
 
       {/* 主要内容区域 */}
       <div className="flex-1 px-4 pb-6 min-h-0">
-        <BookmarkContent
-          bookmarks={bookmarkData[selectedGroup].links}
-          groupTitle={bookmarkData[selectedGroup].title}
-          cardsPerRow={6}
-        />
+        {isClient ? (
+          <BookmarkContent
+            bookmarks={allSelectedBookmarks}
+            groupTitle=""
+            cardsPerRow={6}
+            showGroup={true}
+          />
+        ) : null}
       </div>
     </div>
   )

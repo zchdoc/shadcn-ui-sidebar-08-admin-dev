@@ -5,14 +5,18 @@ import {
   CardContent,
   CardDescription,
 } from '@/components/ui/card'
-import { useEffect, useState, useCallback } from 'react'
+// useCallback
+import { useEffect, useState } from 'react'
 import { BookmarkCard } from './bookmark-card'
 import { BookmarkSettings } from './bookmark-settings'
+import { Button } from '@/components/ui/button'
+import { ChevronDown, ChevronUp } from 'lucide-react'
 
 interface BookmarkContentProps {
-  bookmarks: Array<{ title: string; url: string }>
+  bookmarks: Array<{ title: string; url: string; group?: string }>
   groupTitle: string
   cardsPerRow?: GridColsKey
+  showGroup?: boolean
 }
 
 type GridColsKey = 1 | 2 | 3 | 4 | 6 | 8 | 10
@@ -35,34 +39,43 @@ interface BookmarkSettings {
   showCardDescription: boolean
   showHoverCard: boolean
   showCardContent: boolean
+  showBadge: boolean
+}
+
+const defaultSettings: BookmarkSettings = {
+  cardsPerRow: 2,
+  gap: 4,
+  showCardHeader: true,
+  showCardTitle: true,
+  showCardDescription: true,
+  showHoverCard: true,
+  showCardContent: true,
+  showBadge: true,
 }
 
 export function BookmarkContent({
   bookmarks,
   groupTitle,
   cardsPerRow = 2,
+  showGroup = false,
 }: BookmarkContentProps) {
-  // 从 localStorage 获取保存的设置
-  const loadSettings = useCallback((): BookmarkSettings => {
+  const [isClient, setIsClient] = useState(false)
+  const [showSettings, setShowSettings] = useState(false)
+  const [settings, setSettings] = useState<BookmarkSettings>({
+    ...defaultSettings,
+    cardsPerRow: cardsPerRow,
+  })
+
+  // 在客户端加载时从 localStorage 读取设置
+  useEffect(() => {
+    setIsClient(true)
     if (typeof window !== 'undefined' && window.localStorage) {
       const savedSettings = window.localStorage.getItem('bookmarkSettings')
       if (savedSettings) {
-        return JSON.parse(savedSettings)
+        setSettings(JSON.parse(savedSettings))
       }
     }
-    return {
-      cardsPerRow: cardsPerRow || 2,
-      gap: 4,
-      showCardHeader: true,
-      showCardTitle: true,
-      showCardDescription: true,
-      showHoverCard: true,
-      showCardContent: true,
-    }
-  }, [cardsPerRow])
-
-  // 状态管理
-  const [settings, setSettings] = useState<BookmarkSettings>(loadSettings)
+  }, [])
 
   // 保存设置到 localStorage
   const saveSettings = () => {
@@ -77,37 +90,72 @@ export function BookmarkContent({
     setSettings((prev) => ({ ...prev, [key]: value }))
   }
 
-  // 组件加载时从 localStorage 读取设置
-  useEffect(() => {
-    const savedSettings = loadSettings()
-    setSettings(savedSettings)
-  }, [loadSettings])
+  // 按分组整理书签
+  const bookmarksByGroup = bookmarks.reduce(
+    (acc, bookmark) => {
+      const group = bookmark.group || '未分组'
+      if (!acc[group]) {
+        acc[group] = []
+      }
+      acc[group].push(bookmark)
+      return acc
+    },
+    {} as Record<string, typeof bookmarks>
+  )
 
   return (
     <Card className="h-full flex flex-col">
-      <CardHeader>
-        <CardTitle className="text-lg">{groupTitle}</CardTitle>
-        <CardDescription>
-          <BookmarkSettings
-            settings={settings}
-            onSettingChange={handleSettingChange}
-            onSave={saveSettings}
-            bookmarkCount={bookmarks.length}
-            gridOptions={Object.keys(gridCols)}
-          />
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="flex-1 overflow-y-auto">
-        <div
-          className={`grid ${gridCols[settings.cardsPerRow]} gap-${settings.gap}`}
-        >
-          {bookmarks.map((bookmark) => (
-            <BookmarkCard
-              key={bookmark.title}
-              title={bookmark.title}
-              url={bookmark.url}
+      <CardHeader className="space-y-0 pb-2">
+        <div className="flex items-center justify-between">
+          <CardTitle className="text-lg">{groupTitle}</CardTitle>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-8 w-8 p-0"
+            onClick={() => setShowSettings(!showSettings)}
+          >
+            {showSettings ? (
+              <ChevronUp className="h-4 w-4" />
+            ) : (
+              <ChevronDown className="h-4 w-4" />
+            )}
+          </Button>
+        </div>
+        {showSettings && (
+          <CardDescription>
+            <BookmarkSettings
               settings={settings}
+              onSettingChange={handleSettingChange}
+              onSave={saveSettings}
+              bookmarkCount={bookmarks.length}
+              gridOptions={Object.keys(gridCols)}
             />
+          </CardDescription>
+        )}
+      </CardHeader>
+      <CardContent className="flex-1 overflow-y-auto pt-0">
+        <div className="space-y-6">
+          {Object.entries(bookmarksByGroup).map(([group, groupBookmarks]) => (
+            <div key={group} className="space-y-2">
+              {/*<h3 className="font-semibold text-sm">{group}</h3>*/}
+              <div
+                className={`grid ${isClient ? gridCols[settings.cardsPerRow] : gridCols[cardsPerRow]} gap-${isClient ? settings.gap : 4}`}
+              >
+                {groupBookmarks.map((bookmark) => (
+                  <BookmarkCard
+                    key={`${bookmark.group}-${bookmark.title}`}
+                    title={bookmark.title}
+                    url={bookmark.url}
+                    settings={settings}
+                    group={
+                      showGroup && settings.showBadge
+                        ? bookmark.group
+                        : undefined
+                    }
+                  />
+                ))}
+              </div>
+            </div>
           ))}
         </div>
       </CardContent>

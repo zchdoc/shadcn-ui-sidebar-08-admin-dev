@@ -1,0 +1,6 @@
+当前项目是一个react+typescript+next.js+tailwind+shadcn-ui+radix-ui 项目,
+项目首页为:http://localhost:3000/dashboard,如图所示,
+但是我访问其他的组件页面为什么也是拼接在 /dashboard 后面,
+比如访问 http://localhost:3000/dashboard/bookmark/chrome-bookmark
+
+怎么解决呢,

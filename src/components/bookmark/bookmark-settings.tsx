@@ -20,6 +20,7 @@ interface BookmarkSettings {
   showCardDescription: boolean
   showHoverCard: boolean
   showCardContent: boolean
+  showBadge: boolean
 }
 
 interface BookmarkSettingsProps {
@@ -142,6 +143,13 @@ export function BookmarkSettings({
             }
           />
           <Label>显示内容</Label>
+        </div>
+        <div className="flex items-center gap-2">
+          <Switch
+            checked={settings.showBadge}
+            onCheckedChange={(checked) => onSettingChange('showBadge', checked)}
+          />
+          <Label>显示分组标签</Label>
         </div>
       </div>
     </div>
