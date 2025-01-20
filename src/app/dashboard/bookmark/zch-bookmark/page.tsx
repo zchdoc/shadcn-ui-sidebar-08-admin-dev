@@ -51,6 +51,39 @@ export default function BookmarkPage() {
         },
       ],
     },
+    xbInfoQuery: {
+      title: 'XB Info Query',
+      links: [
+        {
+          title: 'J1Query',
+          url: 'http://1.singbon.com:81/netInterface/singbon/companyIndex.do',
+        },
+        {
+          title: 'A2Query',
+          url: 'http://a2.4000063966.com:81/netInterface/singbon/companyIndex.do',
+        },
+        // a3c.4000063966.com:8081/netInterface/singbon/companyIndex.do
+        {
+          title: 'A3Query',
+          url: 'http://a3c.4000063966.com:8081/netInterface/singbon/companyIndex.do',
+        },
+        // a4c.4000063966.com:8081/netInterface/singbon/companyIndex.do
+        {
+          title: 'A4Query',
+          url: 'http://a4c.4000063966.com:8081/netInterface/singbon/companyIndex.do',
+        },
+        // cdz.4000063966.com:8081/netInterface/singbon/companyIndex.do
+        {
+          title: 'CDZQuery',
+          url: 'http://cdz.4000063966.com:8081/netInterface/singbon/companyIndex.do',
+        },
+        // https://navgit.wwzh.xyz/pages/xb-tools/xb-encrypt-js.html
+        {
+          title: 'JustQuery',
+          url: 'https://navgit.wwzh.xyz/pages/xb-tools/xb-encrypt-js.html',
+        },
+      ],
+    },
     tools: {
       title: 'Tools',
       links: [
