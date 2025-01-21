@@ -25,15 +25,15 @@ export const navMainConfig = [
     isActive: true,
     items: [
       {
-        title: 'Z.UsualBookmark',
+        title: 'UsualBookmark',
         url: '/dashboard/bookmark/zch-bookmark',
       },
       {
-        title: 'Z.ChromeBookmark',
+        title: 'ChromeBookmark',
         url: '/dashboard/bookmark/chrome-bookmark',
       },
       {
-        title: 'Z.ChromeBookmarkDev',
+        title: 'ChromeBookmarkDev',
         url: '/dashboard/bookmark/chrome-bookmark-dev',
       },
     ],

@@ -74,7 +74,7 @@ export default function BookmarkPage() {
         },
         // cdz.4000063966.com:8081/netInterface/singbon/companyIndex.do
         {
-          title: 'CDZQuery',
+          title: 'CdzQuery',
           url: 'http://cdz.4000063966.com:8081/netInterface/singbon/companyIndex.do',
         },
         // https://navgit.wwzh.xyz/pages/xb-tools/xb-encrypt-js.html
@@ -82,64 +82,6 @@ export default function BookmarkPage() {
           title: 'JustQuery',
           url: 'https://navgit.wwzh.xyz/pages/xb-tools/xb-encrypt-js.html',
         },
-      ],
-    },
-    tools: {
-      title: 'Tools',
-      links: [
-        {
-          title: 'Pulse-Water-Billing-Calc',
-          url: '../pulse-water-billing-calc/pulse-water-billing-calc.html',
-        },
-        {
-          title: 'Localize-Jrh',
-          url: '../chrome-bookmarks-simple/index.html?name=嘉荣华',
-        },
-        {
-          title: 'Localize',
-          url: '../chrome-bookmarks-simple/index.html?name=bscus',
-        },
-        { title: 'Ip-Check', url: '../ip-check-query/ip-check-query.html' },
-        { title: 'Qr-Generate', url: '../qr-styling/index.html' },
-        {
-          title: 'Dup-Remove',
-          url: '../duplicate-str-remove/duplicate-remove.html',
-        },
-        { title: 'Random-Num', url: '../random/random-gen.html' },
-        { title: 'Hex-Dec-Convert', url: '../num-bin-convert/index.html' },
-        {
-          title: 'Rmb-Chinese-Convert',
-          url: '../rmb_convert/RMB_2_Chinese_Up.html',
-        },
-      ],
-    },
-    searchEngines: {
-      title: 'Search Engines',
-      links: [
-        { title: 'NextNav', url: 'https://nextnav.wwzh.xyz/' },
-        { title: 'AttSB', url: 'https://att.wwzh.xyz/' },
-        {
-          title: 'Bookmark-All',
-          url: '../chrome-bookmarks-simple/index.html?name=all',
-        },
-        {
-          title: 'Bs-Custom',
-          url: '../chrome-bookmarks-simple/index.html?name=bscus',
-        },
-        {
-          title: 'Bookmark-Ai',
-          url: '../chrome-bookmarks-simple/index.html?name=Zai',
-        },
-        {
-          title: 'Pin-Tree-Dev',
-          url: 'https://zchdoc.github.io/pintree-dev-z',
-        },
-        { title: 'Google', url: 'https://www.google.com' },
-        { title: 'DuckDuckGo', url: 'https://www.duckduckgo.com' },
-        { title: 'Bing', url: 'https://www.bing.com' },
-        { title: 'Baidu', url: 'https://www.baidu.com' },
-        { title: 'Sogou', url: 'https://www.sogou.com' },
-        { title: 'So360', url: 'https://www.so.com/' },
       ],
     },
     socialMedia: {
@@ -154,6 +96,53 @@ export default function BookmarkPage() {
         { title: 'LinuxDo', url: 'https://linux.do/' },
         { title: 'Zhihu', url: 'https://www.zhihu.com' },
         { title: '52Pj', url: 'https://www.52pojie.cn/' },
+      ],
+    },
+    tools: {
+      title: 'Tools',
+      links: [
+        {
+          title: 'Pulse-Water-Billing-Calc',
+          url: '../pulse-water-billing-calc/pulse-water-billing-calc.html',
+        },
+        {
+          title: 'Localize',
+          url: 'https://navgit.wwzh.xyz/pages/chrome-bookmarks-simple/index.html?name=bscus',
+        },
+        { title: 'Ip-Check', url: '../ip-check-query/ip-check-query.html' },
+        { title: 'Qr-Generate', url: '../qr-styling/index.html' },
+        {
+          title: 'Dup-Remove',
+          url: '../duplicate-str-remove/duplicate-remove.html',
+        },
+        { title: 'Random-Num', url: '../random/random-gen.html' },
+        { title: 'Hex-Dec-Convert', url: '../num-bin-convert/index.html' },
+        {
+          title: 'Rmb-Chinese-Convert',
+          url: '../rmb_convert/RMB_2_Chinese_Up.html',
+        },
+        { title: 'NextNav', url: 'https://nextnav.wwzh.xyz/' },
+        { title: 'Att', url: 'https://att.wwzh.xyz/' },
+        {
+          title: 'Pin-Tree-Dev',
+          url: 'https://ptd.wwzh.xyz/',
+        },
+        // https://ptd.wwzh.xyz/
+        {
+          title: 'Pin-Tree-Dev-Old',
+          url: 'https://pintree-dev-z-git-dev24-0720-customjson-zchdocs-projects.vercel.app/',
+        },
+      ],
+    },
+    searchEngines: {
+      title: 'Search Engines',
+      links: [
+        { title: 'Google', url: 'https://www.google.com' },
+        { title: 'DuckDuckGo', url: 'https://www.duckduckgo.com' },
+        { title: 'Bing', url: 'https://www.bing.com' },
+        { title: 'Baidu', url: 'https://www.baidu.com' },
+        { title: 'Sogou', url: 'https://www.sogou.com' },
+        { title: 'So360', url: 'https://www.so.com/' },
       ],
     },
     git: {
@@ -177,32 +166,10 @@ export default function BookmarkPage() {
           title: 'R-OpenRouter',
           url: 'https://openrouter.ai/rankings/programming?view=month',
         },
-        //
-        { title: 'R-SuperClue', url: 'https://www.superclueai.com' },
-        { title: 'R-LMsys', url: 'https://chat.lmsys.org/?leaderboard' },
-        { title: 'R-Aider', url: 'https://aider.chat/docs/leaderboards' },
-        {
-          title: 'R-OpenRouter',
-          url: 'https://openrouter.ai/rankings/programming?view=month',
-        },
-        { title: 'R-SuperClue', url: 'https://www.superclueai.com' },
-        { title: 'R-LMsys', url: 'https://chat.lmsys.org/?leaderboard' },
-        { title: 'R-Aider', url: 'https://aider.chat/docs/leaderboards' },
-        {
-          title: 'R-OpenRouter',
-          url: 'https://openrouter.ai/rankings/programming?view=month',
-        },
-        { title: 'R-SuperClue', url: 'https://www.superclueai.com' },
-        { title: 'R-LMsys', url: 'https://chat.lmsys.org/?leaderboard' },
-        { title: 'R-Aider', url: 'https://aider.chat/docs/leaderboards' },
-        {
-          title: 'R-OpenRouter',
-          url: 'https://openrouter.ai/rankings/programming?view=month',
-        },
       ],
     },
-    aiTools: {
-      title: 'AI Tools',
+    aiEn: {
+      title: 'AI EN',
       links: [
         {
           title: 'CoZeEn',
@@ -218,7 +185,9 @@ export default function BookmarkPage() {
           title: 'AiStudio',
           url: 'https://aistudio.google.com/app/prompts/new_chat',
         },
-        { title: 'OLlaMa', url: 'https://ollama.ai/' },
+        // https://github.com/copilot
+        { title: 'Copilot', url: 'https://github.com/features/copilot' },
+
         { title: 'OpenRChat', url: 'https://openrouter.ai/chat' },
         { title: 'HuggingFace', url: 'https://huggingface.co/' },
         { title: 'HuggingChat', url: 'https://huggingface.co/chat/' },
@@ -228,6 +197,9 @@ export default function BookmarkPage() {
           title: 'Fireworks',
           url: 'https://fireworks.ai/models/fireworks/f1-preview/playground',
         },
+        { title: 'OLlaMa', url: 'https://ollama.ai/' },
+        // https://lmstudio.ai/models
+        { title: 'LMStudio', url: 'https://lmstudio.ai/' },
       ],
     },
     aiCn: {
@@ -242,6 +214,45 @@ export default function BookmarkPage() {
         { title: 'TongYi', url: 'https://tongyi.aliyun.com/' },
         { title: 'ChatGlm', url: 'https://chatglm.cn/detail' },
         { title: 'DeepSeek', url: 'https://chat.deepseek.com' },
+        // https://yiyan.baidu.com/
+        { title: 'YiYan', url: 'https://yiyan.baidu.com/' },
+        // https://yuanbao.tencent.com/
+        { title: 'YuanBao', url: 'https://yuanbao.tencent.com/' },
+        // https://platform.lingyiwanwu.com/playground
+        { title: 'LingYi', url: 'https://platform.lingyiwanwu.com/' },
+        // https://chat.360.cn/chat
+        { title: '360Chat', url: 'https://chat.360.cn/chat' },
+        // https://shared.oaifree.com/dashboard
+        { title: 'OAiFree', url: 'https://shared.oaifree.com/' },
+        // https://xinghuo.xfyun.cn/
+        { title: 'XingHuo', url: 'https://xinghuo.xfyun.cn/' },
+        // https://cloud.siliconflow.cn/playground/chat
+        { title: 'SiliconFlow', url: 'https://cloud.siliconflow.cn/' },
+      ],
+    },
+    translation: {
+      title: 'Translation',
+      links: [
+        // https://translate.google.com/
+        { title: 'Google', url: 'https://translate.google.com/' },
+        // https://translate.google.com.hk/?hl=zh-CN&sl=auto&tl=en&op=translate
+        {
+          title: 'GoogleHK',
+          url: 'https://translate.google.com.hk/?hl=zh-CN&sl=auto&tl=en&op=translate',
+        },
+        // https://cn.bing.com/translator
+        { title: 'Bing', url: 'https://cn.bing.com/translator' },
+        // https://fanyi.baidu.com/
+        { title: 'Baidu', url: 'https://fanyi.baidu.com/' },
+        // https://www.deepl.com/zh/translator
+        { title: 'DeepL', url: 'https://www.deepl.com/zh/translator' },
+        // https://fanyi.youdao.com/#/TextTranslate
+        { title: 'Youdao', url: 'https://fanyi.youdao.com/#/TextTranslate' },
+        // https://app.immersivetranslate.com/text#en/zh-CN/Google
+        {
+          title: 'Immersive',
+          url: 'https://app.immersivetranslate.com/text#en/zh-CN/Google',
+        },
       ],
     },
   }
@@ -338,7 +349,42 @@ export default function BookmarkPage() {
                     </div>
                   ))}
                 </div>
-                <div className="p-2 border-t">
+                <div className="p-2 border-t grid gap-2">
+                  <div className="flex gap-2">
+                    <Button
+                      className="flex-1"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        setSelectedGroups(Object.keys(bookmarkData))
+                      }}
+                    >
+                      全选
+                    </Button>
+                    <Button
+                      className="flex-1"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        setSelectedGroups([])
+                      }}
+                    >
+                      清空
+                    </Button>
+                    <Button
+                      className="flex-1"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        setSelectedGroups((prev) => {
+                          const allKeys = Object.keys(bookmarkData)
+                          return allKeys.filter((key) => !prev.includes(key))
+                        })
+                      }}
+                    >
+                      反选
+                    </Button>
+                  </div>
                   <Button
                     className="w-full"
                     variant="outline"
