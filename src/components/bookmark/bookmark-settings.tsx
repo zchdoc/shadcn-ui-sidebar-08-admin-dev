@@ -8,7 +8,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
-import { Save } from 'lucide-react'
+import { Save, Trash2 } from 'lucide-react'
 
 type GridColsKey = 1 | 2 | 3 | 4 | 6 | 8 | 10
 
@@ -30,6 +30,7 @@ interface BookmarkSettingsProps {
     value: BookmarkSettings[K]
   ) => void
   onSave: () => void
+  onClear: () => void
   bookmarkCount: number
   gridOptions: string[]
 }
@@ -38,6 +39,7 @@ export function BookmarkSettings({
   settings,
   onSettingChange,
   onSave,
+  onClear,
   bookmarkCount,
   gridOptions,
 }: BookmarkSettingsProps) {
@@ -45,15 +47,20 @@ export function BookmarkSettings({
     <div className="flex flex-col space-y-4">
       <div className="flex items-center justify-between">
         <span>{bookmarkCount} bookmarks</span>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={onSave}
-          className="flex items-center gap-2"
-        >
-          <Save className="h-4 w-4" />
-          保存设置
-        </Button>
+        <div className="flex items-center space-x-2">
+          <Button
+            onClick={onSave}
+            size="sm"
+            className="flex items-center gap-2"
+          >
+            <Save className="h-4 w-4" />
+            保存设置
+          </Button>
+          <Button onClick={onClear} size="sm" variant="outline">
+            <Trash2 className="h-4 w-4" />
+            重置设置
+          </Button>
+        </div>
       </div>
 
       <div className="flex items-center gap-4">

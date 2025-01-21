@@ -416,6 +416,7 @@ export default function BookmarkPage() {
             groupTitle=""
             cardsPerRow={6}
             showGroup={true}
+            settingsKey={'zch-bookmark'}
           />
         ) : null}
       </div>

@@ -4,3 +4,13 @@
 比如访问 http://localhost:3000/dashboard/bookmark/chrome-bookmark
 
 怎么解决呢,
+
+
+
+src/components/bookmark/bookmark-settings.tsx 组件里有一个保存设置的按钮，
+可以设置一些组件显示参数，如卡片间距，是否显示标题等，帮我在这个按钮右边添加一个清除设置按钮并实现清除功能，
+还有一个问题就是这些设置是共享的，因为有很多其他组件也使用了这个 bookmark-settings.tsx 组件，
+例如访问 http://localhost:3000/dashboard/bookmark/zch-bookmark 和 http://localhost:3000/dashboard/bookmark/chrome-bookmark 的时候
+这两个连接显示的是不同类型的书签卡片，我希望设置是分开的，zch-bookmark页面的书签展示的card设置不能应用到 chrome-bookmark页面
+你读一下相关的代码，帮我实现这个功能，修改当前的 src/components/bookmark/bookmark-settings.tsx 组件，
+不要添加其他组件，不要重复添加，不要使现在的页面显示混乱

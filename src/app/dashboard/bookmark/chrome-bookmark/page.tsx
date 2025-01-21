@@ -601,6 +601,7 @@ export default function ChromeBookmarkPage() {
                 bookmarks={getSelectedBookmarks()}
                 groupTitle={selectedGroups.join(' > ')}
                 cardsPerRow={6}
+                settingsKey={'chrome-bookmark'}
               />
             </div>
           </motion.div>

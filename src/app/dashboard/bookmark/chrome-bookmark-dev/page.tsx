@@ -119,6 +119,7 @@ export default function ChromeBookmarkPage() {
                 bookmarkData[selectedGroup]?.title || 'Select a group'
               }
               cardsPerRow={3}
+              settingsKey={'chrome-bookmark-dev'}
             />
           </div>
         </div>

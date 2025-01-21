@@ -17,6 +17,7 @@ interface BookmarkContentProps {
   groupTitle: string
   cardsPerRow?: GridColsKey
   showGroup?: boolean
+  settingsKey?: string
 }
 
 type GridColsKey = 1 | 2 | 3 | 4 | 6 | 8 | 10
@@ -58,6 +59,7 @@ export function BookmarkContent({
   groupTitle,
   cardsPerRow = 2,
   showGroup = false,
+  settingsKey = '',
 }: BookmarkContentProps) {
   const [isClient, setIsClient] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
@@ -66,20 +68,33 @@ export function BookmarkContent({
     cardsPerRow: cardsPerRow,
   })
 
+  // 使用 groupTitle 作为存储键的一部分，使不同页面的设置相互独立
+  console.info('BookmarkContent-groupTitle:', settingsKey)
+  const storageKey = `bookmarkSettings-${settingsKey}`
+
   // 在客户端加载时从 localStorage 读取设置
   useEffect(() => {
     setIsClient(true)
     if (typeof window !== 'undefined' && window.localStorage) {
-      const savedSettings = window.localStorage.getItem('bookmarkSettings')
+      const savedSettings = window.localStorage.getItem(storageKey)
       if (savedSettings) {
         setSettings(JSON.parse(savedSettings))
       }
     }
-  }, [])
+  }, [storageKey])
 
   // 保存设置到 localStorage
   const saveSettings = () => {
-    localStorage.setItem('bookmarkSettings', JSON.stringify(settings))
+    localStorage.setItem(storageKey, JSON.stringify(settings))
+  }
+
+  // 清除设置
+  const clearSettings = () => {
+    localStorage.removeItem(storageKey)
+    setSettings({
+      ...defaultSettings,
+      cardsPerRow: cardsPerRow,
+    })
   }
 
   // 处理设置变更
@@ -127,6 +142,7 @@ export function BookmarkContent({
               settings={settings}
               onSettingChange={handleSettingChange}
               onSave={saveSettings}
+              onClear={clearSettings}
               bookmarkCount={bookmarks.length}
               gridOptions={Object.keys(gridCols)}
             />
