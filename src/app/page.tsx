@@ -107,6 +107,7 @@ export default function Home() {
               width={60}
               height={60}
               style={{ width: '60px', height: '60px' }}
+              priority
             />
             Docs
           </a>
