@@ -18,10 +18,7 @@ import { useTheme } from 'next-themes'
 import { useRouter } from 'next/navigation'
 import { TeamSwitcherSingle } from './team-switcher-single'
 import { SidebarSkeletonStyle1 } from './sidebar-skeleton-style-1'
-import { navMainConfig, navSecondaryConfig } from '@/config/navigation'
-import { teamsConfig } from '@/config/teams'
-import { projectsConfig } from '@/config/projects'
-import { usersConfig } from '@/config/users'
+import { sidebarConfig } from '@/config/sidebar'
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { theme, setTheme } = useTheme()
@@ -70,22 +67,21 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       onClick: () => setTheme(theme === 'dark' ? 'light' : 'dark'),
       icon: theme === 'dark' ? MoonStar : Sun,
     },
-    ...navSecondaryConfig,
+    ...sidebarConfig.navSecondary,
   ]
-
   return (
     <Sidebar collapsible="offcanvas" {...props} variant="floating" side="left">
       <SidebarHeader>
         {/* <TeamSwitcher teams={data.teams} /> */}
-        <TeamSwitcherSingle teams={teamsConfig} />
+        <TeamSwitcherSingle teams={sidebarConfig.teams} />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={navMainConfig} />
-        <NavProjects projects={projectsConfig} />
+        <NavMain items={sidebarConfig.navMain} />
+        <NavProjects projects={sidebarConfig.projects} />
         <NavSecondary items={navSecondaryWithTheme} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={usersConfig[0]} />
+        <NavUser user={sidebarConfig.users[0]} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
