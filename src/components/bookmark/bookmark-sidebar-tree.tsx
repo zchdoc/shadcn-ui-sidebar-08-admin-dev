@@ -90,7 +90,7 @@ export function BookmarkSidebarTree({
   onGroupChange,
 }: BookmarkSidebarTreeProps) {
   return (
-    <div className="space-y-1">
+    <div className="space-y-1 h-[calc(100vh-13rem)] overflow-y-auto">
       {Object.entries(bookmarkData).map(([name, group]) => (
         <TreeNode
           key={name}

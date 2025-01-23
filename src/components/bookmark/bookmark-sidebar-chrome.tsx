@@ -106,7 +106,7 @@ export function BookmarkSidebarChrome({
   }, [selectedGroups, bookmarkData])
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 h-[calc(100vh-13rem)] overflow-y-auto">
       {levels.map((level, index) => (
         <Select
           key={index}

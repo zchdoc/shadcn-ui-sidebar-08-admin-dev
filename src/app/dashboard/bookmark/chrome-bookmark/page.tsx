@@ -553,7 +553,8 @@ export default function ChromeBookmarkPage() {
             transition={{ delay: 0.3 }}
             className="w-64 flex-none"
           >
-            <div className="rounded-lg ring-1 ring-border/20 p-4">
+            {/* h-full rounded-lg ring-1 ring-border/20 */}
+            <div className="h-full rounded-lg ring-1 ring-border/20">
               <div className="mb-4 flex items-center justify-between">
                 <div className="flex space-x-2">
                   <Button
