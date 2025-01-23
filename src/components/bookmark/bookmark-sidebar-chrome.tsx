@@ -106,21 +106,22 @@ export function BookmarkSidebarChrome({
   }, [selectedGroups, bookmarkData])
 
   return (
-    <div className="space-y-4 h-[calc(100vh-13rem)] overflow-y-auto">
+    <div className="space-y-2">
       {levels.map((level, index) => (
         <Select
           key={index}
           value={level.selected}
           onValueChange={(value) => handleGroupSelect(value, index)}
         >
-          <SelectTrigger className="w-full">
+          <SelectTrigger className="w-full bg-background">
             <SelectValue
-              placeholder={`Select ${index === 0 ? 'a group' : 'a sub-group'}`}
+              placeholder={index === 0 ? '书签栏' : '选择子文件夹'}
+              className="text-sm"
             />
           </SelectTrigger>
           <SelectContent>
             {Object.entries(level.data).map(([key, group]) => (
-              <SelectItem key={key} value={key}>
+              <SelectItem key={key} value={key} className="text-sm">
                 {group.title}
               </SelectItem>
             ))}
