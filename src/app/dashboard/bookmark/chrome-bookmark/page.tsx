@@ -539,10 +539,10 @@ export default function ChromeBookmarkPage() {
 
   return (
     <ToastProvider>
-      <div className="flex flex-col h-full">
-        <div className="flex-1 flex p-8 gap-4">
-          <div className="w-60 border border-border/40 rounded-lg p-4 flex flex-col">
-            <div className="flex items-center justify-between mb-4">
+      <div className="flex flex-col h-[calc(100vh-4rem)]">
+        <div className="flex-1 flex p-4 gap-4 min-h-0">
+          <div className="w-60 border border-border/40 rounded-lg p-4 flex flex-col overflow-hidden">
+            <div className="flex items-center justify-between mb-4 flex-shrink-0">
               <div className="flex gap-2">
                 <Button
                   variant="ghost"
@@ -583,22 +583,24 @@ export default function ChromeBookmarkPage() {
                 </Sheet>
               </div>
             </div>
-            {viewMode === 'cascade' ? (
-              <BookmarkSidebarChrome
-                bookmarkData={bookmarkData}
-                selectedGroups={selectedGroups}
-                onGroupChange={handleGroupChange}
-              />
-            ) : (
-              <BookmarkSidebarTree
-                bookmarkData={bookmarkData}
-                selectedGroups={selectedGroups}
-                onGroupChange={handleGroupChange}
-              />
-            )}
+            <div className="flex-1 overflow-y-auto min-h-0">
+              {viewMode === 'cascade' ? (
+                <BookmarkSidebarChrome
+                  bookmarkData={bookmarkData}
+                  selectedGroups={selectedGroups}
+                  onGroupChange={handleGroupChange}
+                />
+              ) : (
+                <BookmarkSidebarTree
+                  bookmarkData={bookmarkData}
+                  selectedGroups={selectedGroups}
+                  onGroupChange={handleGroupChange}
+                />
+              )}
+            </div>
           </div>
           <div className="flex-1 border border-border rounded-lg overflow-hidden">
-            <div className="h-full rounded-none">
+            <div className="h-full">
               <BookmarkContent
                 bookmarks={getSelectedBookmarks() || []}
                 groupTitle={selectedGroups.join(' > ')}

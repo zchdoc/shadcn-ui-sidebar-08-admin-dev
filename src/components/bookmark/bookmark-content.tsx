@@ -119,8 +119,8 @@ export function BookmarkContent({
   )
 
   return (
-    <Card className="h-full rounded-none border-0">
-      <CardHeader className="space-y-0 pb-2">
+    <Card className="h-full rounded-none border-0 flex flex-col">
+      <CardHeader className="space-y-0 pb-2 flex-shrink-0">
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg">{groupTitle}</CardTitle>
           <Button
@@ -149,7 +149,7 @@ export function BookmarkContent({
           </CardDescription>
         )}
       </CardHeader>
-      <CardContent className="flex-1 overflow-y-auto pt-0">
+      <CardContent className="flex-1 overflow-y-auto pt-0 min-h-0">
         <div className="space-y-6">
           {Object.entries(bookmarksByGroup).map(([group, groupBookmarks]) => (
             <div key={group} className="space-y-2">
