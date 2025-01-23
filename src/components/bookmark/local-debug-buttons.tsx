@@ -18,12 +18,11 @@ export function LocalDebugButtons({
   if (!isLocalEnvironment()) {
     return (
       <div className="flex-none px-8 py-4 hidden">
-        <div className="flex items-center gap-4">
-          <div className="flex gap-2">
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-2">
             <Button variant="outline" onClick={onCopyCmdLocalBookmarks}>
               复制命令行拷贝 Bookmarks
             </Button>
-            {/* onLoadLocalBookmarksToServer */}
             <Button variant="outline">上传 Bookmarks 文件到服务端</Button>
           </div>
         </div>
@@ -32,9 +31,9 @@ export function LocalDebugButtons({
   }
 
   return (
-    <div className="flex-none px-8 py-4">
-      <div className="flex items-center gap-4">
-        <div className="flex gap-2">
+    <div className="flex-none px-4 py-4">
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-2">
           <Button variant="outline" onClick={onLoadLocalBookmarks}>
             加载本地 Bookmarks
           </Button>

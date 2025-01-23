@@ -5,18 +5,25 @@ import { BookmarkSidebarTree } from '@/components/bookmark/bookmark-sidebar-tree
 import { BookmarkContent } from '@/components/bookmark/bookmark-content'
 import { Input } from '@/components/ui/input'
 import {
-  ToastProvider,
   Toast,
   ToastViewport,
   ToastTitle,
   ToastDescription,
+  ToastProvider,
 } from '@/components/ui/toast'
 import { LocalDebugButtons } from '@/components/bookmark/local-debug-buttons'
-import { format } from 'date-fns'
-import { motion } from 'framer-motion'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
-import { ListTree, List } from 'lucide-react'
+import { ListTree, List, Settings } from 'lucide-react'
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet'
+import { format } from 'date-fns'
 
 interface BookmarkGroup {
   title: string
@@ -514,128 +521,124 @@ export default function ChromeBookmarkPage() {
 
   // 获取当前选中的书签
   const getSelectedBookmarks = useCallback(() => {
-    let current = bookmarkData
-    const bookmarks: Array<{ title: string; url: string }> = []
+    let currentGroup = bookmarkData
+    let bookmarks: Array<{ title: string; url: string }> = []
 
     for (const group of selectedGroups) {
-      if (!current[group]) break
-      if (current[group].links) {
-        bookmarks.push(...current[group].links)
+      if (!currentGroup[group]) break
+
+      if (currentGroup[group].links) {
+        bookmarks = currentGroup[group].links
       }
-      current = current[group].children || {}
+
+      currentGroup = currentGroup[group].children || {}
     }
 
     return bookmarks
   }, [bookmarkData, selectedGroups])
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      className="h-full flex flex-col"
-    >
-      <LocalDebugButtons
-        onLoadLocalBookmarks={handleLoadBookmarks}
-        onOpenLocalFolder={openDefaultBookmarksFolder}
-        onUploadBookmarks={handleUploadClick}
-        onCopyCmdLocalBookmarks={copyCmdLocalBookmarks}
-      />
-      <div className="flex-1 px-8 py-4 min-h-0">
-        <motion.div
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.2 }}
-          className="flex gap-4 h-full"
-        >
-          <motion.div
-            initial={{ x: -20, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="w-64 flex-none"
-          >
-            {/* h-full rounded-lg ring-1 ring-border/20 */}
-            <div className="h-full rounded-lg ring-1 ring-border/20">
-              <div className="mb-4 flex items-center justify-between">
-                <div className="flex space-x-2">
-                  <Button
-                    variant={viewMode === 'cascade' ? 'default' : 'outline'}
-                    size="icon"
-                    onClick={() => setViewMode('cascade')}
-                    title="级联视图"
-                  >
-                    <List className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant={viewMode === 'tree' ? 'default' : 'outline'}
-                    size="icon"
-                    onClick={() => setViewMode('tree')}
-                    title="树状视图"
-                  >
-                    <ListTree className="h-4 w-4" />
-                  </Button>
-                </div>
+    <ToastProvider>
+      <div className="flex flex-col h-full">
+        <div className="flex-1 flex p-8 gap-2">
+          <div className="w-72 border border-border/40 rounded-lg p-4 flex flex-col">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex gap-2">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setViewMode('cascade')}
+                  className={viewMode === 'cascade' ? 'bg-muted' : ''}
+                >
+                  <List className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setViewMode('tree')}
+                  className={viewMode === 'tree' ? 'bg-muted' : ''}
+                >
+                  <ListTree className="h-4 w-4" />
+                </Button>
+                <Sheet>
+                  <SheetTrigger asChild>
+                    <Button variant="ghost" size="icon">
+                      <Settings className="h-4 w-4" />
+                    </Button>
+                  </SheetTrigger>
+                  <SheetContent>
+                    <SheetHeader>
+                      <SheetTitle>书签设置</SheetTitle>
+                      <SheetDescription>管理你的Chrome书签</SheetDescription>
+                    </SheetHeader>
+                    <div className="py-4">
+                      <LocalDebugButtons
+                        onLoadLocalBookmarks={handleLoadBookmarks}
+                        onOpenLocalFolder={openDefaultBookmarksFolder}
+                        onUploadBookmarks={handleUploadClick}
+                        onCopyCmdLocalBookmarks={copyCmdLocalBookmarks}
+                      />
+                    </div>
+                  </SheetContent>
+                </Sheet>
               </div>
-
-              {viewMode === 'cascade' ? (
-                <BookmarkSidebarChrome
-                  bookmarkData={bookmarkData}
-                  selectedGroups={selectedGroups}
-                  onGroupChange={handleGroupChange}
-                />
-              ) : (
-                <BookmarkSidebarTree
-                  bookmarkData={bookmarkData}
-                  selectedGroups={selectedGroups}
-                  onGroupChange={handleGroupChange}
-                />
-              )}
             </div>
-          </motion.div>
-          <motion.div
-            initial={{ x: 20, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="flex-1 min-w-0"
-          >
-            <div className="h-full rounded-lg ring-1 ring-border/20">
-              <BookmarkContent
-                bookmarks={getSelectedBookmarks()}
-                groupTitle={selectedGroups.join(' > ')}
-                cardsPerRow={6}
-                settingsKey={'chrome-bookmark'}
+            {viewMode === 'cascade' ? (
+              <BookmarkSidebarChrome
+                bookmarkData={bookmarkData}
+                selectedGroups={selectedGroups}
+                onGroupChange={handleGroupChange}
               />
-            </div>
-          </motion.div>
-        </motion.div>
-      </div>
+            ) : (
+              <BookmarkSidebarTree
+                bookmarkData={bookmarkData}
+                selectedGroups={selectedGroups}
+                onGroupChange={handleGroupChange}
+              />
+            )}
+          </div>
+          <div className="flex-1 border border-border rounded-lg">
+            <BookmarkContent
+              bookmarks={getSelectedBookmarks() || []}
+              groupTitle={selectedGroups.join(' > ')}
+              cardsPerRow={6}
+              settingsKey={'chrome-bookmark'}
+            />
+          </div>
+        </div>
 
-      <ToastProvider>
         {toast && (
-          <Toast variant={toast.variant}>
+          <Toast open={toast.open} onOpenChange={() => setToast(null)}>
             <ToastTitle>{toast.title}</ToastTitle>
             <ToastDescription>{toast.description}</ToastDescription>
           </Toast>
         )}
         <ToastViewport />
-      </ToastProvider>
 
-      <Dialog open={showCommandModal} onOpenChange={setShowCommandModal}>
-        <DialogContent>
-          <Input
-            value={cmdString}
-            onChange={(e) => setCmdString(e.target.value)}
-            readOnly
-          />
-        </DialogContent>
-      </Dialog>
+        <input
+          type="file"
+          ref={fileInputRef}
+          style={{ display: 'none' }}
+          onChange={handleFileUpload}
+        />
 
-      <input
-        type="file"
-        ref={fileInputRef}
-        style={{ display: 'none' }}
-        onChange={handleFileUpload}
-        accept=".json"
-      />
-    </motion.div>
+        <Dialog open={showCommandModal} onOpenChange={setShowCommandModal}>
+          <DialogContent>
+            <div className="space-y-4">
+              <h2 className="text-lg font-semibold">复制命令</h2>
+              <Input value={cmdString} readOnly />
+              <Button
+                onClick={() => {
+                  navigator.clipboard.writeText(cmdString)
+                  setShowCommandModal(false)
+                }}
+              >
+                复制
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+      </div>
+    </ToastProvider>
   )
 }
