@@ -22,6 +22,7 @@ import {
 import { ChevronDown } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
 import { usePathname, useRouter } from 'next/navigation'
+import { navMainConfig } from '@/config/navigation'
 
 export default function DashboardLayout({
   children,
@@ -45,26 +46,19 @@ export default function DashboardLayout({
   const getSubNavItems = () => {
     const path = pathname.split('/').filter(Boolean)
     if (path.length >= 2) {
-      const parentPath = `/${path[0]}/${path[1]}`
-      switch (parentPath) {
-        case '/dashboard/bookmark':
-          return [
-            {
-              title: 'Usual Bookmark',
-              path: '/dashboard/bookmark/usual-bookmark',
-            },
-            {
-              title: 'Chrome Bookmark',
-              path: '/dashboard/bookmark/chrome-bookmark',
-            },
-            {
-              title: 'Chrome Bookmark Dev',
-              path: '/dashboard/bookmark/chrome-bookmark-dev',
-            },
-          ]
-        // 可以添加更多的路径判断
-        default:
-          return []
+      // 在主导航配置中查找当前路径对应的配置项
+      const currentSection = navMainConfig.find((section) =>
+        section.items?.some((item) =>
+          item.url.startsWith(`/${path[0]}/${path[1]}`)
+        )
+      )
+
+      // 如果找到对应的配置项，返回其子项
+      if (currentSection?.items) {
+        return currentSection.items.map((item) => ({
+          title: item.title,
+          path: item.url,
+        }))
       }
     }
     return []
