@@ -102,7 +102,11 @@ export function AppSidebar() {
               <Link href="/history/today">Today</Link>
             </SidebarMenuSubButton>
           </SidebarMenuItem>
+<<<<<<< Updated upstream
 
+=======
+
+>>>>>>> Stashed changes
           {/* 带有二级子菜单的项目 */}
           <SidebarMenuItem>
             <SidebarMenuSubButton>
@@ -137,6 +141,11 @@ export function AppSidebar() {
 4. 使用 `data-level` 属性来标记不同层级的菜单项
 
 使用这个改进后的组件，您可以：
+<<<<<<< Updated upstream
+
+=======
+
+> > > > > > > Stashed changes
 
 - 创建任意层级的子菜单
 - 每个层级都有适当的缩进
@@ -150,12 +159,20 @@ export function AppSidebar() {
 _**User**_
 
 For the code present, we get this error:
+<<<<<<< Updated upstream
 
 ```
 模块 ""next/link"" 没有导出的成员 "Link"。你是想改用 "import Link from "next/link"" 吗?
 ```
 
-How can I resolve this? If you propose a fix, please make it concise.
+=======
+
+```
+模块 ""next/link"" 没有导出的成员 "Link"。你是想改用 "import Link from "next/link"" 吗?
+```
+
+> > > > > > > Stashed changes
+> > > > > > > How can I resolve this? If you propose a fix, please make it concise.
 
 ---
 
@@ -176,7 +193,12 @@ _**Assistant**_
 
 _**User**_
 
+<<<<<<< Updated upstream
 History 下面没有出现 三级菜单呢
+=======
+History 下面没有出现 三级菜单呢
+
+> > > > > > > Stashed changes
 
 ---
 
@@ -256,8 +278,13 @@ const SidebarMenuSub = React.forwardRef<
     className={cn(
       'flex min-w-0 translate-x-px flex-col gap-1 border-l border-sidebar-border py-0.5',
       // 根据不同层级设置不同的边距
+<<<<<<< Updated upstream
       level === 1 ? 'mx-3.5 px-2.5' :
       level === 2 ? 'mx-2.5 px-2' :
+=======
+      level === 1 ? 'mx-3.5 px-2.5' :
+      level === 2 ? 'mx-2.5 px-2' :
+>>>>>>> Stashed changes
       'mx-2 px-1.5',  // 第三级及更深层级的样式
       'group-data-[collapsible=icon]:hidden',
       className
@@ -318,7 +345,12 @@ const SidebarMenuSubButton = React.forwardRef<
 
 _**User**_
 
+<<<<<<< Updated upstream
 我给你截图看一下
+=======
+我给你截图看一下
+
+> > > > > > > Stashed changes
 
 ---
 
@@ -344,7 +376,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavSecondary items={navSecondaryWithTheme} className="mt-auto" />
         <SidebarMenu>
           <SidebarMenuItem>
+<<<<<<< Updated upstream
             <SidebarMenuButton
+=======
+            <SidebarMenuButton
+>>>>>>> Stashed changes
               onClick={() => setHistoryOpen(!historyOpen)}
             >
               History
@@ -356,9 +392,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     <Link href="/history/today">Today</Link>
                   </SidebarMenuSubButton>
                 </SidebarMenuItem>
+<<<<<<< Updated upstream
 
                 <SidebarMenuItem>
                   <SidebarMenuSubButton
+=======
+
+                <SidebarMenuItem>
+                  <SidebarMenuSubButton
+>>>>>>> Stashed changes
                     onClick={() => setYesterdayOpen(!yesterdayOpen)}
                   >
                     Yesterday
@@ -366,7 +408,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   {yesterdayOpen && (
                     <SidebarMenuSub level={2}>
                       <SidebarMenuItem>
+<<<<<<< Updated upstream
                         <SidebarMenuSubButton
+=======
+                        <SidebarMenuSubButton
+>>>>>>> Stashed changes
                           level={2}
                           onClick={() => setMorningOpen(!morningOpen)}
                         >
@@ -409,10 +455,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 主要改动：
 
 1. 添加了三个状态来控制各级菜单的展开/折叠：
+   <<<<<<< Updated upstream
 
-   - `historyOpen` 控制 History 菜单
-   - `yesterdayOpen` 控制 Yesterday 子菜单
-   - `morningOpen` 控制 Morning 子菜单
+=======
+
+> > > > > > > Stashed changes
+
+- `historyOpen` 控制 History 菜单
+- `yesterdayOpen` 控制 Yesterday 子菜单
+- `morningOpen` 控制 Morning 子菜单
 
 2. 使用条件渲染（`&&` 操作符）来控制子菜单的显示/隐藏
 
@@ -449,11 +500,19 @@ _**Assistant**_
           <Link href="/history/today">Today</Link>
         </SidebarMenuSubButton>
       </SidebarMenuItem>
+<<<<<<< Updated upstream
 
       {/* Yesterday 菜单项及其子菜单 */}
       <SidebarMenuItem>
         {/* 这里不使用 asChild，因为需要处理点击事件 */}
         <SidebarMenuSubButton
+=======
+
+      {/* Yesterday 菜单项及其子菜单 */}
+      <SidebarMenuItem>
+        {/* 这里不使用 asChild，因为需要处理点击事件 */}
+        <SidebarMenuSubButton
+>>>>>>> Stashed changes
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -465,7 +524,11 @@ _**Assistant**_
         {yesterdayOpen && (
           <SidebarMenuSub level={2}>
             <SidebarMenuItem>
+<<<<<<< Updated upstream
               <SidebarMenuSubButton
+=======
+              <SidebarMenuSubButton
+>>>>>>> Stashed changes
                 level={2}
                 onClick={(e) => {
                   e.preventDefault();
@@ -527,6 +590,167 @@ _**User**_
 
 _**Assistant**_
 
+## <<<<<<< Updated upstream
+
+---
+
+=======
+让我们修改 `sidebar.tsx` 中的样式，确保子菜单的可见性和正确的层级显示：
+
+```typescript:src/components/ui/sidebar.tsx
+// ... 其他代码保持不变 ...
+
+const SidebarMenuSub = React.forwardRef<
+  HTMLUListElement,
+  React.ComponentProps<'ul'> & {
+    level?: number
+  }
+>(({ className, level = 1, ...props }, ref) => (
+  <ul
+    ref={ref}
+    data-sidebar="menu-sub"
+    data-level={level}
+    className={cn(
+      'flex min-w-0 flex-col gap-1 py-1',  // 移除 translate-x-px
+      level === 1 && 'ml-4 border-l border-sidebar-border pl-2',
+      level === 2 && 'ml-3 border-l border-sidebar-border pl-2',
+      level === 3 && 'ml-2 border-l border-sidebar-border pl-2',
+      'group-data-[collapsible=icon]:hidden',
+      className
+    )}
+    {...props}
+  />
+))
+
+const SidebarMenuSubButton = React.forwardRef<
+  HTMLAnchorElement,
+  React.ComponentProps<'a'> & {
+    asChild?: boolean
+    size?: 'sm' | 'md'
+    isActive?: boolean
+    level?: number
+  }
+>(({ asChild = false, size = 'md', isActive, level = 1, className, ...props }, ref) => {
+  const Comp = asChild ? Slot : 'a'
+
+  return (
+    <Comp
+      ref={ref}
+      data-sidebar="menu-sub-button"
+      data-size={size}
+      data-level={level}
+      data-active={isActive}
+      className={cn(
+        'flex h-8 min-w-0 items-center gap-2 rounded-md px-2 text-sidebar-foreground outline-none ring-sidebar-ring',
+        'hover:bg-sidebar-accent hover:text-sidebar-accent-foreground',
+        'focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground',
+        'disabled:pointer-events-none disabled:opacity-50',
+        'aria-disabled:pointer-events-none aria-disabled:opacity-50',
+        '[&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0',
+        'data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground',
+        size === 'sm' && 'text-xs',
+        size === 'md' && 'text-sm',
+        level === 1 && 'font-medium',
+        level === 2 && 'text-sm',
+        level === 3 && 'text-sm text-muted-foreground',
+        'group-data-[collapsible=icon]:hidden',
+        className
+      )}
+      {...props}
+    />
+  )
+})
+
+// ... 其他代码保持不变 ...
+
+// 添加一个新的组件用于显示展开/折叠指示器
+const SidebarMenuIcon = React.forwardRef<
+  HTMLSpanElement,
+  React.ComponentProps<'span'> & {
+    open?: boolean
+  }
+>(({ open, className, ...props }, ref) => (
+  <span
+    ref={ref}
+    className={cn(
+      'ml-auto transform transition-transform duration-200',
+      open && 'rotate-90',
+      className
+    )}
+    {...props}
+  >
+    <ChevronRight className="h-4 w-4" />
+  </span>
+))
+SidebarMenuIcon.displayName = 'SidebarMenuIcon'
+
+// 导出新组件
+export {
+  // ... 其他导出保持不变 ...
+  SidebarMenuIcon,
+}
+```
+
+然后在 `app-sidebar.tsx` 中使用展开/折叠指示器：
+
+```typescript:src/components/app-sidebar.tsx
+// 在顶部导入 ChevronRight
+import { Sun, MoonStar, ChevronRight } from 'lucide-react'
+
+// ... 其他代码保持不变 ...
+
+<SidebarMenuButton onClick={() => setHistoryOpen(!historyOpen)}>
+  History
+  <ChevronRight className={cn(
+    "ml-auto h-4 w-4 transition-transform duration-200",
+    historyOpen && "rotate-90"
+  )} />
+</SidebarMenuButton>
+
+// ... 在 Yesterday 按钮中
+<SidebarMenuSubButton
+  onClick={(e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setYesterdayOpen(!yesterdayOpen);
+  }}
+>
+  Yesterday
+  <ChevronRight className={cn(
+    "ml-auto h-4 w-4 transition-transform duration-200",
+    yesterdayOpen && "rotate-90"
+  )} />
+</SidebarMenuSubButton>
+
+// ... 在 Morning 按钮中
+<SidebarMenuSubButton
+  level={2}
+  onClick={(e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setMorningOpen(!morningOpen);
+  }}
+>
+  Morning
+  <ChevronRight className={cn(
+    "ml-auto h-4 w-4 transition-transform duration-200",
+    morningOpen && "rotate-90"
+  )} />
+</SidebarMenuSubButton>
+```
+
+主要改动：
+
+1. 调整了子菜单的缩进和边框样式
+2. 为不同层级的菜单项添加了不同的字体大小和颜色
+3. 添加了展开/折叠指示器
+4. 优化了菜单项的高度和间距
+5. 添加了过渡动画效果
+
+这些修改应该能让多级菜单更加清晰和易用。每个层级都有明显的视觉区分，并且有展开/折叠的指示器。
+
 ---
 
 ---
+
+> > > > > > > Stashed changes

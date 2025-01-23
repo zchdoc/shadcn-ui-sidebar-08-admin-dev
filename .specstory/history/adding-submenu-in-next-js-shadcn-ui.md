@@ -63,10 +63,17 @@ export const sidebarNav: SidebarNavItem[] = [
 const SidebarNavItem = ({ item }: { item: SidebarNavItem }) => {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+<<<<<<< Updated upstream
 
   // 检查是否有子菜单
   const hasSubNav = item.items && item.items.length > 0;
 
+=======
+
+  // 检查是否有子菜单
+  const hasSubNav = item.items && item.items.length > 0;
+
+>>>>>>> Stashed changes
   // 检查当前路径是否匹配
   const isActive = pathname === item.href;
 
@@ -133,7 +140,11 @@ const SidebarNavItem = ({ item }: { item: SidebarNavItem }) => {
       </AccordionItem>
     );
   }
+<<<<<<< Updated upstream
 
+=======
+
+>>>>>>> Stashed changes
   // ... existing code for non-submenu items ...
 }
 
@@ -166,12 +177,20 @@ export default function HistoryYesterdayPage() {
 _**User**_
 
 For the code present, we get this error:
+<<<<<<< Updated upstream
 
 ```
 Unexpected any. Specify a different type.
 ```
 
-How can I resolve this? If you propose a fix, please make it concise.
+=======
+
+```
+Unexpected any. Specify a different type.
+```
+
+> > > > > > > Stashed changes
+> > > > > > > How can I resolve this? If you propose a fix, please make it concise.
 
 ---
 
@@ -198,12 +217,20 @@ export type SidebarNavItem = {
 _**User**_
 
 For the code present, we get this error:
+<<<<<<< Updated upstream
 
 ```
 对象字面量只能指定已知属性，并且“url”不在类型“SidebarNavItem”中。
 ```
 
-How can I resolve this? If you propose a fix, please make it concise.
+=======
+
+```
+对象字面量只能指定已知属性，并且“url”不在类型“SidebarNavItem”中。
+```
+
+> > > > > > > Stashed changes
+> > > > > > > How can I resolve this? If you propose a fix, please make it concise.
 
 ---
 
@@ -230,12 +257,20 @@ export type SidebarNavItem = {
 _**User**_
 
 For the code present, we get this error:
+<<<<<<< Updated upstream
 
 ```
 `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.
 ```
 
-How can I resolve this? If you propose a fix, please make it concise.
+=======
+
+```
+`'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.
+```
+
+> > > > > > > Stashed changes
+> > > > > > > How can I resolve this? If you propose a fix, please make it concise.
 
 ---
 
@@ -261,18 +296,29 @@ export default function HistoryYesterdayPage() {
 _**User**_
 
 For the code present, we get this error:
+<<<<<<< Updated upstream
 
 ```
 找不到模块“react-router-dom”或其相应的类型声明。
 ```
 
-How can I resolve this? If you propose a fix, please make it concise.
+=======
+
+```
+找不到模块“react-router-dom”或其相应的类型声明。
+```
+
+> > > > > > > Stashed changes
+> > > > > > > How can I resolve this? If you propose a fix, please make it concise.
 
 ---
 
 _**Assistant**_
 
-由于这是 Next.js 项目，我们应该使用 `next/link` 而不是 `react-router-dom`：
+# <<<<<<< Updated upstream
+
+> > > > > > > Stashed changes
+> > > > > > > 由于这是 Next.js 项目，我们应该使用 `next/link` 而不是 `react-router-dom`：
 
 ```typescript:src/components/app-sidebar.tsx
 - import { Link } from 'react-router-dom'
@@ -286,18 +332,29 @@ _**Assistant**_
 _**User**_
 
 For the code present, we get this error:
+<<<<<<< Updated upstream
 
 ```
 找不到模块“@/hooks/use-pathname”或其相应的类型声明。
 ```
 
-How can I resolve this? If you propose a fix, please make it concise.
+=======
+
+```
+找不到模块“@/hooks/use-pathname”或其相应的类型声明。
+```
+
+> > > > > > > Stashed changes
+> > > > > > > How can I resolve this? If you propose a fix, please make it concise.
 
 ---
 
 _**Assistant**_
 
-在 Next.js 中，我们应该使用 `next/navigation` 中的 `usePathname`：
+# <<<<<<< Updated upstream
+
+> > > > > > > Stashed changes
+> > > > > > > 在 Next.js 中，我们应该使用 `next/navigation` 中的 `usePathname`：
 
 ```typescript:src/components/app-sidebar.tsx
 - import { usePathname } from '@/hooks/use-pathname'
@@ -311,17 +368,33 @@ _**Assistant**_
 _**User**_
 
 For the code present, we get this error:
+<<<<<<< Updated upstream
 
 ```
 找不到模块“@/components/ui/accordion”或其相应的类型声明。
 ```
 
-How can I resolve this? If you propose a fix, please make it concise.
+=======
+
+```
+找不到模块“@/components/ui/accordion”或其相应的类型声明。
+```
+
+> > > > > > > Stashed changes
+> > > > > > > How can I resolve this? If you propose a fix, please make it concise.
 
 ---
 
 _**Assistant**_
 
+## <<<<<<< Updated upstream
+
+---
+
+=======
+
 ---
 
 ---
+
+> > > > > > > Stashed changes
