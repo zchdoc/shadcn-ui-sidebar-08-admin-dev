@@ -540,8 +540,8 @@ export default function ChromeBookmarkPage() {
   return (
     <ToastProvider>
       <div className="flex flex-col h-full">
-        <div className="flex-1 flex p-8 gap-2">
-          <div className="w-72 border border-border/40 rounded-lg p-4 flex flex-col">
+        <div className="flex-1 flex p-8 gap-4">
+          <div className="w-60 border border-border/40 rounded-lg p-4 flex flex-col">
             <div className="flex items-center justify-between mb-4">
               <div className="flex gap-2">
                 <Button
