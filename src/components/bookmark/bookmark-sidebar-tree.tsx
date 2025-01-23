@@ -29,7 +29,9 @@ const TreeNode = ({
   selectedGroups,
   onSelect,
 }: TreeNodeProps) => {
-  const [isExpanded, setIsExpanded] = useState(selectedGroups.includes(name))
+  console.info('name:', name, 'path:', path, 'selectedGroups:', selectedGroups)
+  // 下面代码会使树状结构折叠 如果想保持树状结构打开： const [isExpanded, setIsExpanded] = useState(selectedGroups.includes(name))
+  const [isExpanded, setIsExpanded] = useState(false)
   const isSelected = selectedGroups.join('/') === path.join('/')
 
   const handleToggle = (e: React.MouseEvent) => {
