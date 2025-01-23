@@ -597,13 +597,15 @@ export default function ChromeBookmarkPage() {
               />
             )}
           </div>
-          <div className="flex-1 border border-border rounded-lg">
-            <BookmarkContent
-              bookmarks={getSelectedBookmarks() || []}
-              groupTitle={selectedGroups.join(' > ')}
-              cardsPerRow={6}
-              settingsKey={'chrome-bookmark'}
-            />
+          <div className="flex-1 border border-border rounded-lg overflow-hidden">
+            <div className="h-full rounded-none">
+              <BookmarkContent
+                bookmarks={getSelectedBookmarks() || []}
+                groupTitle={selectedGroups.join(' > ')}
+                cardsPerRow={6}
+                settingsKey={'chrome-bookmark'}
+              />
+            </div>
           </div>
         </div>
 

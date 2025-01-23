@@ -119,7 +119,7 @@ export function BookmarkContent({
   )
 
   return (
-    <Card className="h-full flex flex-col">
+    <Card className="h-full rounded-none border-0">
       <CardHeader className="space-y-0 pb-2">
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg">{groupTitle}</CardTitle>
@@ -155,7 +155,11 @@ export function BookmarkContent({
             <div key={group} className="space-y-2">
               {/*<h3 className="font-semibold text-sm">{group}</h3>*/}
               <div
-                className={`grid ${isClient ? gridCols[settings.cardsPerRow] : gridCols[cardsPerRow]} gap-${isClient ? settings.gap : 4}`}
+                className={`grid ${
+                  isClient
+                    ? gridCols[settings.cardsPerRow]
+                    : gridCols[cardsPerRow]
+                } gap-${isClient ? settings.gap : 4}`}
               >
                 {groupBookmarks.map((bookmark) => (
                   <BookmarkCard
