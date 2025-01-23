@@ -17,7 +17,7 @@ export function LocalDebugButtons({
 }: LocalDebugButtonsProps) {
   if (!isLocalEnvironment()) {
     return (
-      <div className="flex-none px-8 py-4">
+      <div className="flex-none px-8 py-4 hidden">
         <div className="flex items-center gap-4">
           <div className="flex gap-2">
             <Button variant="outline" onClick={onCopyCmdLocalBookmarks}>

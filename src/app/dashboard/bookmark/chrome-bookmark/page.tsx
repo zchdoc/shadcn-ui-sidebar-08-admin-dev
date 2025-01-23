@@ -37,7 +37,7 @@ export default function ChromeBookmarkPage() {
     Record<string, BookmarkGroup>
   >({})
   const [selectedGroups, setSelectedGroups] = useState<string[]>(['书签栏'])
-  const [viewMode, setViewMode] = useState<'cascade' | 'tree'>('cascade')
+  const [viewMode, setViewMode] = useState<'cascade' | 'tree'>('tree')
   const [toast, setToast] = useState<{
     open: boolean
     variant: 'default' | 'destructive'
