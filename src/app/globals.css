@@ -92,3 +92,24 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+.select-container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding: 0.5rem 0;
+}
+
+[data-radix-select-trigger] {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  margin: 0 auto;
+}
+
+[data-radix-select-content] {
+  position: relative;
+  z-index: 50;
+  width: 100%;
+  max-width: calc(100% - 2px);
+}

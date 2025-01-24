@@ -583,7 +583,7 @@ export default function ChromeBookmarkPage() {
                 </Sheet>
               </div>
             </div>
-            <div className="flex-1 overflow-y-auto min-h-0">
+            <div className="flex-4 overflow-y-auto min-h-0">
               {viewMode === 'cascade' ? (
                 <BookmarkSidebarChrome
                   bookmarkData={bookmarkData}

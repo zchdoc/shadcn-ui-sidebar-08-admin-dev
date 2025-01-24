@@ -106,28 +106,34 @@ export function BookmarkSidebarChrome({
   }, [selectedGroups, bookmarkData])
 
   return (
-    <div className="space-y-2">
-      {levels.map((level, index) => (
-        <Select
-          key={index}
-          value={level.selected}
-          onValueChange={(value) => handleGroupSelect(value, index)}
-        >
-          <SelectTrigger className="w-full bg-background">
-            <SelectValue
-              placeholder={index === 0 ? '书签栏' : '选择子文件夹'}
-              className="text-sm"
-            />
-          </SelectTrigger>
-          <SelectContent>
-            {Object.entries(level.data).map(([key, group]) => (
-              <SelectItem key={key} value={key} className="text-sm">
-                {group.title}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      ))}
+    <div className="select-container">
+      <div className="space-y-2 px-1">
+        {levels.map((level, index) => (
+          <Select
+            key={index}
+            value={level.selected}
+            onValueChange={(value) => handleGroupSelect(value, index)}
+          >
+            <SelectTrigger className="w-[calc(100%-2px)] border-[1px] focus:ring-2 focus:ring-offset-2 focus:ring-ring">
+              <SelectValue
+                placeholder={index === 0 ? '书签栏' : '选择子文件夹'}
+                className="text-sm"
+              />
+            </SelectTrigger>
+            <SelectContent
+              className="w-[calc(100%-2px)] z-50"
+              position="popper"
+              sideOffset={4}
+            >
+              {Object.entries(level.data).map(([key, group]) => (
+                <SelectItem key={key} value={key} className="text-sm">
+                  {group.title}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        ))}
+      </div>
     </div>
   )
 }
