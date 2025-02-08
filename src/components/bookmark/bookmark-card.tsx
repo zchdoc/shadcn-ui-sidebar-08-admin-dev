@@ -44,12 +44,12 @@ export function BookmarkCard({
       {settings.showCardHeader && (
         <CardHeader className="p-4">
           {settings.showCardTitle && (
-            <CardTitle className="text-base truncate">
-              {title}
+            <CardTitle className="text-base flex flex-col items-center gap-2 w-full">
+              <span className="truncate text-center w-[90%] mx-auto">
+                {title}
+              </span>
               {group && settings.showBadge && (
-                <Badge variant="secondary" className="ml-2">
-                  {group}
-                </Badge>
+                <Badge variant="secondary">{group}</Badge>
               )}
             </CardTitle>
           )}
@@ -72,14 +72,14 @@ export function BookmarkCard({
         <HoverCardTrigger asChild>{card}</HoverCardTrigger>
         <HoverCardContent className="w-80">
           <div className="space-y-2">
-            <h4 className="text-sm font-semibold">
+            <h5 className="text-sm font-semibold">
               {title}
               {group && settings.showBadge && (
                 <Badge variant="secondary" className="ml-2">
                   {group}
                 </Badge>
               )}
-            </h4>
+            </h5>
             <p className="text-sm text-muted-foreground break-all">{url}</p>
           </div>
         </HoverCardContent>
