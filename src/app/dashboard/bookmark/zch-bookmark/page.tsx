@@ -248,10 +248,10 @@ export default function BookmarkPage() {
         { title: 'DeepL', url: 'https://www.deepl.com/zh/translator' },
         // https://fanyi.youdao.com/#/TextTranslate
         { title: 'Youdao', url: 'https://fanyi.youdao.com/#/TextTranslate' },
-        // https://app.immersivetranslate.com/text#en/zh-CN/Google
+        // https://app.immersivetranslate.com/text
         {
           title: 'Immersive',
-          url: 'https://app.immersivetranslate.com/text#en/zh-CN/Google',
+          url: 'https://app.immersivetranslate.com/text',
         },
       ],
     },
