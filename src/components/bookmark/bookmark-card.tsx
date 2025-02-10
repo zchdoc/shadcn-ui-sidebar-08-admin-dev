@@ -24,6 +24,7 @@ interface BookmarkCardProps {
     showBadge: boolean
   }
   group?: string
+  isFirstInGroup?: boolean
 }
 
 export function BookmarkCard({
@@ -31,6 +32,7 @@ export function BookmarkCard({
   url,
   settings,
   group,
+  isFirstInGroup,
 }: BookmarkCardProps) {
   const handleClick = () => {
     window.open(url, '_blank')
@@ -38,7 +40,11 @@ export function BookmarkCard({
 
   const card = (
     <Card
-      className="cursor-pointer hover:bg-accent transition-colors"
+      className={`cursor-pointer transition-colors ${
+        isFirstInGroup
+          ? 'bg-gradient-to-r from-blue-100 to-purple-100 hover:from-blue-200 hover:to-purple-200 dark:from-blue-900/30 dark:to-purple-900/30 dark:hover:from-blue-900/40 dark:hover:to-purple-900/40'
+          : 'hover:bg-accent'
+      }`}
       onClick={handleClick}
     >
       {settings.showCardHeader && (

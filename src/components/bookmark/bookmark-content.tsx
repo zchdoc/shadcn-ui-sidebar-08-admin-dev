@@ -32,7 +32,7 @@ const gridCols = {
   10: 'grid-cols-10',
 } as const
 
-interface BookmarkSettings {
+type BookmarkSettings = {
   cardsPerRow: GridColsKey
   gap: number
   showCardHeader: boolean
@@ -161,7 +161,7 @@ export function BookmarkContent({
                     : gridCols[cardsPerRow]
                 } gap-${isClient ? settings.gap : 4}`}
               >
-                {groupBookmarks.map((bookmark) => (
+                {groupBookmarks.map((bookmark, index) => (
                   <BookmarkCard
                     key={`${bookmark.group}-${bookmark.title}`}
                     title={bookmark.title}
@@ -172,6 +172,7 @@ export function BookmarkContent({
                         ? bookmark.group
                         : undefined
                     }
+                    isFirstInGroup={index === 0}
                   />
                 ))}
               </div>
