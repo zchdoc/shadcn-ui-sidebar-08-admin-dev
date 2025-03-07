@@ -1,5 +1,4 @@
 'use client'
-
 import { useState, useEffect } from 'react'
 import { BookmarkContent } from '@/components/bookmark/bookmark-content'
 import { Button } from '@/components/ui/button'
@@ -16,14 +15,12 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-
 interface BookmarkData {
   [key: string]: {
     title: string
     links: { title: string; url: string }[]
   }
 }
-
 export default function BookmarkPage() {
   const bookmarkData: BookmarkData = {
     xbClientLogin: {
@@ -171,11 +168,9 @@ export default function BookmarkPage() {
     aiEn: {
       title: 'AI EN',
       links: [
-        {
-          title: 'CoZeEn',
-          url: 'https://www.coze.com/space/7322025004764364806/bot',
-        },
-        { title: 'CiCi', url: 'https://www.ciciai.com/' },
+        // https://x.com/i/grok
+        { title: 'Grok', url: 'https://x.com/i/grok' },
+        { title: 'GrokApi', url: 'https://console.x.ai/' },
         { title: 'OpenAI', url: 'https://chat.openai.com/' },
         { title: 'Claude', url: 'https://claude.ai/new' },
         { title: 'Groq', url: 'https://groq.com/' },
@@ -185,35 +180,21 @@ export default function BookmarkPage() {
           title: 'AiStudio',
           url: 'https://aistudio.google.com/app/prompts/new_chat',
         },
-        // https://github.com/copilot
-        { title: 'Copilot', url: 'https://github.com/features/copilot' },
-
-        { title: 'OpenRChat', url: 'https://openrouter.ai/chat' },
-        { title: 'HuggingFace', url: 'https://huggingface.co/' },
-        { title: 'HuggingChat', url: 'https://huggingface.co/chat/' },
-        { title: 'XAiGrok', url: 'https://console.x.ai/' },
         { title: 'Perplexity', url: 'https://www.perplexity.ai/' },
         {
           title: 'Fireworks',
           url: 'https://fireworks.ai/models/fireworks/f1-preview/playground',
         },
-        { title: 'OLlaMa', url: 'https://ollama.ai/' },
-        // https://lmstudio.ai/models
-        { title: 'LMStudio', url: 'https://lmstudio.ai/' },
       ],
     },
     aiCn: {
       title: 'AI CN',
       links: [
-        {
-          title: 'CoZeCn',
-          url: 'https://www.coze.cn/space/7346541960162869283/bot',
-        },
-        { title: 'DouBao', url: 'https://www.doubao.com/chat/' },
-        { title: 'MoonShot', url: 'https://kimi.moonshot.cn/' },
-        { title: 'TongYi', url: 'https://tongyi.aliyun.com/' },
-        { title: 'ChatGlm', url: 'https://chatglm.cn/detail' },
         { title: 'DeepSeek', url: 'https://chat.deepseek.com' },
+        { title: 'DeepSeekApi', url: 'https://platform.deepseek.com' },
+        { title: 'TongYi', url: 'https://tongyi.aliyun.com/' },
+        { title: 'MoonShot', url: 'https://kimi.moonshot.cn/' },
+        { title: 'ChatGlm', url: 'https://chatglm.cn/detail' },
         // https://yiyan.baidu.com/
         { title: 'YiYan', url: 'https://yiyan.baidu.com/' },
         // https://yuanbao.tencent.com/
@@ -222,17 +203,54 @@ export default function BookmarkPage() {
         { title: 'LingYi', url: 'https://platform.lingyiwanwu.com/' },
         // https://chat.360.cn/chat
         { title: '360Chat', url: 'https://chat.360.cn/chat' },
-        // https://shared.oaifree.com/dashboard
-        { title: 'OAiFree', url: 'https://shared.oaifree.com/' },
         // https://xinghuo.xfyun.cn/
         { title: 'XingHuo', url: 'https://xinghuo.xfyun.cn/' },
+      ],
+    },
+    aiWithShell: {
+      title: 'AI Shelled',
+      links: [
+        // https://github.com/copilot
+        { title: 'Copilot', url: 'https://github.com/features/copilot' },
+        // https://www.juchats.com/chat
+        { title: 'JuChat', url: 'https://www.juchats.com/chat' },
+        // https://shared.oaifree.com/dashboard
+        { title: 'OAiFree', url: 'https://shared.oaifree.com/' },
+        {
+          title: 'CoZeEn',
+          url: 'https://www.coze.com/space/7322025004764364806/bot',
+        },
+        { title: 'CiCi', url: 'https://www.ciciai.com/' },
+        {
+          title: 'CoZeCn',
+          url: 'https://www.coze.cn/space/7346541960162869283/bot',
+        },
+        { title: 'DouBao', url: 'https://www.doubao.com/chat/' },
+      ],
+    },
+    aiApiMerchant: {
+      title: 'AI API Merchant',
+      links: [
+        { title: 'OpenRChat', url: 'https://openrouter.ai/chat' },
+        { title: 'HuggingFace', url: 'https://huggingface.co/' },
+        { title: 'HuggingChat', url: 'https://huggingface.co/chat/' },
         // https://cloud.siliconflow.cn/playground/chat
         { title: 'SiliconFlow', url: 'https://cloud.siliconflow.cn/' },
+      ],
+    },
+    aiLocal: {
+      title: 'AI Local',
+      links: [
+        { title: 'OLlaMa', url: 'https://ollama.ai/' },
+        // https://lmstudio.ai/models
+        { title: 'LMStudio', url: 'https://lmstudio.ai/' },
       ],
     },
     translation: {
       title: 'Translation',
       links: [
+        // https://www.deepl.com/zh/translator
+        { title: 'DeepL', url: 'https://www.deepl.com/zh/translator' },
         // https://translate.google.com/
         { title: 'Google', url: 'https://translate.google.com/' },
         // https://translate.google.com.hk/?hl=zh-CN&sl=auto&tl=en&op=translate
@@ -244,8 +262,6 @@ export default function BookmarkPage() {
         { title: 'Bing', url: 'https://cn.bing.com/translator' },
         // https://fanyi.baidu.com/
         { title: 'Baidu', url: 'https://fanyi.baidu.com/' },
-        // https://www.deepl.com/zh/translator
-        { title: 'DeepL', url: 'https://www.deepl.com/zh/translator' },
         // https://fanyi.youdao.com/#/TextTranslate
         { title: 'Youdao', url: 'https://fanyi.youdao.com/#/TextTranslate' },
         // https://app.immersivetranslate.com/text
@@ -256,12 +272,10 @@ export default function BookmarkPage() {
       ],
     },
   }
-
   const [selectedGroups, setSelectedGroups] = useState<string[]>([
     Object.keys(bookmarkData)[0],
   ])
   const [isClient, setIsClient] = useState(false)
-
   // 在客户端加载时从 localStorage 读取保存的选择
   useEffect(() => {
     setIsClient(true)
@@ -270,7 +284,6 @@ export default function BookmarkPage() {
       setSelectedGroups(JSON.parse(saved))
     }
   }, [])
-
   // 保存选择到本地存储
   const saveSelection = () => {
     localStorage.setItem(
@@ -278,7 +291,6 @@ export default function BookmarkPage() {
       JSON.stringify(selectedGroups)
     )
   }
-
   // 合并所有选中分组的链接
   const allSelectedBookmarks = selectedGroups.flatMap((groupKey) =>
     bookmarkData[groupKey].links.map((link) => ({
@@ -286,7 +298,6 @@ export default function BookmarkPage() {
       group: bookmarkData[groupKey].title,
     }))
   )
-
   return (
     <div className="h-full flex flex-col">
       {/* 顶部区域 */}
@@ -319,7 +330,6 @@ export default function BookmarkPage() {
               </div>
             </DialogContent>
           </Dialog>
-
           <div className="flex items-center gap-4 flex-1">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -395,7 +405,6 @@ export default function BookmarkPage() {
                 </div>
               </DropdownMenuContent>
             </DropdownMenu>
-
             {isClient && (
               <p className="text-sm text-muted-foreground">
                 已选择:{' '}
@@ -407,7 +416,6 @@ export default function BookmarkPage() {
           </div>
         </div>
       </div>
-
       {/* 主要内容区域 */}
       <div className="flex-1 px-4 pb-6 min-h-0">
         {isClient ? (
