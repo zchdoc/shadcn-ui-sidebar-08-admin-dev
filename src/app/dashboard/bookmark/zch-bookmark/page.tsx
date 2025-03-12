@@ -118,6 +118,11 @@ export default function BookmarkPage() {
           title: 'Rmb-Chinese-Convert',
           url: '../rmb_convert/RMB_2_Chinese_Up.html',
         },
+      ],
+    },
+    mineSite: {
+      title: 'Mine Site',
+      links: [
         { title: 'NextNav', url: 'https://nextnav.wwzh.xyz/' },
         { title: 'Att', url: 'https://att.wwzh.xyz/' },
         {
