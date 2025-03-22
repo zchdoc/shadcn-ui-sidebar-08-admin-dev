@@ -100,23 +100,42 @@ export default function BookmarkPage() {
       links: [
         {
           title: 'Pulse-Water-Billing-Calc',
-          url: '../pulse-water-billing-calc/pulse-water-billing-calc.html',
+          // url: '../pulse-water-billing-calc/pulse-water-billing-calc.html',
+          url: 'https://navgit.wwzh.xyz/pages/pulse-water-billing-calc/pulse-water-billing-calc.html',
         },
         {
           title: 'Localize',
           url: 'https://navgit.wwzh.xyz/pages/chrome-bookmarks-simple/index.html?name=bscus',
         },
-        { title: 'Ip-Check', url: '../ip-check-query/ip-check-query.html' },
-        { title: 'Qr-Generate', url: '../qr-styling/index.html' },
+        {
+          title: 'Ip-Check',
+          // url: '../ip-check-query/ip-check-query.html',
+          url: 'https://navgit.wwzh.xyz/pages/ip-check-query/ip-check-query.html',
+        },
+        {
+          title: 'Qr-Generate',
+          // url: '../qr-styling/index.html',
+          url: 'https://navgit.wwzh.xyz/pages/qr-styling/index.html',
+        },
         {
           title: 'Dup-Remove',
-          url: '../duplicate-str-remove/duplicate-remove.html',
+          // url: '../duplicate-str-remove/duplicate-remove.html',
+          url: 'https://navgit.wwzh.xyz/pages/duplicate-str-remove/duplicate-remove.html',
         },
-        { title: 'Random-Num', url: '../random/random-gen.html' },
-        { title: 'Hex-Dec-Convert', url: '../num-bin-convert/index.html' },
+        {
+          title: 'Random-Num',
+          // url: '../random/random-gen.html',
+          url: 'https://navgit.wwzh.xyz/pages/random/random-gen.html',
+        },
+        {
+          title: 'Hex-Dec-Convert',
+          // url: '../num-bin-convert/index.html',
+          url: 'https://navgit.wwzh.xyz/pages/num-bin-convert/index.html',
+        },
         {
           title: 'Rmb-Chinese-Convert',
-          url: '../rmb_convert/RMB_2_Chinese_Up.html',
+          // url: '../rmb_convert/RMB_2_Chinese_Up.html',
+          url: 'https://navgit.wwzh.xyz/pages/rmb_convert/RMB_2_Chinese_Up.html',
         },
       ],
     },
@@ -254,8 +273,6 @@ export default function BookmarkPage() {
     translation: {
       title: 'Translation',
       links: [
-        // https://www.deepl.com/zh/translator
-        { title: 'DeepL', url: 'https://www.deepl.com/zh/translator' },
         // https://translate.google.com/
         { title: 'Google', url: 'https://translate.google.com/' },
         // https://translate.google.com.hk/?hl=zh-CN&sl=auto&tl=en&op=translate
@@ -274,6 +291,20 @@ export default function BookmarkPage() {
           title: 'Immersive',
           url: 'https://app.immersivetranslate.com/text',
         },
+        {
+          title: 'Tencent',
+          url: 'https://fanyi.qq.com/',
+        },
+        {
+          title: 'Oxford',
+          url: 'https://www.oed.com/',
+        },
+        {
+          title: 'Cambridge',
+          url: 'https://dictionary.cambridge.org/zhs/',
+        },
+        // https://www.deepl.com/zh/translator
+        { title: 'DeepL', url: 'https://www.deepl.com/zh/translator' },
       ],
     },
   }
