@@ -10,5 +10,8 @@ npm i && npm run dev
 npm run dev
 npm run build
 npm run format && npm run pre-deploy
+npm i && npm run format && npm run pre-deploy
 npm run format
 npm run pre-deploy
+
+npm cache clean --force

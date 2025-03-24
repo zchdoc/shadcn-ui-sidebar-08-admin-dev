@@ -12,5 +12,6 @@
   "git.autoRepositoryDetection": true,
   "editor.tabSize": 2,
   "workbench.tree.indent": 16,
-  "workbench.activityBar.orientation": "vertical"
+  "workbench.activityBar.orientation": "vertical",
+  "npm.packageManager": "npm"
 }
