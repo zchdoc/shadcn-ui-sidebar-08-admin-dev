@@ -19,3 +19,5 @@ npm run pre-deploy
 
 npm cache clean --force
 npm cache verify
+
+//  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
