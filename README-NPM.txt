@@ -18,3 +18,4 @@ npm run format
 npm run pre-deploy
 
 npm cache clean --force
+npm cache verify

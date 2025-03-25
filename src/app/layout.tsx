@@ -33,12 +33,12 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const headersList = headers()
+  const headersList = await headers()
   const host = headersList.get('host')
   const isDev = host?.startsWith('localhost') || host?.startsWith('127.0.0.1')
   const currentTitle = isDev ? `Dev-${title}` : title
