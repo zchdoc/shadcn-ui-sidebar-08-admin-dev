@@ -5,6 +5,7 @@ rm -f -r .next node_modules
 win:
 powershell:
 rm -r -fo .next, node_modules; npm i; npm run dev
+rm -r -fo .next, node_modules;
 cmd:
 rmdir /s /q .next && rmdir /s /q node_modules && npm install && npm run dev
 
