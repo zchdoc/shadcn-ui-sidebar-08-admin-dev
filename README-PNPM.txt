@@ -7,6 +7,7 @@ powershell:
 rm -r -fo .next, node_modules; pnpm i; pnpm run dev
 rm -r -fo .next, node_modules;
 cmd:
+rmdir /s /q .next && rmdir /s /q node_modules
 rmdir /s /q .next && rmdir /s /q node_modules && pnpm install && pnpm run dev
 
 pnpm i && pnpm run dev
