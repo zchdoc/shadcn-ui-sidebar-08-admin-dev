@@ -417,7 +417,7 @@ export default function BookmarkPage() {
           <div className="flex items-center gap-4 flex-1">
             <Dialog>
               <DialogTrigger asChild>
-                <Button variant="outline">查看已选择分组</Button>
+                <Button variant="outline">已选分组</Button>
               </DialogTrigger>
               <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
                 <DialogHeader>
@@ -437,11 +437,11 @@ export default function BookmarkPage() {
             {/* 查看已选择分组内容 */}
             <Dialog>
               <DialogTrigger asChild>
-                <Button variant="outline">查看已选择分组内容</Button>
+                <Button variant="outline">已选内容</Button>
               </DialogTrigger>
               <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
                 <DialogHeader>
-                  <DialogTitle>已选择的书签列表</DialogTitle>
+                  <DialogTitle>已选择的书签列表内容</DialogTitle>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                   {selectedGroups.map((groupKey) => (
