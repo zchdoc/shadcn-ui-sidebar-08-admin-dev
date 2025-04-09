@@ -18,6 +18,13 @@
   "liveServer.settings.port": 5501,
   "svg.preview.background": "transparent",
   "security.workspace.trust.enabled": false,
+  "fittencode.showSubmenu": true,
+  "fittencode.languagePreference.displayPreference": "zh-cn",
+  "git.autoStash": true,
+  "git.enableSmartCommit": true,
+  "git.smartCommitChanges": "all",
+  "git.suggestSmartCommit": true,
+  "git.autoRepositoryDetection": true,
   "files.exclude": {
     "**/.git": false,
     "**/.svn": true,
