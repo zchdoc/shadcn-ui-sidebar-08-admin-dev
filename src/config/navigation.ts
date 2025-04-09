@@ -45,10 +45,10 @@ export const navMainConfig = [
     icon: SquareTerminal,
     isActive: false,
     items: [
-      {
-        title: 'Browser-v1',
-        url: '/dashboard/browser/info-v1',
-      },
+      // {
+      //   title: 'Browser-v1',
+      //   url: '/dashboard/browser/info-v1',
+      // },
       {
         title: 'Browser',
         url: '/dashboard/browser/info',
