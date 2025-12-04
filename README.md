@@ -1,6 +1,17 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-这个项目主要使用了以下技术：Next.js, Shadcn, Radix UI React, Tailwind CSS, TypeScript, React Hooks (useState, useEffect), ESLint, Prettier, Husky, lint-staged, lucide-react, date-fns, 和 next-themes。
+这个项目主要使用了以下技术：
+Next.js
+Shadcn
+Radix UI React
+Tailwind CSS
+TypeScript
+React Hooks (useState, useEffect)
+ESLint, Prettier, Husky
+lint-staged
+lucide-react
+date-fns
+next-theme
 
 ## Getting Started
 
@@ -76,3 +87,5 @@ cp "$HOME/Library/Application Support/Google/Chrome/Default/Bookmarks" "$HOME/Do
 ```
 copy "%LOCALAPPDATA%\\Google\\Chrome\\User Data\\Default\\Bookmarks" "%USERPROFILE%\\Desktop\\Bookmarks.json"
 ```
+
+![screen-shot](./screen-shot.png)
